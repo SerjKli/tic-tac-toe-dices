@@ -1,5 +1,7 @@
 <template>
   <div class="game-view">
+    <LanguageSelector class="lang-pos" />
+
     <div class="game-layout">
       <aside class="sidebar">
         <PlayerInfo v-if="game.state.currentPlayer" :player="game.state.currentPlayer" />
@@ -59,6 +61,7 @@ import PlayerInfo from '../components/game/PlayerInfo.vue'
 import ScoreBoard from '../components/game/ScoreBoard.vue'
 import WinBanner from '../components/game/WinBanner.vue'
 import ExitButton from '../components/game/ExitButton.vue'
+import LanguageSelector from "@/components/LanguageSelector.vue";
 
 const router = useRouter()
 const game = useGameStore()

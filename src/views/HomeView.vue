@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <LanguageSelector class="lang-pos" />
+
     <div class="hero">
       <GameName/>
       <p>{{ t('home.tagline') }}</p>
@@ -31,12 +32,6 @@ const { t } = useI18n()
   justify-content: center;
   padding: 32px 16px;
   position: relative;
-}
-
-.lang-pos {
-  position: absolute;
-  top: 20px;
-  right: 20px;
 }
 
 .hero {
