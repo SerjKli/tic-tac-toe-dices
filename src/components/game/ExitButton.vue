@@ -5,7 +5,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useGameStore } from '../../stores/gameStore.js'
+import { useGameStore } from '@/stores/gameStore.js'
 
 const router = useRouter()
 const game = useGameStore()
