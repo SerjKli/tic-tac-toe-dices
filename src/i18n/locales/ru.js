@@ -29,6 +29,7 @@ export default {
     skipTurn: 'Пропустить ход',
     allCellsOwned: 'Выброшенные клетки уже заняты вами',
     backToSetup: '← К настройкам',
+    exitGame: '✕ Выйти из игры',
     wins: '{name} победил!',
     playAgain: 'Играть снова'
   }

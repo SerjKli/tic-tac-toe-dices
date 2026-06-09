@@ -14,7 +14,7 @@
           :board="game.state.board"
           :currentPlayerId="game.state.currentPlayer?.id"
         />
-        <router-link to="/setup" class="back-link">{{ t('game.backToSetup') }}</router-link>
+
       </aside>
 
       <main class="board-area">
@@ -36,6 +36,11 @@
       </main>
     </div>
 
+    <br><br>
+    <div class="text-center">
+      <ExitButton />
+    </div>
+
     <WinBanner
       v-if="game.isOver && game.state.winnerPlayer"
       :winner="game.state.winnerPlayer"
@@ -53,6 +58,7 @@ import DiceRoller from '../components/game/DiceRoller.vue'
 import PlayerInfo from '../components/game/PlayerInfo.vue'
 import ScoreBoard from '../components/game/ScoreBoard.vue'
 import WinBanner from '../components/game/WinBanner.vue'
+import ExitButton from '../components/game/ExitButton.vue'
 
 const router = useRouter()
 const game = useGameStore()
@@ -111,16 +117,6 @@ function playAgain() {
 
 .skip-btn:hover {
   background: #555;
-}
-
-.back-link {
-  font-size: 0.85rem;
-  color: #888;
-  text-decoration: none;
-}
-
-.back-link:hover {
-  color: #333;
 }
 
 @media (max-width: 600px) {

@@ -29,6 +29,7 @@ export default {
     skipTurn: 'Skip Turn',
     allCellsOwned: 'Your rolled cells are already yours',
     backToSetup: '← Back to Setup',
+    exitGame: '✕ Exit Game',
     wins: '{name} wins!',
     playAgain: 'Play Again'
   }
