@@ -2,6 +2,8 @@
 
 A browser-based Tic-Tac-Toe game with extended rules, built with Vue 3 + Vite.
 
+![Game Screenshot](descriptions/game.jpeg)
+
 ## Features
 
 - Classic Tic-Tac-Toe gameplay
