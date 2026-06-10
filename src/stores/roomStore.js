@@ -17,7 +17,8 @@ import {
   getOrCreatePlayerId,
   generateRoomId,
   saveRoomSession,
-  getRoomSession
+  getRoomSession,
+  clearRoomSession
 } from '../utils/identity.js'
 import { FirebaseGameService } from '../services/FirebaseGameService.js'
 
@@ -104,7 +105,8 @@ export const useRoomStore = defineStore('room', () => {
 
       if (data.meta?.status === 'abandoned') {
         stopWatching()
-        router.push('/')
+        clearRoomSession()
+        error.value = 'roomAbandoned'
         return
       }
 

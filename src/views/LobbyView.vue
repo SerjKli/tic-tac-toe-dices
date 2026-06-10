@@ -119,6 +119,7 @@ const guestColor = ref(settings.players.value?.[0]?.color ?? DEFAULT_COLORS[1])
 const errorMessage = computed(() => {
   if (room.error === 'roomNotFound') return t('lobby.errorRoomNotFound')
   if (room.error === 'roomFull') return t('lobby.errorRoomFull')
+  if (room.error === 'roomAbandoned') return t('lobby.errorRoomAbandoned')
   return t('lobby.errorJoin')
 })
 

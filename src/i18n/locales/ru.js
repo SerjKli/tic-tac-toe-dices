@@ -38,6 +38,7 @@ export default {
     joinRoom: 'Войти в комнату',
     errorRoomNotFound: 'Комната не найдена. Проверьте код и попробуйте снова.',
     errorRoomFull: 'Комната заполнена.',
+    errorRoomAbandoned: 'Хост покинул комнату.',
     errorJoin: 'Что-то пошло не так. Попробуйте ещё раз.'
   },
   game: {

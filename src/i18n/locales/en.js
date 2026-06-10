@@ -38,6 +38,7 @@ export default {
     joinRoom: 'Join Room',
     errorRoomNotFound: 'Room not found. Check the code and try again.',
     errorRoomFull: 'This room is full.',
+    errorRoomAbandoned: 'The host has left the room.',
     errorJoin: 'Something went wrong. Please try again.'
   },
   game: {
