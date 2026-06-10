@@ -56,7 +56,10 @@
 
     <EmojiPicker v-if="game.state.players?.length" @send="handleEmojiSend" />
 
-    <FloatingRollDiceButton/>
+    <FloatingRollDiceButton
+      :canRoll="game.isRolling && game.myTurn"
+      @roll="handleRoll"
+    />
   </div>
 </template>
 
