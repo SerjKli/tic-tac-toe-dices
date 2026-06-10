@@ -18,6 +18,8 @@ export const DEFAULT_COLORS = [
   '#0081CF'
 ]
 
+export const DEFAULT_CHAT_EMOJIS = ['😀', '😂', '😍', '😢', '😡', '😮', '👍', '🎉', '🤔', '😴' ,'✅','⁉️','💋']
+
 export const GameState = Object.freeze({
   IDLE: 'IDLE',
   ROLLING: 'ROLLING',

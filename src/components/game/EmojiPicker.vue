@@ -2,7 +2,7 @@
   <div class="emoji-picker-wrapper">
     <div v-if="open" class="emoji-popup">
       <button
-        v-for="emoji in EMOJIS"
+        v-for="emoji in DEFAULT_CHAT_EMOJIS"
         :key="emoji"
         class="emoji-btn"
         @click="pick(emoji)"
@@ -15,10 +15,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import { DEFAULT_CHAT_EMOJIS } from '@/core/constants.js'
 
 const emit = defineEmits(['send'])
 
-const EMOJIS = ['😀', '😂', '😍', '😢', '😡', '😮', '👍', '🎉', '🤔', '😴']
 const open = ref(false)
 
 function pick(emoji) {

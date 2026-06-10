@@ -45,7 +45,7 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { DEFAULT_MARKS, DEFAULT_COLORS } from '../../core/constants.js'
+import { DEFAULT_MARKS, DEFAULT_COLORS } from '@/core/constants.js'
 
 defineProps({
   player: { type: Object, required: true },

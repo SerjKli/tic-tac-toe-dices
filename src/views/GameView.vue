@@ -113,7 +113,7 @@ function playAgain() {
 
 onUnmounted(() => {
   room.stopWatching()
-  chat.unsubscribe()
+  chat.reset()
 })
 
 const isDoubles = computed(() => game.state.lastRoll && game.state.lastRoll[0] === game.state.lastRoll[1])
@@ -131,7 +131,7 @@ const isDoubles = computed(() => game.state.lastRoll && game.state.lastRoll[0] =
   margin: 0 auto;
   display: flex;
   gap: 32px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .sidebar {
