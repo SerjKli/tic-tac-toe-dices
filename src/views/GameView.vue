@@ -55,6 +55,8 @@
     />
 
     <EmojiPicker v-if="game.state.players?.length" @send="handleEmojiSend" />
+
+    <FloatingRollDiceButton/>
   </div>
 </template>
 
@@ -73,6 +75,7 @@ import WinBanner from '../components/game/WinBanner.vue'
 import ExitButton from '../components/game/ExitButton.vue'
 import EmojiPicker from '../components/game/EmojiPicker.vue'
 import LanguageSelector from '@/components/LanguageSelector.vue'
+import FloatingRollDiceButton from "@/components/game/FloatingRollDiceButton.vue";
 
 const router = useRouter()
 const route = useRoute()
