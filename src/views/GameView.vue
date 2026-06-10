@@ -1,7 +1,5 @@
 <template>
   <div class="game-view">
-    <LanguageSelector class="lang-pos" />
-
     <div class="game-layout">
       <aside class="sidebar">
         <PlayerInfo v-if="game.state.currentPlayer" :player="game.state.currentPlayer" />
@@ -10,17 +8,15 @@
           :canRoll="game.isRolling && game.myTurn"
           @roll="handleRoll"
         />
-        <div class="players-list">
-          <ScoreBoard
-            v-if="game.state.board"
-            :players="game.state.players"
-            :board="game.state.board"
-            :currentPlayerId="game.state.currentPlayer?.id"
-          />
-        </div>
       </aside>
 
       <main class="board-area">
+        <PlayerStrip
+          v-if="game.state.players?.length"
+          :players="game.state.players"
+          :currentPlayerId="game.state.currentPlayer?.id"
+          :playerEmojis="chat.playerEmojis"
+        />
         <GameBoard
           v-if="game.state.board"
           :board="game.state.board"
@@ -57,31 +53,50 @@
       :winner="game.state.winnerPlayer"
       @play-again="playAgain"
     />
+
+    <EmojiPicker v-if="game.state.players?.length" @send="handleEmojiSend" />
   </div>
 </template>
 
 <script setup>
 import { computed, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '../stores/gameStore.js'
 import { useRoomStore } from '../stores/roomStore.js'
+import { useChatStore } from '../stores/chatStore.js'
 import GameBoard from '../components/game/GameBoard.vue'
 import DiceRoller from '../components/game/DiceRoller.vue'
 import PlayerInfo from '../components/game/PlayerInfo.vue'
-import ScoreBoard from '../components/game/ScoreBoard.vue'
+import PlayerStrip from '../components/game/PlayerStrip.vue'
 import WinBanner from '../components/game/WinBanner.vue'
 import ExitButton from '../components/game/ExitButton.vue'
+import EmojiPicker from '../components/game/EmojiPicker.vue'
 import LanguageSelector from '@/components/LanguageSelector.vue'
 
 const router = useRouter()
+const route = useRoute()
 const game = useGameStore()
 const room = useRoomStore()
+const chat = useChatStore()
 const { t } = useI18n()
 
+const onlineRoomId = computed(() => route.query.room ?? null)
+
+const myPlayerId = computed(() =>
+  game.isOnline ? room.myPlayerId : game.state.currentPlayer?.id ?? null
+)
+
 onMounted(() => {
-  if (game.isOnline) game.subscribeOnline()
+  if (game.isOnline) {
+    game.subscribeOnline()
+    if (onlineRoomId.value) chat.subscribe(onlineRoomId.value)
+  }
 })
+
+function handleEmojiSend(emoji) {
+  if (myPlayerId.value) chat.sendEmoji(myPlayerId.value, emoji, onlineRoomId.value)
+}
 
 function handleRoll() {
   if (game.myTurn || !game.isOnline) game.rollDice()
@@ -98,6 +113,7 @@ function playAgain() {
 
 onUnmounted(() => {
   room.stopWatching()
+  chat.unsubscribe()
 })
 
 const isDoubles = computed(() => game.state.lastRoll && game.state.lastRoll[0] === game.state.lastRoll[1])
@@ -185,10 +201,6 @@ const isDoubles = computed(() => game.state.lastRoll && game.state.lastRoll[0] =
     min-width: unset;
     width: 100%;
     gap: 10px;
-  }
-
-  .players-list {
-    display: none;
   }
 
   .board-area {
