@@ -10,7 +10,10 @@
 
     <!-- Guest setup form (shown before joining) -->
     <div v-if="showGuestForm" class="guest-form card">
-      <h2>{{ t('lobby.joinRoom') }}</h2>
+      <div class="guest-form-header">
+        <h2>{{ t('lobby.joinRoom') }}</h2>
+        <button class="randomize-btn" @click="randomizeGuest">🎲 {{ t('setup.randomize') }}</button>
+      </div>
       <label>{{ t('setup.name') }}</label>
       <input v-model="guestName" type="text" maxlength="20" />
 
@@ -49,7 +52,9 @@
       <h2>{{ t('lobby.roomCode') }}</h2>
       <div class="room-code-row">
         <span class="room-code">{{ room.roomId }}</span>
-        <button class="copy-btn" @click="copyLink">{{ t('lobby.copyLink') }}</button>
+        <button class="copy-btn" :class="{ copied }" @click="copyLink">
+          {{ copied ? t('lobby.linkCopied') : t('lobby.copyLink') }}
+        </button>
       </div>
 
       <h3>{{ t('lobby.players') }}</h3>
@@ -173,14 +178,24 @@ async function submitJoin() {
   }
 }
 
+function randomizeGuest() {
+  const marks = DEFAULT_MARKS.filter(m => !takenMarks.value.includes(m))
+  const colors = DEFAULT_COLORS.filter(c => !takenColors.value.includes(c))
+  if (marks.length) guestMark.value = marks[Math.floor(Math.random() * marks.length)]
+  if (colors.length) guestColor.value = colors[Math.floor(Math.random() * colors.length)]
+}
+
 function markReady() {
   room.setReady()
 }
 
+const copied = ref(false)
+
 function copyLink() {
   const url = `${location.origin}/ttt-6/lobby?room=${room.roomId}`
   navigator.clipboard.writeText(url)
-  // TODO: ! show success message
+  copied.value = true
+  setTimeout(() => { copied.value = false }, 2000)
 }
 </script>
 
@@ -208,6 +223,25 @@ function copyLink() {
 }
 
 h2 { margin: 0; font-size: 1.5rem; }
+
+.guest-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.randomize-btn {
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.randomize-btn:hover { background: #e0e0e0; }
 h3 { margin: 0; font-size: 1.1rem; }
 
 .room-code-row {
@@ -233,6 +267,7 @@ h3 { margin: 0; font-size: 1.1rem; }
 }
 
 .copy-btn:hover { background: #e8e8e8; }
+.copy-btn.copied { background: #d4edda; border-color: #27ae60; color: #27ae60; }
 
 .slot-list {
   list-style: none;

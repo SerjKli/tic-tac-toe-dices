@@ -20,11 +20,13 @@ export default {
     player: 'Игрок {n}',
     name: 'Имя',
     mark: 'Символ',
-    color: 'Цвет'
+    color: 'Цвет',
+    randomize: 'Случайно'
   },
   lobby: {
     roomCode: 'Код комнаты',
     copyLink: 'Скопировать ссылку',
+    linkCopied: 'Скопировано!',
     players: 'Игроки',
     emptySlot: 'Ждем-с…',
     waitingForPlayers: 'Ожидание подключения игроков…',

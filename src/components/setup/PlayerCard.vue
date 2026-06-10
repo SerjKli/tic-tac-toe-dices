@@ -3,6 +3,8 @@
     <div class="card-header">
       <span class="player-mark">{{ player.mark }}</span>
       <span class="player-label">{{ t('setup.player', { n: index + 1 }) }}</span>
+
+      <button class="go-random" @click="randomize">🎲 {{ t('setup.randomize') }}</button>
     </div>
     <div class="card-body">
       <label>{{ t('setup.name') }}</label>
@@ -57,6 +59,13 @@ function update(key, value) {
   emit('update', { key, value })
 }
 
+function randomize() {
+  const mark = availableMarks[Math.floor(Math.random() * availableMarks.length)]
+  const color = availableColors[Math.floor(Math.random() * availableColors.length)]
+  emit('update', { key: 'mark', value: mark })
+  emit('update', { key: 'color', value: color })
+}
+
 const availableMarks = DEFAULT_MARKS
 const availableColors = DEFAULT_COLORS
 </script>
@@ -80,6 +89,23 @@ const availableColors = DEFAULT_COLORS
 
 .player-mark {
   font-size: 1.4rem;
+}
+
+.go-random {
+  margin-left: auto;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 6px;
+  color: white;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.go-random:hover {
+  background: rgba(255,255,255,0.35);
 }
 
 .card-body {

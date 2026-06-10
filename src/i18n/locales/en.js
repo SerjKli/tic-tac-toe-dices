@@ -20,11 +20,13 @@ export default {
     player: 'Player {n}',
     name: 'Name',
     mark: 'Mark',
-    color: 'Color'
+    color: 'Color',
+    randomize: 'Randomize'
   },
   lobby: {
     roomCode: 'Room Code',
     copyLink: 'Copy Link',
+    linkCopied: 'Copied!',
     players: 'Players',
     emptySlot: 'Waiting…',
     waitingForPlayers: 'Waiting for players to join…',
