@@ -54,6 +54,10 @@ export const useGameStore = defineStore('game', () => {
     service.resetGame()
   }
 
+  function subscribeOnline() {
+    if (service.isOnline) service.subscribeToGameState()
+  }
+
   return {
     state,
     isRolling,
@@ -70,6 +74,7 @@ export const useGameStore = defineStore('game', () => {
     rollDice,
     makeMove,
     skipTurn,
-    resetGame
+    resetGame,
+    subscribeOnline
   }
 })

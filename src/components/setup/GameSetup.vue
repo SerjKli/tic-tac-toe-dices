@@ -52,7 +52,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import PlayerCountPicker from './PlayerCountPicker.vue'
 import PlayerCard from './PlayerCard.vue'
-import { useSettingsStore } from '../../stores/settingsStore.js'
+import { useSettingsStore } from '@/stores/settingsStore.js'
 import GameName from '@/components/GameName.vue'
 
 defineEmits(['start'])

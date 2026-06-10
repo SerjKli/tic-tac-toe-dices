@@ -19,7 +19,6 @@ const room = useRoomStore()
 async function startGame({ mode }) {
   if (mode === 'online') {
     const hostPlayer = settings.players[0]
-    room.setGameStore(game)
     await room.createRoom(settings.playerCount, {
       playerId: room.myPlayerId,
       name: hostPlayer.name,

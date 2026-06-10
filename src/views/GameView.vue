@@ -61,7 +61,7 @@
 </template>
 
 <script setup>
-import { computed, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '../stores/gameStore.js'
@@ -78,6 +78,10 @@ const router = useRouter()
 const game = useGameStore()
 const room = useRoomStore()
 const { t } = useI18n()
+
+onMounted(() => {
+  if (game.isOnline) game.subscribeOnline()
+})
 
 function handleRoll() {
   if (game.myTurn || !game.isOnline) game.rollDice()

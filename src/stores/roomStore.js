@@ -19,6 +19,7 @@ import {
   saveRoomSession,
   getRoomSession
 } from '../utils/identity.js'
+import { FirebaseGameService } from '../services/FirebaseGameService.js'
 
 export const useRoomStore = defineStore('room', () => {
   const router = useRouter()
@@ -30,7 +31,6 @@ export const useRoomStore = defineStore('room', () => {
   const roomStatus = ref(null)
   const playerCount = ref(2)
   let _roomRef = null
-  let _gameStore = null
 
   const isHost = computed(() => {
     return slots.value[0]?.playerId === myPlayerId.value
@@ -45,10 +45,6 @@ export const useRoomStore = defineStore('room', () => {
     if (!slots.value.length) return false
     return slots.value.every(s => s.playerId != null && s.ready)
   })
-
-  function setGameStore(gs) {
-    _gameStore = gs
-  }
 
   async function createRoom(count, hostPlayerData) {
     const id = generateRoomId()
@@ -105,15 +101,12 @@ export const useRoomStore = defineStore('room', () => {
       }
 
       if (data.meta?.status === 'playing' && !isHost.value) {
-        router.push(`/game?room=${id}`)
+        window.location.href = `/game?room=${id}`
       }
     })
   }
 
   async function _startOnlineGame(roomData) {
-    if (!_gameStore) return
-    await setRoomStatus(roomId.value, 'playing')
-
     const players = Object.values(roomData.slots).map(s => ({
       id: s.playerId,
       name: s.name,
@@ -121,8 +114,11 @@ export const useRoomStore = defineStore('room', () => {
       color: s.color
     }))
 
-    _gameStore.startGame(players)
-    router.push(`/game?room=${roomId.value}`)
+    const fbService = new FirebaseGameService(roomId.value, myPlayerId.value, 0)
+    await fbService.startGame({ players })
+
+    await setRoomStatus(roomId.value, 'playing')
+    window.location.href = `/game?room=${roomId.value}`
   }
 
   function stopWatching() {
@@ -159,7 +155,6 @@ export const useRoomStore = defineStore('room', () => {
     isHost,
     allSlotsFilled,
     allSlotsReady,
-    setGameStore,
     createRoom,
     joinRoom,
     setReady,

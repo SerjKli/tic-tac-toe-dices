@@ -41,13 +41,13 @@ export class FirebaseGameService {
     return this.state.currentPlayerIndex === this._slotIndex
   }
 
-  startGame({ players }) {
+  async startGame({ players }) {
     this.state.winnerPlayer = null
     this.state.winCells = []
     this._engine.startGame(players)
     this._bindEngineEvents()
     this._syncState()
-    this._pushSnapshot()
+    await this._pushSnapshot()
     this._subscribeToGameState()
   }
 
@@ -148,7 +148,7 @@ export class FirebaseGameService {
       ? snap.board.grid.map(row => row.map(c => ({ row: c.row, col: c.col, ownerId: c.ownerId })))
       : null
 
-    pushGameState(this._roomId, {
+    return pushGameState(this._roomId, {
       state: snap.state,
       board: boardData,
       players: snap.players,
