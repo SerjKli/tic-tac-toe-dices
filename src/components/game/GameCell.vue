@@ -39,7 +39,7 @@ const ownerColor = computed(() => owner.value?.color ?? null)
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(1rem, 3vw, 2rem);
+  font-size: clamp(1rem, 7vw, 2rem);
   transition: background 0.15s, transform 0.1s, border-color 0.15s;
   color: var(--owner-color, #333);
 }

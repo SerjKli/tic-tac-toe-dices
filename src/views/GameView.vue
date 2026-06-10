@@ -10,13 +10,14 @@
           :canRoll="game.isRolling"
           @roll="game.rollDice()"
         />
-        <ScoreBoard
-          v-if="game.state.board"
-          :players="game.state.players"
-          :board="game.state.board"
-          :currentPlayerId="game.state.currentPlayer?.id"
-        />
-
+        <div class="players-list">
+          <ScoreBoard
+            v-if="game.state.board"
+            :players="game.state.players"
+            :board="game.state.board"
+            :currentPlayerId="game.state.currentPlayer?.id"
+          />
+        </div>
       </aside>
 
       <main class="board-area">
@@ -29,6 +30,7 @@
           :winCells="game.state.winCells"
           @cell-click="game.isChoosing && game.makeMove($event)"
         />
+        <p v-if="isDoubles" class="doubles-notice">{{ t('game.doubles') }}</p>
         <template v-if="game.canSkip">
           <p class="hint">{{ t('game.allCellsOwned') }}</p>
           <button class="skip-btn" @click="game.skipTurn()">{{ t('game.skipTurn') }}</button>
@@ -62,6 +64,7 @@ import ScoreBoard from '../components/game/ScoreBoard.vue'
 import WinBanner from '../components/game/WinBanner.vue'
 import ExitButton from '../components/game/ExitButton.vue'
 import LanguageSelector from "@/components/LanguageSelector.vue";
+import {computed} from "vue";
 
 const router = useRouter()
 const game = useGameStore()
@@ -71,12 +74,15 @@ function playAgain() {
   game.resetGame()
   router.push('/setup')
 }
+
+const isDoubles = computed(() => game.state.lastRoll && game.state.lastRoll[0] === game.state.lastRoll[1])
 </script>
 
 <style scoped>
 .game-view {
   min-height: 100vh;
   padding: 24px 16px;
+  position: relative;
 }
 
 .game-layout {
@@ -123,14 +129,30 @@ function playAgain() {
 }
 
 @media (max-width: 600px) {
+  .game-view {
+    padding-top: 64px;
+  }
+
   .game-layout {
     flex-direction: column;
+    align-items: center;
   }
 
   .sidebar {
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
     min-width: unset;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .players-list {
+    display: none;
+  }
+
+  .board-area {
+    width: 100%;
   }
 }
 </style>

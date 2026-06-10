@@ -17,7 +17,7 @@
     >
       {{ t('game.rollDice') }}
     </button>
-    <p v-if="isDoubles" class="doubles-notice">{{ t('game.doubles') }}</p>
+<!--    <p v-if="isDoubles" class="doubles-notice">{{ t('game.doubles') }}</p>-->
   </div>
 </template>
 
@@ -77,9 +77,4 @@ const isDoubles = computed(() => props.roll && props.roll[0] === props.roll[1])
   background: #2980b9;
 }
 
-.doubles-notice {
-  font-weight: 600;
-  color: #e67e22;
-  margin: 0;
-}
 </style>
