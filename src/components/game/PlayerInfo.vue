@@ -3,7 +3,6 @@
     <span class="player-mark">{{ player.mark }}</span>
     <div class="player-details">
       <span class="player-name">{{ player.name }}</span>
-      <span class="player-turn">{{ t('game.yourTurn') }}</span>
     </div>
   </div>
 </template>

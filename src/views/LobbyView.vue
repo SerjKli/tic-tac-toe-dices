@@ -1,5 +1,6 @@
 <template>
   <div class="lobby-view">
+
     <LanguageSelector class="lang-pos" />
 
     <!-- Guest setup form (shown before joining) -->
@@ -14,7 +15,8 @@
           v-for="m in DEFAULT_MARKS"
           :key="m"
           class="mark-btn"
-          :class="{ active: guestMark === m }"
+          :class="{ active: guestMark === m, taken: takenMarks.includes(m) }"
+          :disabled="takenMarks.includes(m)"
           @click="guestMark = m"
         >{{ m }}</button>
       </div>
@@ -25,8 +27,9 @@
           v-for="c in DEFAULT_COLORS"
           :key="c"
           class="color-btn"
-          :class="{ active: guestColor === c }"
+          :class="{ active: guestColor === c, taken: takenColors.includes(c) }"
           :style="{ background: c }"
+          :disabled="takenColors.includes(c)"
           @click="guestColor = c"
         />
       </div>
@@ -72,15 +75,18 @@
         :disabled="!room.allSlotsFilled"
         @click="markReady"
       >
+
         {{ t('lobby.markReady') }}
       </button>
       <p v-else class="ready-msg">{{ t('lobby.youAreReady') }}</p>
     </div>
+
+    <ExitButton />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useRoomStore } from '../stores/roomStore.js'
@@ -88,6 +94,7 @@ import { useSettingsStore } from '../stores/settingsStore.js'
 import { getRoomSession } from '../utils/identity.js'
 import { DEFAULT_MARKS, DEFAULT_COLORS } from '../core/constants.js'
 import LanguageSelector from '../components/LanguageSelector.vue'
+import ExitButton from "@/components/game/ExitButton.vue";
 
 const route = useRoute()
 const { t } = useI18n()
@@ -104,16 +111,32 @@ const mySlotReady = computed(() => {
   return room.slots[room.mySlotIndex]?.ready === true
 })
 
+const takenMarks = computed(() => room.slots.filter(s => s.playerId).map(s => s.mark))
+const takenColors = computed(() => room.slots.filter(s => s.playerId).map(s => s.color))
+
+watch(takenMarks, (taken) => {
+  if (taken.includes(guestMark.value)) {
+    guestMark.value = DEFAULT_MARKS.find(m => !taken.includes(m)) ?? guestMark.value
+  }
+})
+watch(takenColors, (taken) => {
+  if (taken.includes(guestColor.value)) {
+    guestColor.value = DEFAULT_COLORS.find(c => !taken.includes(c)) ?? guestColor.value
+  }
+})
+
 onMounted(async () => {
   const urlRoom = route.query.room
   const session = getRoomSession()
 
   if (urlRoom && (!session || session.roomId !== urlRoom)) {
     showGuestForm.value = true
+    room.watchRoom(urlRoom)
   } else {
     const restored = await room.restoreSession()
     if (!restored && urlRoom) {
       showGuestForm.value = true
+      room.watchRoom(urlRoom)
     } else {
       room.watchRoom(room.roomId ?? urlRoom)
     }
@@ -140,8 +163,9 @@ function markReady() {
 }
 
 function copyLink() {
-  const url = `${location.origin}/lobby?room=${room.roomId}`
+  const url = `${location.origin}/ttt-6/lobby?room=${room.roomId}`
   navigator.clipboard.writeText(url)
+  // TODO: ! show success message
 }
 </script>
 
@@ -152,6 +176,8 @@ function copyLink() {
   align-items: center;
   justify-content: center;
   padding: 24px 16px;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .card {
@@ -298,6 +324,19 @@ input[type="text"] {
 
 .mark-btn.active { border-color: #27ae60; }
 
+.mark-btn.taken {
+  opacity: 0.3;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.mark-btn.taken::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: linear-gradient(45deg, transparent 45%, #999 45%, #999 55%, transparent 55%);
+}
+
 .color-btn {
   width: 32px;
   height: 32px;
@@ -309,6 +348,20 @@ input[type="text"] {
 .color-btn.active {
   border-color: #333;
   transform: scale(1.15);
+}
+
+.color-btn.taken {
+  opacity: 0.3;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.color-btn.taken::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, transparent 45%, #999 45%, #999 55%, transparent 55%);
 }
 
 .lang-pos {

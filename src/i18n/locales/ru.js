@@ -26,7 +26,7 @@ export default {
     roomCode: 'Код комнаты',
     copyLink: 'Скопировать ссылку',
     players: 'Игроки',
-    emptySlot: 'Ожидание…',
+    emptySlot: 'Ждем-с…',
     waitingForPlayers: 'Ожидание подключения игроков…',
     waitingForReady: 'Ожидание готовности всех игроков…',
     markReady: 'Готов',
@@ -49,6 +49,6 @@ export default {
     exitGame: '✕ Выйти из игры',
     wins: '{name} победил!',
     playAgain: 'Играть снова',
-    waitingForPlayer: 'Ожидание {name}…'
+    waitingForPlayer: 'Ждем-с {name}…'
   }
 }

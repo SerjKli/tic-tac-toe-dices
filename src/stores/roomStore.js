@@ -76,6 +76,7 @@ export const useRoomStore = defineStore('room', () => {
   }
 
   function watchRoom(id) {
+    stopWatching()
     _roomRef = subscribeToRoom(id, async (data) => {
       if (!data) return
 
@@ -101,7 +102,7 @@ export const useRoomStore = defineStore('room', () => {
       }
 
       if (data.meta?.status === 'playing' && !isHost.value) {
-        window.location.href = `/game?room=${id}`
+        window.location.href = `/ttt-6/game?room=${id}`
       }
     })
   }
@@ -118,7 +119,7 @@ export const useRoomStore = defineStore('room', () => {
     await fbService.startGame({ players })
 
     await setRoomStatus(roomId.value, 'playing')
-    window.location.href = `/game?room=${roomId.value}`
+    window.location.href = `/ttt-6/game?room=${roomId.value}`
   }
 
   function stopWatching() {
