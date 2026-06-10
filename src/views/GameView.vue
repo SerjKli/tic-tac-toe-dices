@@ -2,7 +2,7 @@
   <div class="game-view">
     <div class="game-layout">
       <aside class="sidebar">
-        <PlayerInfo v-if="game.state.currentPlayer" :player="game.state.currentPlayer" />
+<!--        <PlayerInfo v-if="game.state.currentPlayer" :player="game.state.currentPlayer" />-->
         <DiceRoller
           :roll="game.state.lastRoll"
           :canRoll="game.isRolling && game.myTurn"

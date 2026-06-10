@@ -1,9 +1,9 @@
 <template>
   <div class="dice-roller">
     <DiceFaces :roll="roll" />
-    <button class="roll-btn" :disabled="!canRoll" @click="handleRoll">
-      {{ t('game.rollDice') }}
-    </button>
+<!--    <button class="roll-btn" :disabled="!canRoll" @click="handleRoll">-->
+<!--      {{ t('game.rollDice') }}-->
+<!--    </button>-->
   </div>
 </template>
 
