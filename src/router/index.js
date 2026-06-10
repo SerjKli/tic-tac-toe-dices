@@ -15,6 +15,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  if (to.path === '/lobby' && to.query.room) {
+    localStorage.removeItem(STORAGE_KEY)
+  }
+
   if (to.path === '/') {
     const urlRoom = to.query.room
     if (urlRoom) return `/lobby?room=${urlRoom}`
