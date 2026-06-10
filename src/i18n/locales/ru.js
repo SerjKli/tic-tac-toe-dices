@@ -13,10 +13,27 @@ export default {
     subtitle: 'Доска 6×6 · 3 в ряд · кубики выбирают клетку',
     playersNumber: 'Количество игроков',
     startGame: 'Начать игру',
+    createRoom: 'Создать комнату',
+    modeLocal: 'Локально',
+    modeOnline: 'Онлайн',
+    onlineHint: 'Настройте своего игрока, затем создайте комнату и поделитесь ссылкой с друзьями.',
     player: 'Игрок {n}',
     name: 'Имя',
     mark: 'Символ',
     color: 'Цвет'
+  },
+  lobby: {
+    roomCode: 'Код комнаты',
+    copyLink: 'Скопировать ссылку',
+    players: 'Игроки',
+    emptySlot: 'Ожидание…',
+    waitingForPlayers: 'Ожидание подключения игроков…',
+    waitingForReady: 'Ожидание готовности всех игроков…',
+    markReady: 'Готов',
+    ready: 'Готов',
+    youAreReady: 'Вы готовы! Ожидание других…',
+    allReady: 'Все готовы! Начинаем игру…',
+    joinRoom: 'Войти в комнату'
   },
   game: {
     players: 'Игроки',
@@ -31,6 +48,7 @@ export default {
     backToSetup: '← К настройкам',
     exitGame: '✕ Выйти из игры',
     wins: '{name} победил!',
-    playAgain: 'Играть снова'
+    playAgain: 'Играть снова',
+    waitingForPlayer: 'Ожидание {name}…'
   }
 }

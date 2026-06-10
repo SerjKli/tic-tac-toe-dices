@@ -13,10 +13,27 @@ export default {
     subtitle: '6×6 board · 3 in a row · dice pick your cell',
     playersNumber: 'Number of Players',
     startGame: 'Start Game',
+    createRoom: 'Create Room',
+    modeLocal: 'Local',
+    modeOnline: 'Online',
+    onlineHint: 'Configure your player, then create a room to share with friends.',
     player: 'Player {n}',
     name: 'Name',
     mark: 'Mark',
     color: 'Color'
+  },
+  lobby: {
+    roomCode: 'Room Code',
+    copyLink: 'Copy Link',
+    players: 'Players',
+    emptySlot: 'Waiting…',
+    waitingForPlayers: 'Waiting for players to join…',
+    waitingForReady: 'Waiting for everyone to be ready…',
+    markReady: 'Mark as Ready',
+    ready: 'Ready',
+    youAreReady: 'You are ready! Waiting for others…',
+    allReady: 'All ready! Starting game…',
+    joinRoom: 'Join Room'
   },
   game: {
     players: 'Players',
@@ -31,6 +48,7 @@ export default {
     backToSetup: '← Back to Setup',
     exitGame: '✕ Exit Game',
     wins: '{name} wins!',
-    playAgain: 'Play Again'
+    playAgain: 'Play Again',
+    waitingForPlayer: 'Waiting for {name}…'
   }
 }

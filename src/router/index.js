@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { STORAGE_KEY } from '../services/LocalGameService.js'
+import { getRoomSession } from '../utils/identity.js'
 
 const routes = [
   { path: '/', component: () => import('../views/HomeView.vue') },
   { path: '/setup', component: () => import('../views/SetupView.vue') },
-  { path: '/game', component: () => import('../views/GameView.vue') }
+  { path: '/game', component: () => import('../views/GameView.vue') },
+  { path: '/lobby', component: () => import('../views/LobbyView.vue') }
 ]
 
 const router = createRouter({
@@ -14,6 +16,12 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   if (to.path === '/') {
+    const urlRoom = to.query.room
+    if (urlRoom) return `/lobby?room=${urlRoom}`
+
+    const session = getRoomSession()
+    if (session) return `/lobby`
+
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
       if (saved) {

@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { LocalGameService } from '../services/LocalGameService.js'
+import { gameServiceKey } from '../services/serviceKeys.js'
 import { GameState } from '../core/constants.js'
 
 export const useGameStore = defineStore('game', () => {
-  const service = new LocalGameService()
+  const service = inject(gameServiceKey, () => new LocalGameService(), true)
   const state = service.state
 
   // ── Derived ──────────────────────────────────────────────────────────────────
@@ -13,6 +14,8 @@ export const useGameStore = defineStore('game', () => {
   const isChoosing = computed(() => state.gameState === GameState.CHOOSING)
   const isOver = computed(() => state.gameState === GameState.GAME_OVER)
   const canSkip = computed(() => isChoosing.value && !!state.lastEvaluation?.mustSkip)
+  const isOnline = computed(() => !!service.isOnline)
+  const myTurn = computed(() => service.isOnline ? service.isMyTurn : true)
 
   const candidateCells = computed(() => {
     if (!state.lastEvaluation) return []
@@ -57,6 +60,8 @@ export const useGameStore = defineStore('game', () => {
     isChoosing,
     isOver,
     canSkip,
+    isOnline,
+    myTurn,
     candidateCells,
     allCandidates,
     isCandidateCell,

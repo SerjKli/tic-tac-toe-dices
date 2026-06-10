@@ -3,7 +3,7 @@ export const WIN_LENGTH = 3
 export const MAX_PLAYERS = 5
 export const MIN_PLAYERS = 2
 
-export const DEFAULT_MARKS = ['🔥', '😎', '❤️', '⭐', '❌']
+export const DEFAULT_MARKS = ['🧶', '💩', '👾', '👹', '🌌']
 export const DEFAULT_COLORS = ['#e74c3c', '#3498db', '#e91e63', '#f39c12', '#9b59b6']
 
 export const GameState = Object.freeze({
