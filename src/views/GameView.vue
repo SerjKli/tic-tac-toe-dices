@@ -11,6 +11,10 @@
       </aside>
 
       <main class="board-area">
+        <div class="text-center">
+          <ExitButton />
+        </div>
+
         <PlayerStrip
           v-if="game.state.players?.length"
           :players="game.state.players"
@@ -43,10 +47,7 @@
       </main>
     </div>
 
-    <br><br>
-    <div class="text-center">
-      <ExitButton />
-    </div>
+
 
     <WinBanner
       v-if="game.isOver && game.state.winnerPlayer"
