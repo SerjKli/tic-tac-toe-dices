@@ -3,6 +3,11 @@
 
     <LanguageSelector class="lang-pos" />
 
+    <div v-if="room.error" class="error-banner">
+      <span>{{ errorMessage }}</span>
+      <button class="error-close" @click="room.clearError()">✕</button>
+    </div>
+
     <!-- Guest setup form (shown before joining) -->
     <div v-if="showGuestForm" class="guest-form card">
       <h2>{{ t('lobby.joinRoom') }}</h2>
@@ -106,6 +111,12 @@ const guestName = ref(settings.players.value?.[0]?.name ?? 'Player')
 const guestMark = ref(settings.players.value?.[0]?.mark ?? DEFAULT_MARKS[1])
 const guestColor = ref(settings.players.value?.[0]?.color ?? DEFAULT_COLORS[1])
 
+const errorMessage = computed(() => {
+  if (room.error === 'roomNotFound') return t('lobby.errorRoomNotFound')
+  if (room.error === 'roomFull') return t('lobby.errorRoomFull')
+  return t('lobby.errorJoin')
+})
+
 const mySlotReady = computed(() => {
   if (room.mySlotIndex == null) return false
   return room.slots[room.mySlotIndex]?.ready === true
@@ -149,13 +160,17 @@ onUnmounted(() => {
 
 async function submitJoin() {
   const urlRoom = route.query.room
-  await room.joinRoom(urlRoom, {
-    name: guestName.value,
-    mark: guestMark.value,
-    color: guestColor.value
-  })
-  showGuestForm.value = false
-  room.watchRoom(urlRoom)
+  try {
+    await room.joinRoom(urlRoom, {
+      name: guestName.value,
+      mark: guestMark.value,
+      color: guestColor.value
+    })
+    showGuestForm.value = false
+    room.watchRoom(urlRoom)
+  } catch {
+    // error is set on room.error by the store
+  }
 }
 
 function markReady() {
@@ -368,5 +383,32 @@ input[type="text"] {
   position: fixed;
   top: 16px;
   right: 16px;
+}
+
+.error-banner {
+  width: 100%;
+  max-width: 480px;
+  background: #fdecea;
+  border: 1px solid #f5c6cb;
+  color: #b71c1c;
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.error-banner span { flex: 1; }
+
+.error-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #b71c1c;
+  font-size: 1rem;
+  padding: 0 4px;
+  line-height: 1;
 }
 </style>

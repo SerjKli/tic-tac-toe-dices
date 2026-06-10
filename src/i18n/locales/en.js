@@ -33,7 +33,10 @@ export default {
     ready: 'Ready',
     youAreReady: 'You are ready! Waiting for others…',
     allReady: 'All ready! Starting game…',
-    joinRoom: 'Join Room'
+    joinRoom: 'Join Room',
+    errorRoomNotFound: 'Room not found. Check the code and try again.',
+    errorRoomFull: 'This room is full.',
+    errorJoin: 'Something went wrong. Please try again.'
   },
   game: {
     players: 'Players',

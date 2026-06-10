@@ -30,6 +30,7 @@ export const useRoomStore = defineStore('room', () => {
   const slots = ref([])
   const roomStatus = ref(null)
   const playerCount = ref(2)
+  const error = ref(null)
   let _roomRef = null
 
   const isHost = computed(() => {
@@ -66,9 +67,16 @@ export const useRoomStore = defineStore('room', () => {
   async function joinRoom(id, playerData) {
     roomId.value = id
     myPlayerId.value = getOrCreatePlayerId()
-    const slotIdx = await findAndClaimSlot(id, { playerId: myPlayerId.value, ...playerData })
-    mySlotIndex.value = slotIdx
-    saveRoomSession({ roomId: id, slotIndex: slotIdx })
+    try {
+      const slotIdx = await findAndClaimSlot(id, { playerId: myPlayerId.value, ...playerData })
+      mySlotIndex.value = slotIdx
+      saveRoomSession({ roomId: id, slotIndex: slotIdx })
+    } catch (e) {
+      if (e.message === 'Room not found') error.value = 'roomNotFound'
+      else if (e.message === 'No available slots') error.value = 'roomFull'
+      else error.value = 'joinError'
+      throw e
+    }
   }
 
   async function setReady() {
@@ -78,7 +86,11 @@ export const useRoomStore = defineStore('room', () => {
   function watchRoom(id) {
     stopWatching()
     _roomRef = subscribeToRoom(id, async (data) => {
-      if (!data) return
+      if (!data) {
+        error.value = 'roomNotFound'
+        stopWatching()
+        return
+      }
 
       const slotArray = data.slots
         ? Object.values(data.slots)
@@ -146,6 +158,10 @@ export const useRoomStore = defineStore('room', () => {
     return true
   }
 
+  function clearError() {
+    error.value = null
+  }
+
   return {
     roomId,
     myPlayerId,
@@ -153,6 +169,7 @@ export const useRoomStore = defineStore('room', () => {
     slots,
     roomStatus,
     playerCount,
+    error,
     isHost,
     allSlotsFilled,
     allSlotsReady,
@@ -161,6 +178,7 @@ export const useRoomStore = defineStore('room', () => {
     setReady,
     watchRoom,
     stopWatching,
-    restoreSession
+    restoreSession,
+    clearError
   }
 })
