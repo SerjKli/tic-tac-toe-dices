@@ -9,7 +9,7 @@
     >
       <span class="mark">{{ player.mark }}</span>
       <span class="name">{{ player.name }}</span>
-      <span v-if="playerEmojis[player.id]" class="chat-emoji">{{ playerEmojis[player.id] }}</span>
+      <span v-if="playerEmojis[player.id]" class="chat-emoji" :key="playerEmojis[player.id]">{{ playerEmojis[player.id] }}</span>
     </div>
   </div>
 </template>
@@ -41,6 +41,7 @@ defineProps({
   background: #fff;
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   transition: border-color 0.15s;
+  position: relative;
 }
 
 .player-chip.active {
@@ -66,11 +67,32 @@ defineProps({
 .chat-emoji {
   font-size: 1.1rem;
   line-height: 1;
-  animation: pop-in 0.2s ease;
+  background-color: #ffffff;
+  border-radius: 50%;
+  padding: 6px;
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  animation: emoji-pop 0.55s ease forwards;
+  transform-origin: center bottom;
 }
 
-@keyframes pop-in {
-  from { transform: scale(0.5); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+.chat-emoji::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  background-color: #fff;
+  position: absolute;
+  bottom: 0;
+  border-radius: 4px;
+}
+
+@keyframes emoji-pop {
+  0%   { transform: scale(0) rotate(-25deg) translateY(10px); opacity: 0; filter: blur(3px); }
+  45%  { transform: scale(1.45) rotate(10deg) translateY(-8px); opacity: 1; filter: blur(0); }
+  65%  { transform: scale(0.82) rotate(-5deg) translateY(2px); }
+  80%  { transform: scale(1.15) rotate(3deg) translateY(-2px); }
+  92%  { transform: scale(0.95) rotate(-1deg) translateY(0); }
+  100% { transform: scale(1) rotate(0deg) translateY(0); opacity: 1; }
 }
 </style>

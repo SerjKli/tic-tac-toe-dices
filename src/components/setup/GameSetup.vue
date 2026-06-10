@@ -20,6 +20,10 @@
       >{{ t('setup.modeOnline') }}</button>
     </section>
 
+    <button class="start-btn" @click="$emit('start', { mode })">
+      {{ mode === 'online' ? t('setup.createRoom') : t('setup.startGame') }}
+    </button>
+
     <section v-if="mode === 'local'" class="section players-grid">
       <PlayerCard
         v-for="(player, i) in settings.players"
@@ -40,10 +44,6 @@
         />
       </section>
     </template>
-
-    <button class="start-btn" @click="$emit('start', { mode })">
-      {{ mode === 'online' ? t('setup.createRoom') : t('setup.startGame') }}
-    </button>
   </div>
 </template>
 
