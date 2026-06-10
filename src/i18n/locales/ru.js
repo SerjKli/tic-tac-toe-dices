@@ -1,6 +1,6 @@
 export default {
-  gameName: 'Крестики-нолики',
-  gameNameSubtitle: 'ПОЧТИ',
+  gameName: 'Крестики-',
+  gameNameSubtitle: 'Кубики',
   home: {
     tagline: 'Стратегическая игра 6×6, где кубики определяют поле боя.',
     rule1: '2–5 игроков, каждый с уникальным символом',

@@ -1,6 +1,6 @@
 export default {
-  gameName: 'Tic-Tac-Toe',
-  gameNameSubtitle: 'SIX',
+  gameName: 'Tic-Tac-',
+  gameNameSubtitle: 'Dice',
   home: {
     tagline: 'A 6×6 strategy game where dice decide your battlefield.',
     rule1: '2–5 players, each with a unique mark',

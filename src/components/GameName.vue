@@ -1,5 +1,5 @@
 <template>
-  <h1>{{t('gameName')}}<br/><span class="six">{{t('gameNameSubtitle')}}</span></h1>
+  <h1>{{t('gameName')}}<span class="six">{{t('gameNameSubtitle')}}</span></h1>
 </template>
 
 <script setup>
