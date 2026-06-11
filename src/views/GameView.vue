@@ -13,10 +13,6 @@
       </aside>
 
       <main class="board-area">
-        <div class="text-center">
-          <ExitButton />
-        </div>
-
         <PlayerStrip
           v-if="game.state.players?.length"
           :players="game.state.players"
@@ -34,21 +30,28 @@
           />
           <BoardActionOverlay :selectedCardId="selectedHandCardId" @cancel-select="selectedHandCardId = null" />
         </div>
-        <p v-if="isDoubles && game.myTurn" class="doubles-notice">{{ t('game.doubles') }}</p>
 
-        <p v-if="game.boardTargetCardId" class="hint shield-target-hint">{{ t('cards.shieldClickCell') }}</p>
+        <div class="status-line">
+          <div class="status-message">
+            <p v-if="isDoubles && game.myTurn" class="doubles-notice">{{ t('game.doubles') }}</p>
 
-        <template v-if="game.myTurn || !game.isOnline">
-          <template v-if="game.canSkip">
-            <p class="hint">{{ t('game.allCellsOwned') }}</p>
-            <button class="skip-btn" @click="game.skipTurn()">{{ t('game.skipTurn') }}</button>
-          </template>
-          <p v-else-if="myActionMessage" class="hint">{{ myActionMessage }}</p>
-        </template>
+            <p v-if="game.boardTargetCardId" class="hint shield-target-hint">{{ t('cards.shieldClickCell') }}</p>
 
-        <div v-if="game.isOnline && !game.myTurn && !game.isOver" class="waiting-overlay">
-          <p class="waiting-msg">{{ activePlayerActionMessage }}</p>
+            <template v-if="game.myTurn || !game.isOnline">
+              <template v-if="game.canSkip">
+                <p class="hint">{{ t('game.allCellsOwned') }}</p>
+                <button class="skip-btn" @click="game.skipTurn()">{{ t('game.skipTurn') }}</button>
+              </template>
+              <p v-else-if="myActionMessage" class="hint">{{ myActionMessage }}</p>
+            </template>
+
+            <div v-if="game.isOnline && !game.myTurn && !game.isOver" class="waiting-overlay">
+              <p class="waiting-msg">{{ activePlayerActionMessage }}</p>
+            </div>
+          </div>
+          <ExitButton />
         </div>
+
       </main>
     </div>
 

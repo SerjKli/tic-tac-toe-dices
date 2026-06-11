@@ -476,3 +476,11 @@ a {
   opacity: 0.4;
   cursor: default;
 }
+.status-line{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 36px;
+}
