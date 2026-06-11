@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, inject, ref } from 'vue'
 import { LocalGameService } from '../services/LocalGameService.js'
 import { gameServiceKey } from '../services/serviceKeys.js'
-import { GameState, GameMode } from '../core/constants.js'
+import { GameState, GameMode, TurnAction } from '../core/constants.js'
 
 export const useGameStore = defineStore('game', () => {
   const service = inject(gameServiceKey, () => new LocalGameService(), true)
@@ -21,6 +21,15 @@ export const useGameStore = defineStore('game', () => {
   const isOnline = computed(() => !!service.isOnline)
   const myTurn = computed(() => service.isOnline ? service.isMyTurn : true)
   const isAdvanced = computed(() => state.gameMode === GameMode.ADVANCED)
+
+  const currentTurnAction = computed(() => {
+    switch (state.gameState) {
+      case GameState.CARD_PHASE: return TurnAction.SELECT_CARD
+      case GameState.ROLLING:    return TurnAction.ROLL_DICE
+      case GameState.CHOOSING:   return TurnAction.SELECT_CELL
+      default:                   return null
+    }
+  })
 
   const candidateCells = computed(() => {
     if (!state.lastEvaluation) return []
@@ -122,6 +131,7 @@ export const useGameStore = defineStore('game', () => {
     isOnline,
     myTurn,
     isAdvanced,
+    currentTurnAction,
     candidateCells,
     allCandidates,
     myHand,

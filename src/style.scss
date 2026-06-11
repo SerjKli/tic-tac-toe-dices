@@ -18,6 +18,23 @@ a {
   color: inherit;
 }
 
+.board-wrapper{
+  max-width: min(90vw, 480px);
+  width: 480px;
+}
+
+.board-action-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: inherit;
+  margin: -6px;
+}
+
 .text-center{
   text-align: center;
 }

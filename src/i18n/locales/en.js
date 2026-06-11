@@ -95,6 +95,14 @@ export default {
     exitGame: '✕ Exit Game',
     wins: '{name} wins!',
     playAgain: 'Play Again',
-    waitingForPlayer: 'Waiting for {name}…'
+    waitingForPlayer: 'Waiting for {name}…',
+    turnAction: {
+      selectCard:       'Select a card',
+      rollDice:         'Roll the dice',
+      selectCell:       'Choose a cell',
+      playerSelectCard: '{name} is selecting a card',
+      playerRollDice:   '{name} is rolling the dice',
+      playerSelectCell: '{name} is choosing a cell',
+    }
   }
 }

@@ -48,3 +48,9 @@ export const CardType = Object.freeze({
 
 export const DECK_SIZE = 28
 export const MAX_HAND_SIZE = 5
+
+export const TurnAction = Object.freeze({
+  SELECT_CARD: 'SELECT_CARD',
+  ROLL_DICE:   'ROLL_DICE',
+  SELECT_CELL: 'SELECT_CELL',
+})

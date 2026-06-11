@@ -95,6 +95,14 @@ export default {
     exitGame: '✕ Выйти из игры',
     wins: '{name} победил!',
     playAgain: 'Играть снова',
-    waitingForPlayer: 'Ждем-с {name}…'
+    waitingForPlayer: 'Ждем-с {name}…',
+    turnAction: {
+      selectCard:       'Выберите карту',
+      rollDice:         'Бросьте кубики',
+      selectCell:       'Выберите клетку',
+      playerSelectCard: '{name} выбирает карту',
+      playerRollDice:   '{name} бросает кубики',
+      playerSelectCell: '{name} выбирает клетку',
+    }
   }
 }

@@ -34,15 +34,17 @@
           :currentPlayerId="game.state.currentPlayer?.id"
           :playerEmojis="chat.playerEmojis"
         />
-        <GameBoard
-          v-if="game.state.board"
-          :board="game.state.board"
-          :players="game.state.players"
-          :isCandidateCell="game.isCandidateCell"
-          :getCandidateAction="game.getCandidateAction"
-          :winCells="game.state.winCells"
-          @cell-click="handleCellClick($event)"
-        />
+        <div v-if="game.state.board" class="board-wrapper">
+          <GameBoard
+            :board="game.state.board"
+            :players="game.state.players"
+            :isCandidateCell="game.isCandidateCell"
+            :getCandidateAction="game.getCandidateAction"
+            :winCells="game.state.winCells"
+            @cell-click="handleCellClick($event)"
+          />
+          <BoardActionOverlay />
+        </div>
         <p v-if="isDoubles && game.myTurn" class="doubles-notice">{{ t('game.doubles') }}</p>
 
         <p v-if="game.boardTargetCardId" class="hint shield-target-hint">{{ t('cards.shieldClickCell') }}</p>
@@ -52,13 +54,11 @@
             <p class="hint">{{ t('game.allCellsOwned') }}</p>
             <button class="skip-btn" @click="game.skipTurn()">{{ t('game.skipTurn') }}</button>
           </template>
-          <p v-else-if="game.isChoosing" class="hint">{{ t('game.chooseCell') }}</p>
-          <p v-if="game.isRolling && !game.isCardPhase" class="hint">{{ t('game.rollPrompt') }}</p>
-          <p v-if="game.isCardPhase && (!game.isAdvanced || (!game.myTurn && game.isOnline))" class="hint">{{ t('game.waitingForPlayer', { name: game.state.currentPlayer?.name ?? '…' }) }}</p>
+          <p v-else-if="myActionMessage" class="hint">{{ myActionMessage }}</p>
         </template>
 
         <div v-if="game.isOnline && !game.myTurn && !game.isOver" class="waiting-overlay">
-          <p class="waiting-msg">{{ t('game.waitingForPlayer', { name: game.state.currentPlayer?.name ?? '…' }) }}</p>
+          <p class="waiting-msg">{{ activePlayerActionMessage }}</p>
         </div>
       </main>
     </div>
@@ -85,6 +85,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '../stores/gameStore.js'
+import { TurnAction } from '../core/constants.js'
 import { useRoomStore } from '../stores/roomStore.js'
 import { useChatStore } from '../stores/chatStore.js'
 import GameBoard from '../components/game/GameBoard.vue'
@@ -98,6 +99,7 @@ import LanguageSelector from '@/components/LanguageSelector.vue'
 import FloatingRollDiceButton from "@/components/game/FloatingRollDiceButton.vue"
 import CardPhasePanel from '@/components/game/CardPhasePanel.vue'
 import CardHand from '@/components/game/CardHand.vue'
+import BoardActionOverlay from '@/components/game/BoardOverlay/BoardActionOverlay.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -166,6 +168,28 @@ onUnmounted(() => {
 })
 
 const isDoubles = computed(() => game.state.lastRoll && game.state.lastRoll[0] === game.state.lastRoll[1])
+
+const myActionMessage = computed(() => {
+  if (!game.currentTurnAction) return null
+  if (game.canSkip) return null
+  if (game.boardTargetCardId) return null
+  const map = {
+    [TurnAction.SELECT_CARD]: t('game.turnAction.selectCard'),
+    [TurnAction.ROLL_DICE]:   t('game.turnAction.rollDice'),
+    [TurnAction.SELECT_CELL]: t('game.turnAction.selectCell'),
+  }
+  return map[game.currentTurnAction] ?? null
+})
+
+const activePlayerActionMessage = computed(() => {
+  const name = game.state.currentPlayer?.name ?? '…'
+  const map = {
+    [TurnAction.SELECT_CARD]: t('game.turnAction.playerSelectCard', { name }),
+    [TurnAction.ROLL_DICE]:   t('game.turnAction.playerRollDice',   { name }),
+    [TurnAction.SELECT_CELL]: t('game.turnAction.playerSelectCell', { name }),
+  }
+  return game.currentTurnAction ? map[game.currentTurnAction] : t('game.waitingForPlayer', { name })
+})
 </script>
 
 <style scoped>
@@ -222,6 +246,11 @@ const isDoubles = computed(() => game.state.lastRoll && game.state.lastRoll[0] =
 
 .skip-btn:hover {
   background: #555;
+}
+
+.board-wrapper {
+  position: relative;
+  border-radius: 12px;
 }
 
 .waiting-overlay {
