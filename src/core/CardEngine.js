@@ -34,6 +34,7 @@ export class CardEngine {
       }
       case 'SKIP_TURN': {
         const target = players.find(p => p.id === context.targetPlayerId)
+        console.log("SKIP_TURN target", target)
         if (target) target.skipTurnCount++
         break
       }
