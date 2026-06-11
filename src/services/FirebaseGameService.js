@@ -183,21 +183,25 @@ export class FirebaseGameService {
         })))
       : null
 
-    return pushGameState(this._roomId, {
+    const winnerIndex = this.state.winnerPlayer
+      ? snap.players.findIndex(p => p.id === this.state.winnerPlayer?.id)
+      : null
+
+    const payload = JSON.parse(JSON.stringify({
       state: snap.state,
       board: boardData,
       players: snap.players,
       currentPlayerIndex: this._engine.currentPlayerIndex,
       lastRoll: snap.lastRoll,
       lastEvaluation: snap.lastEvaluation,
-      winnerIndex: this.state.winnerPlayer
-        ? snap.players.findIndex(p => p.id === this.state.winnerPlayer?.id)
-        : null,
+      winnerIndex,
       winCells: this.state.winCells,
       gameMode: snap.gameMode,
       deck: snap.deck,
       activeCard: snap.activeCard
-    })
+    }))
+
+    return pushGameState(this._roomId, payload)
   }
 
   _boardFromData(grid) {

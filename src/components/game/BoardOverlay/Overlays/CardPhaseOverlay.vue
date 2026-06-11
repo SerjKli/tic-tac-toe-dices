@@ -30,9 +30,9 @@
             class="player-target-btn"
         />
 
-        <button class="overlay-btn cancel-btn" @click="card.clearSelectedCard()">
-          {{ t('cards.cancel') }}
-        </button>
+<!--        <button class="overlay-btn cancel-btn" @click="card.clearSelectedCard()">-->
+<!--          {{ t('cards.cancel') }}-->
+<!--        </button>-->
       </div>
 
       <template v-else-if="isShield">

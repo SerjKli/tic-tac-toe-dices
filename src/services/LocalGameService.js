@@ -65,6 +65,16 @@ export class LocalGameService {
     this._syncState()
   }
 
+  confirmSkipTurn() {
+    this._engine.confirmSkipTurn()
+    this._syncState()
+  }
+
+  useCleanseInSkipPhase() {
+    this._engine.useCleanseInSkipPhase()
+    this._syncState()
+  }
+
   resetGame() {
     this._engine.resetGame()
     this.state.winnerPlayer = null

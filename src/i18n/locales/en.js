@@ -82,6 +82,12 @@ export default {
     errorRoomAbandoned: 'The host has left the room.',
     errorJoin: 'Something went wrong. Please try again.'
   },
+  skipPhase: {
+    title: 'Your turn is skipped',
+    skipsLeft: 'Skips remaining: {n}',
+    useCleanseHint: 'Use a Cleanse card to cancel the skip',
+    confirmBtn: 'Skip turn'
+  },
   game: {
     players: 'Players',
     pieces: '{count} pieces',

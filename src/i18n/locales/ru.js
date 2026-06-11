@@ -82,6 +82,12 @@ export default {
     errorRoomAbandoned: 'Хост покинул комнату.',
     errorJoin: 'Что-то пошло не так. Попробуйте ещё раз.'
   },
+  skipPhase: {
+    title: 'Вы пропускаете ход',
+    skipsLeft: 'Осталось пропусков: {n}',
+    useCleanseHint: 'Используйте карту «Очищение», чтобы отменить пропуск',
+    confirmBtn: 'Пропустить ход'
+  },
   game: {
     players: 'Игроки',
     pieces: '{count} фишек',

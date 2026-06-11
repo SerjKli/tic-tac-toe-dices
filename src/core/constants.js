@@ -25,6 +25,7 @@ export const DEFAULT_CHAT_EMOJIS = ['😀', '😂', '😍', '😢', '😡', '�
 
 export const GameState = Object.freeze({
   IDLE: 'IDLE',
+  SKIP_TURN_PHASE: 'SKIP_TURN_PHASE',
   CARD_PHASE: 'CARD_PHASE',
   ROLLING: 'ROLLING',
   CHOOSING: 'CHOOSING',

@@ -3,6 +3,7 @@
     <div v-if="visible" class="board-action-overlay">
       <RollDiceOverlay v-if="game.isRolling || showingResult" />
       <CardPhaseOverlay v-else-if="game.isCardPhase && game.isAdvanced" />
+      <SkipTurnPhaseOverlay v-else-if="game.isSkipTurnPhase && game.isAdvanced" />
     </div>
   </Transition>
 </template>
@@ -14,6 +15,7 @@ import { useCardStore } from '@/stores/cardStore.js'
 import { useDiceRoll } from '@/composables/useDiceRoll.js'
 import RollDiceOverlay from './Overlays/RollDiceOverlay.vue'
 import CardPhaseOverlay from './Overlays/CardPhaseOverlay.vue'
+import SkipTurnPhaseOverlay from './Overlays/SkipTurnPhaseOverlay.vue'
 
 const game = useGameStore()
 const card = useCardStore()
@@ -23,7 +25,7 @@ const visible = computed(() =>
   !game.isOver &&
   (game.myTurn || !game.isOnline) &&
   !card.boardTargetCardId &&
-  (game.isRolling || showingResult.value || (game.isCardPhase && game.isAdvanced))
+  (game.isRolling || showingResult.value || (game.isCardPhase && game.isAdvanced) || game.isSkipTurnPhase)
 )
 </script>
 

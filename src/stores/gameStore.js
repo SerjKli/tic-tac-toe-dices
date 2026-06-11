@@ -15,6 +15,7 @@ export const useGameStore = defineStore('game', () => {
   const isChoosing = computed(() => state.gameState === GameState.CHOOSING)
   const isOver = computed(() => state.gameState === GameState.GAME_OVER)
   const isCardPhase = computed(() => state.gameState === GameState.CARD_PHASE)
+  const isSkipTurnPhase = computed(() => state.gameState === GameState.SKIP_TURN_PHASE)
   const canSkip = computed(() => isChoosing.value && !!state.lastEvaluation?.mustSkip)
   const isOnline = computed(() => !!service.isOnline)
   const myTurn = computed(() => service.isOnline ? service.isMyTurn : true)
@@ -80,6 +81,14 @@ export const useGameStore = defineStore('game', () => {
     service.skipTurn()
   }
 
+  function confirmSkipTurn() {
+    service.confirmSkipTurn()
+  }
+
+  function useCleanseInSkipPhase() {
+    service.useCleanseInSkipPhase()
+  }
+
   function resetGame() {
     service.resetGame()
   }
@@ -94,6 +103,7 @@ export const useGameStore = defineStore('game', () => {
     isChoosing,
     isOver,
     isCardPhase,
+    isSkipTurnPhase,
     canSkip,
     isOnline,
     myTurn,
@@ -109,6 +119,8 @@ export const useGameStore = defineStore('game', () => {
     rollDice,
     makeMove,
     skipTurn,
+    confirmSkipTurn,
+    useCleanseInSkipPhase,
     resetGame,
     subscribeOnline
   }

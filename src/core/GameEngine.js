@@ -235,14 +235,38 @@ export class GameEngine extends EventTarget {
     this.state = newState
   }
 
+  confirmSkipTurn() {
+    if (this.state !== GameState.SKIP_TURN_PHASE) return
+    const player = this._currentPlayer()
+    player.skipTurnCount--
+    this._emit('turn-skipped', { player })
+    this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length
+    this._enterCardPhase()
+  }
+
+  useCleanseInSkipPhase() {
+    if (this.state !== GameState.SKIP_TURN_PHASE) return
+    const player = this._currentPlayer()
+    const idx = player.hand.findIndex(c => c.cardId === 'CLEANSE')
+    if (idx === -1) return
+    const card = player.hand.splice(idx, 1)[0]
+    this._emit('card-used', { card, player })
+    this._cardEngine.applyCardSideEffect(card, {}, {
+      board: this.board,
+      players: this.players,
+      currentPlayer: player
+    })
+    if (player.skipTurnCount === 0) {
+      this._transition(GameState.CARD_PHASE)
+    } else {
+      this._transition(GameState.SKIP_TURN_PHASE)
+    }
+  }
+
   _enterCardPhase() {
-    // Check if current player must skip turn
     const player = this._currentPlayer()
     if (player.skipTurnCount > 0) {
-      player.skipTurnCount--
-      this._emit('turn-skipped', { player })
-      this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length
-      this._enterCardPhase()
+      this._transition(GameState.SKIP_TURN_PHASE)
       return
     }
     this._transition(GameState.CARD_PHASE)

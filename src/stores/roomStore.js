@@ -35,6 +35,7 @@ export const useRoomStore = defineStore('room', () => {
   const playerCount = ref(2)
   const error = ref(null)
   let _roomRef = null
+  let _gameStarting = false
 
   const isHost = computed(() => {
     return slots.value[0]?.playerId === myPlayerId.value
@@ -124,19 +125,25 @@ export const useRoomStore = defineStore('room', () => {
   }
 
   async function _startOnlineGame(roomData) {
-    const players = Object.values(roomData.slots).map(s => ({
-      id: s.playerId,
-      name: s.name,
-      mark: s.mark,
-      color: s.color
-    }))
+    if (_gameStarting) return
+    _gameStarting = true
+    try {
+      const players = Object.values(roomData.slots).map(s => ({
+        id: s.playerId,
+        name: s.name,
+        mark: s.mark,
+        color: s.color
+      }))
 
-    const gameMode = roomData.meta?.gameMode ?? 'CLASSIC'
-    const fbService = new FirebaseGameService(roomId.value, myPlayerId.value, 0)
-    await fbService.startGame({ players, gameMode })
+      const gameMode = roomData.meta?.gameMode ?? 'CLASSIC'
+      const fbService = new FirebaseGameService(roomId.value, myPlayerId.value, 0)
+      await fbService.startGame({ players, gameMode })
 
-    await setRoomStatus(roomId.value, 'playing')
-    window.location.href = `/ttt-6/game?room=${roomId.value}`
+      await setRoomStatus(roomId.value, 'playing')
+      window.location.href = `/ttt-6/game?room=${roomId.value}`
+    } finally {
+      _gameStarting = false
+    }
   }
 
   function stopWatching() {
