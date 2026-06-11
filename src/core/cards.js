@@ -1,7 +1,8 @@
 import { CardType } from './constants.js'
+import { Card } from './models/Card.js'
 
 export const CARDS = Object.freeze({
-  ROW_MARK: {
+  ROW_MARK: new Card({
     id: 'ROW_MARK',
     nameKey: 'cards.rowMark.name',
     descKey: 'cards.rowMark.desc',
@@ -9,8 +10,8 @@ export const CARDS = Object.freeze({
     type: CardType.EXPANDING,
     weight: 0.7,
     behavior: 'DEFERRED'
-  },
-  COL_MARK: {
+  }),
+  COL_MARK: new Card({
     id: 'COL_MARK',
     nameKey: 'cards.colMark.name',
     descKey: 'cards.colMark.desc',
@@ -18,8 +19,8 @@ export const CARDS = Object.freeze({
     type: CardType.EXPANDING,
     weight: 0.7,
     behavior: 'DEFERRED'
-  },
-  AREA_3X3: {
+  }),
+  AREA_3X3: new Card({
     id: 'AREA_3X3',
     nameKey: 'cards.area3x3.name',
     descKey: 'cards.area3x3.desc',
@@ -27,8 +28,8 @@ export const CARDS = Object.freeze({
     type: CardType.EXPANDING,
     weight: 0.5,
     behavior: 'DEFERRED'
-  },
-  SHIELD: {
+  }),
+  SHIELD: new Card({
     id: 'SHIELD',
     nameKey: 'cards.shield.name',
     descKey: 'cards.shield.desc',
@@ -36,8 +37,8 @@ export const CARDS = Object.freeze({
     type: CardType.DEFENSIVE,
     weight: 0.6,
     behavior: 'SIDE_EFFECT'
-  },
-  EXPLOSION4: {
+  }),
+  EXPLOSION4: new Card({
     id: 'EXPLOSION4',
     nameKey: 'cards.explosion4.name',
     descKey: 'cards.explosion4.desc',
@@ -45,8 +46,8 @@ export const CARDS = Object.freeze({
     type: CardType.OFFENSIVE,
     weight: 0.3,
     behavior: 'DEFERRED'
-  },
-  SKIP_TURN: {
+  }),
+  SKIP_TURN: new Card({
     id: 'SKIP_TURN',
     nameKey: 'cards.skipTurn.name',
     descKey: 'cards.skipTurn.desc',
@@ -54,8 +55,8 @@ export const CARDS = Object.freeze({
     type: CardType.OFFENSIVE,
     weight: 0.5,
     behavior: 'SIDE_EFFECT'
-  },
-  CLEANSE: {
+  }),
+  CLEANSE: new Card({
     id: 'CLEANSE',
     nameKey: 'cards.cleanse.name',
     descKey: 'cards.cleanse.desc',
@@ -63,8 +64,8 @@ export const CARDS = Object.freeze({
     type: CardType.DEFENSIVE,
     weight: 0.5,
     behavior: 'SIDE_EFFECT'
-  },
-  EXTRA_TURN: {
+  }),
+  EXTRA_TURN: new Card({
     id: 'EXTRA_TURN',
     nameKey: 'cards.extraTurn.name',
     descKey: 'cards.extraTurn.desc',
@@ -72,8 +73,8 @@ export const CARDS = Object.freeze({
     type: CardType.DEFENSIVE,
     weight: 0.3,
     behavior: 'SIDE_EFFECT'
-  },
-  RANDOM_CLEAR3: {
+  }),
+  RANDOM_CLEAR3: new Card({
     id: 'RANDOM_CLEAR3',
     nameKey: 'cards.randomClear3.name',
     descKey: 'cards.randomClear3.desc',
@@ -81,8 +82,8 @@ export const CARDS = Object.freeze({
     type: CardType.OFFENSIVE,
     weight: 0.3,
     behavior: 'IMMEDIATE'
-  },
-  SHAKE: {
+  }),
+  SHAKE: new Card({
     id: 'SHAKE',
     nameKey: 'cards.shake.name',
     descKey: 'cards.shake.desc',
@@ -90,5 +91,5 @@ export const CARDS = Object.freeze({
     type: CardType.OFFENSIVE,
     weight: 0.3,
     behavior: 'IMMEDIATE'
-  }
+  })
 })
