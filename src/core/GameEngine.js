@@ -19,6 +19,7 @@ export class GameEngine extends EventTarget {
     this.gameMode = GameMode.CLASSIC
     this.deck = []
     this.activeCard = null
+    this.pendingCardId = null
     this._cardEngine = new CardEngine()
   }
 
@@ -62,10 +63,22 @@ export class GameEngine extends EventTarget {
     const player = this._currentPlayer()
     const idx = player.hand.findIndex(c => c.cardId === cardId)
     if (idx === -1) return
-    const card = player.hand.splice(idx, 1)[0]
 
     const def = CARDS[cardId]
+
+    if (def.behavior === 'IMMEDIATE') {
+      const card = player.hand.splice(idx, 1)[0]
+      this._emit('card-used', { card, player, context })
+      const events = this._cardEngine.applyCardImmediate(card, this.board, this.players)
+      for (const ev of events) this._emit(ev.type, ev)
+      this._advanceTurn(false)
+      return
+    }
+
+    // SIDE_EFFECT and DEFERRED: keep card in hand until makeMove/skipTurn
+    const card = player.hand[idx]
     this._emit('card-used', { card, player, context })
+    this.pendingCardId = cardId
 
     if (def.behavior === 'SIDE_EFFECT') {
       this._cardEngine.applyCardSideEffect(card, context, {
@@ -74,11 +87,7 @@ export class GameEngine extends EventTarget {
         currentPlayer: player
       })
       this._transition(GameState.ROLLING)
-    } else if (def.behavior === 'IMMEDIATE') {
-      const events = this._cardEngine.applyCardImmediate(card, this.board, this.players)
-      for (const ev of events) this._emit(ev.type, ev)
-      this._advanceTurn(false)
-    } else if (def.behavior === 'DEFERRED') {
+    } else {
       this.activeCard = card
       this._transition(GameState.ROLLING)
     }
@@ -110,6 +119,7 @@ export class GameEngine extends EventTarget {
     this.lastEvaluation = null
     this.lastRoll = null
     this.activeCard = null
+    this._removePendingCard()
     this._advanceTurn(false)
   }
 
@@ -122,6 +132,7 @@ export class GameEngine extends EventTarget {
     const isDoubles = this.lastEvaluation.isDoubles
     const card = this.activeCard
     this.activeCard = null
+    this._removePendingCard()
 
     if (candidate.action === CellAction.EXPLODE) {
       // Clear 2×2 area from anchor (row, col), respecting shields
@@ -186,6 +197,7 @@ export class GameEngine extends EventTarget {
     this.gameMode = GameMode.CLASSIC
     this.deck = []
     this.activeCard = null
+    this.pendingCardId = null
   }
 
   // ── Getters ─────────────────────────────────────────────────────────────────
@@ -200,11 +212,20 @@ export class GameEngine extends EventTarget {
       lastEvaluation: this.lastEvaluation,
       gameMode: this.gameMode,
       deck: this.deck,
-      activeCard: this.activeCard
+      activeCard: this.activeCard,
+      pendingCardId: this.pendingCardId
     }
   }
 
   // ── Private ─────────────────────────────────────────────────────────────────
+
+  _removePendingCard() {
+    if (!this.pendingCardId) return
+    const player = this._currentPlayer()
+    const idx = player.hand.findIndex(c => c.cardId === this.pendingCardId)
+    if (idx !== -1) player.hand.splice(idx, 1)
+    this.pendingCardId = null
+  }
 
   _currentPlayer() {
     return this.players[this.currentPlayerIndex]

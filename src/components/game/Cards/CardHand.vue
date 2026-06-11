@@ -10,6 +10,7 @@
         :card="cardDef(group)"
         :card-amount="group.amount"
         :selected="cardStore.selectedCardId === group.cardId"
+        :pending="cardStore.pendingCardId === group.cardId"
         :disabled="disabled"
         @select="cardStore.selectCard($event)"
       />

@@ -32,6 +32,7 @@ export const useCardStore = defineStore('card', () => {
   const deckSize = computed(() => state.deck?.length ?? 0)
 
   const activeCard = computed(() => state.activeCard)
+  const pendingCardId = computed(() => state.pendingCardId ?? null)
 
   watch(isCardPhase, (active) => {
     if (!active) selectedCardId.value = null
@@ -78,6 +79,7 @@ export const useCardStore = defineStore('card', () => {
     myHand,
     deckSize,
     activeCard,
+    pendingCardId,
     selectCard,
     clearSelectedCard,
     drawCard,

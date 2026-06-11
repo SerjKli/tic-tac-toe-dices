@@ -21,7 +21,8 @@ export class LocalGameService {
       winCells: [],
       gameMode: GameMode.CLASSIC,
       deck: [],
-      activeCard: null
+      activeCard: null,
+      pendingCardId: null
     })
     this._bindEngineEvents()
     this._restore()
@@ -83,6 +84,7 @@ export class LocalGameService {
     this.state.gameMode = snap.gameMode
     this.state.deck = snap.deck
     this.state.activeCard = snap.activeCard
+    this.state.pendingCardId = snap.pendingCardId
     this._save()
   }
 
@@ -104,7 +106,8 @@ export class LocalGameService {
         winCells: this.state.winCells,
         gameMode: this._engine.gameMode,
         deck: this._engine.deck,
-        activeCard: this._engine.activeCard
+        activeCard: this._engine.activeCard,
+        pendingCardId: this._engine.pendingCardId
       }))
     } catch {
       // storage unavailable or full
@@ -133,6 +136,7 @@ export class LocalGameService {
       this._engine.gameMode = data.gameMode ?? GameMode.CLASSIC
       this._engine.deck = data.deck ?? []
       this._engine.activeCard = data.activeCard ?? null
+      this._engine.pendingCardId = data.pendingCardId ?? null
 
       this.state.winnerPlayer = data.winnerPlayer ?? null
       this.state.winCells = data.winCells ?? []

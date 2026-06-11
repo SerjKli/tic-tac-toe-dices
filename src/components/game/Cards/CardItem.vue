@@ -1,7 +1,7 @@
 <template>
   <div
     class="card-item"
-    :class="[`type-${card.type.toLowerCase()}`, { selected, disabled }]"
+    :class="[`type-${card.type.toLowerCase()}`, { selected, disabled, pending }]"
     :style="{ '--card-color': card.color }"
     @click="!disabled && $emit('select', card.id)"
   >
@@ -55,6 +55,7 @@ const { t } = useI18n()
 defineProps({
   card: { type: Card, required: true },
   selected: { type: Boolean, default: false },
+  pending: { type: Boolean, default: false },
   disabled: { type: Boolean, default: false },
   cardAmount: { type: Number, default: 1 }
 })
@@ -104,6 +105,45 @@ defineEmits(['select'])
 .card-item.disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+@keyframes card-pending-shake {
+  0%, 70%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  73% {
+    transform: translate(-2px, 1px) rotate(-4deg);
+  }
+
+  76% {
+    transform: translate(2px, -1px) rotate(3.5deg);
+  }
+
+  79% {
+    transform: translate(-1.5px, 0.5px) rotate(-3deg);
+  }
+
+  82% {
+    transform: translate(1px, -0.5px) rotate(2deg);
+  }
+
+  85% {
+    transform: translate(-0.5px, 0) rotate(-1deg);
+  }
+
+  88% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+.card-item.pending {
+  opacity: 1;
+  border-color: var(--card-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--card-color) 28%, transparent);
+  background: color-mix(in srgb, var(--card-color) 5%, white);
+  animation: card-pending-shake 1s ease-in-out infinite;
+  cursor: default;
 }
 
 .card-amount {
