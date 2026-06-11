@@ -3,11 +3,11 @@
     <p class="phase-label">{{ t('cards.phaseLabel') }}</p>
 
     <div class="actions">
-      <button class="card-btn draw-btn" :disabled="deckSize === 0 || myHand.length >= MAX_HAND_SIZE" @click="handleDraw">
+      <button class="overlay-btn draw-btn" :disabled="deckSize === 0 || myHand.length >= MAX_HAND_SIZE" @click="handleDraw">
         {{ deckSize === 0 ? t('cards.deckEmpty') : myHand.length >= MAX_HAND_SIZE ? t('cards.handFull') : t('cards.draw') }}
         <span v-if="deckSize > 0" class="deck-count">{{ deckSize }}</span>
       </button>
-      <button class="card-btn skip-btn" @click="handleSkip">{{ t('cards.skip') }}</button>
+      <button class="overlay-btn skip-btn" @click="handleSkip">{{ t('cards.skip') }}</button>
     </div>
 
     <div v-if="selectedCardId && selectedDef" class="confirm-section">
@@ -17,28 +17,37 @@
 
       <template v-if="isSkipTurn">
         <p class="target-hint">{{ t('cards.selectTarget') }}</p>
-        <div class="player-targets">
-          <button
-            v-for="p in otherPlayers"
-            :key="p.id"
-            class="player-target-btn"
-            :style="{ borderColor: p.color }"
-            @click="confirmUseCard({ targetPlayerId: p.id })"
-          >{{ p.name }}</button>
-        </div>
+
+
+        <PlayerStrip
+            v-if="game.state.players?.length"
+            :players="otherPlayers"
+        />
+
+<!--        <div class="player-targets">-->
+<!--          <button-->
+<!--            v-for="p in otherPlayers"-->
+<!--            :key="p.id"-->
+<!--            class="player-target-btn"-->
+<!--            :style="{ borderColor: p.color }"-->
+<!--            @click="confirmUseCard({ targetPlayerId: p.id })"-->
+<!--          >{{ p.name }}</button>-->
+<!--        </div>-->
       </template>
 
       <template v-else-if="isShield">
         <p class="target-hint">{{ t('cards.shieldClickCell') }}</p>
-        <button class="card-btn confirm-btn" @click="activateShieldTarget">{{ t('cards.selectOnBoard') }}</button>
+        <button class="overlay-btn confirm-btn" @click="activateShieldTarget">{{ t('cards.selectOnBoard') }}</button>
       </template>
 
       <template v-else>
-        <button class="card-btn confirm-btn" @click="confirmUseCard({})">{{ t('cards.confirm') }}</button>
+        <button class="overlay-btn confirm-btn" @click="confirmUseCard({})">{{ t('cards.confirm') }}</button>
       </template>
 
-      <button class="card-btn cancel-btn" @click="$emit('cancel-select')">{{ t('cards.cancel') }}</button>
+      <button class="overlay-btn cancel-btn" @click="$emit('cancel-select')">{{ t('cards.cancel') }}</button>
     </div>
+
+
   </div>
 </template>
 
@@ -48,6 +57,7 @@ import { useI18n } from 'vue-i18n'
 import { useGameStore } from '@/stores/gameStore.js'
 import { CARDS } from '@/core/cards.js'
 import { MAX_HAND_SIZE } from '@/core/constants.js'
+import PlayerStrip from "@/components/game/PlayerStrip.vue";
 
 const { t } = useI18n()
 const game = useGameStore()

@@ -2,7 +2,7 @@
   <Transition name="overlay">
     <div v-if="visible" class="board-action-overlay">
       <RollDiceOverlay v-if="game.isRolling || showingResult" />
-      <CardPhaseOverlay v-else-if="game.isCardPhase && game.isAdvanced" />
+      <CardPhaseOverlay v-else-if="game.isCardPhase && game.isAdvanced" :selectedCardId="selectedCardId" @cancel-select="$emit('cancel-select')" />
     </div>
   </Transition>
 </template>
@@ -13,6 +13,12 @@ import { useGameStore } from '@/stores/gameStore.js'
 import { useDiceRoll } from '@/composables/useDiceRoll.js'
 import RollDiceOverlay from './Overlays/RollDiceOverlay.vue'
 import CardPhaseOverlay from './Overlays/CardPhaseOverlay.vue'
+
+defineProps({
+  selectedCardId: { type: String, default: null }
+})
+
+defineEmits(['cancel-select'])
 
 const game = useGameStore()
 const { showingResult } = useDiceRoll()
@@ -26,51 +32,6 @@ const visible = computed(() =>
 </script>
 
 <style scoped>
-.overlay-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 24px 32px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(6px);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
-  min-width: 180px;
-}
-
-.overlay-label {
-  margin: 0;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: #888;
-}
-
-.overlay-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 20px;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.1s, opacity 0.15s;
-}
-
-.overlay-btn:active {
-  transform: scale(0.97);
-}
-
-.overlay-btn:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
 
 .btn-icon {
   font-size: 1.4rem;

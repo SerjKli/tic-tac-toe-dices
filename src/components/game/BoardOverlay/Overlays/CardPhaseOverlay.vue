@@ -1,24 +1,33 @@
 <template>
   <div class="overlay-panel card-phase-panel">
-<!--    <p class="overlay-label">{{ t('cards.phaseLabel') }}</p>-->
     <div class="actions">
       <button
-          class="card-btn draw-btn"
+          class="overlay-btn draw-btn"
           :disabled="drawDisabled"
           @click="game.drawCard()"
       >
         <span class="btn-text">{{ drawLabel }}</span>
-<!--        <span v-if="game.deckSize > 0 && !drawDisabled" class="deck-count">{{ game.deckSize }}</span>-->
       </button>
 
-      <p class="text-center" v-if="haveCards">
+      <p class="text-center" v-if="haveCards && !isSkipTurn">
         {{ t('cards.useCardHint') }}
       </p>
     </div>
 
-<!--    <button class="overlay-btn skip-btn" @click="game.skipCardInteraction()">-->
-<!--      {{ t('cards.skip') }}-->
-<!--    </button>-->
+    <div v-if="isSkipTurn" class="target-section">
+      <p class="target-hint">{{ t('cards.selectTarget') }}</p>
+      <PlayerStrip
+          v-for="p in otherPlayers"
+          :players="[p]"
+          :style="{ borderColor: p.color }"
+          @click="confirmUseCard(p.id)"
+          class="player-target-btn"
+      />
+    </div>
+
+    <button class="overlay-btn cancel-btn" @click="$emit('cancel-select')" v-if="isSkipTurn">
+      {{ t('cards.cancel') }}
+    </button>
   </div>
 </template>
 
@@ -27,9 +36,16 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '@/stores/gameStore.js'
 import { MAX_HAND_SIZE } from '@/core/constants.js'
+import PlayerStrip from "@/components/game/PlayerStrip.vue";
 
 const { t } = useI18n()
 const game = useGameStore()
+
+const props = defineProps({
+  selectedCardId: { type: String, default: null }
+})
+
+const emit = defineEmits(['cancel-select'])
 
 const drawDisabled = computed(() =>
   game.deckSize === 0 || game.myHand.length >= MAX_HAND_SIZE
@@ -41,8 +57,16 @@ const drawLabel = computed(() => {
   return t('cards.draw')
 })
 
+const haveCards = computed(() => game.myHand.length > 0)
 
-const haveCards = computed(() => {
-  return game.myHand.length > 0;
-})
+const isSkipTurn = computed(() => props.selectedCardId === 'SKIP_TURN')
+
+const otherPlayers = computed(() =>
+  game.state.players?.filter(p => p.id !== game.myPlayerId) ?? []
+)
+
+function confirmUseCard(targetPlayerId) {
+  game.useCard(props.selectedCardId, { targetPlayerId })
+  emit('cancel-select')
+}
 </script>

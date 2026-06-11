@@ -3,6 +3,7 @@ import { GameEngine } from '../core/GameEngine.js'
 import { GameState, GameMode } from '../core/constants.js'
 import { Board } from '../core/models/Board.js'
 import { Cell } from '../core/models/Cell.js'
+import { Player } from '../core/models/Player.js'
 
 export const STORAGE_KEY = 'tic-toe:game'
 
@@ -119,7 +120,13 @@ export class LocalGameService {
 
       this._engine.state = data.gameState
       this._engine.board = data.board ? this._boardFromData(data.board) : null
-      this._engine.players = data.players ?? []
+      this._engine.players = (data.players ?? []).map(p => {
+        const player = new Player({ id: p.id, name: p.name, mark: p.mark, color: p.color })
+        player.hand = p.hand ?? []
+        player.skipTurnCount = p.skipTurnCount ?? 0
+        player.extraTurnCount = p.extraTurnCount ?? 0
+        return player
+      })
       this._engine.currentPlayerIndex = data.currentPlayerIndex ?? 0
       this._engine.lastRoll = data.lastRoll ?? null
       this._engine.lastEvaluation = data.lastEvaluation ?? null

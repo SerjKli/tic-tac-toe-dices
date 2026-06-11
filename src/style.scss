@@ -36,6 +36,31 @@ button {
   }
 }
 
+.player-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+}
+
+.player-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transition: border-color 0.15s;
+  position: relative;
+}
+
+.player-chip.active {
+  border-color: var(--player-color);
+  background: color-mix(in srgb, var(--player-color) 8%, white);
+}
 
 .board-area {
   flex: 1;
@@ -300,17 +325,6 @@ a {
   }
 }
 
-.card-phase-panel {
-  background: #f8f4ff;
-  border: 2px solid #7c5cbf;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 220px;
-}
-
 .phase-label {
   margin: 0;
   font-size: 0.85rem;
@@ -326,7 +340,7 @@ a {
   gap: 8px;
 }
 
-.card-btn {
+.overlay-btn {
   padding: 10px 14px;
   border: none;
   border-radius: 8px;
@@ -340,7 +354,7 @@ a {
   gap: 6px;
 }
 
-.card-btn:disabled {
+.overlay-btn:disabled {
   opacity: 0.45;
   cursor: default;
 }
@@ -400,26 +414,65 @@ a {
   color: #999;
   border: 1px solid #ddd;
   font-size: 0.85rem;
-  padding: 7px 14px;
-}
 
-.cancel-btn:hover { background: #f5f5f5; color: #666; }
-
-.player-targets {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  &:hover {
+    background: #f5f5f5;
+    color: #666;
+  }
 }
 
 .player-target-btn {
-  padding: 6px 12px;
-  border: 2px solid;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
+  margin: 12px 0;
   transition: background 0.15s;
+  cursor: pointer;
+
+  &:hover {
+    background: #f5f5f5;
+  }
 }
 
-.player-target-btn:hover { background: #f5f5f5; }
+.overlay-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 32px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  width: 260px;
+}
+
+.overlay-label {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.overlay-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, opacity 0.15s;
+}
+
+.overlay-btn:active {
+  transform: scale(0.97);
+}
+
+.overlay-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

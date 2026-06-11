@@ -27,31 +27,6 @@ defineProps({
 </script>
 
 <style scoped>
-.player-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  width: 100%;
-}
-
-.player-chip {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: 2px solid transparent;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  transition: border-color 0.15s;
-  position: relative;
-}
-
-.player-chip.active {
-  border-color: var(--player-color);
-  background: color-mix(in srgb, var(--player-color) 8%, white);
-}
 
 .mark {
   font-size: 1.2rem;

@@ -32,7 +32,7 @@
             :winCells="game.state.winCells"
             @cell-click="handleCellClick($event)"
           />
-          <BoardActionOverlay />
+          <BoardActionOverlay :selectedCardId="selectedHandCardId" @cancel-select="selectedHandCardId = null" />
         </div>
         <p v-if="isDoubles && game.myTurn" class="doubles-notice">{{ t('game.doubles') }}</p>
 
