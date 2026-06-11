@@ -80,8 +80,8 @@ import PlayerStrip from '../components/game/PlayerStrip.vue'
 import WinBanner from '../components/game/WinBanner.vue'
 import ExitButton from '../components/game/ExitButton.vue'
 import EmojiPicker from '../components/game/EmojiPicker.vue'
-import CardPhasePanel from '@/components/game/CardPhasePanel.vue'
-import CardHand from '@/components/game/CardHand.vue'
+import CardPhasePanel from '@/components/game/Cards/CardPhasePanel.vue'
+import CardHand from '@/components/game/Cards/CardHand.vue'
 import BoardActionOverlay from '@/components/game/BoardOverlay/BoardActionOverlay.vue'
 
 const router = useRouter()
