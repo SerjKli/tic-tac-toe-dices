@@ -1,15 +1,13 @@
 import { defineStore } from 'pinia'
-import { computed, inject, ref } from 'vue'
+import { computed, inject } from 'vue'
 import { LocalGameService } from '../services/LocalGameService.js'
 import { gameServiceKey } from '../services/serviceKeys.js'
 import { GameState, GameMode, TurnAction } from '../core/constants.js'
+import { useCardStore } from './cardStore.js'
 
 export const useGameStore = defineStore('game', () => {
   const service = inject(gameServiceKey, () => new LocalGameService(), true)
   const state = service.state
-
-  // UI-only state for card board-targeting (Shield card)
-  const boardTargetCardId = ref(null)
 
   // ── Derived ──────────────────────────────────────────────────────────────────
 
@@ -42,20 +40,9 @@ export const useGameStore = defineStore('game', () => {
     service.isOnline ? service._playerId : state.currentPlayer?.id ?? null
   )
 
-  const myHand = computed(() => {
-    if (!isAdvanced.value) return []
-    const id = myPlayerId.value
-    if (!id) return []
-    const player = state.players?.find(p => p.id === id)
-    return player?.hand ?? []
-  })
-
-  const deckSize = computed(() => state.deck?.length ?? 0)
-
-  const activeCard = computed(() => state.activeCard)
-
   function isCandidateCell(row, col) {
-    if (boardTargetCardId.value === 'SHIELD') {
+    const cardStore = useCardStore()
+    if (cardStore.boardTargetCardId === 'SHIELD') {
       const cell = state.board?.getCell(row, col)
       return cell?.ownerId === state.currentPlayer?.id
     }
@@ -63,7 +50,8 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function getCandidateAction(row, col) {
-    if (boardTargetCardId.value === 'SHIELD') {
+    const cardStore = useCardStore()
+    if (cardStore.boardTargetCardId === 'SHIELD') {
       const cell = state.board?.getCell(row, col)
       return cell?.ownerId === state.currentPlayer?.id ? 'PLACE' : null
     }
@@ -92,27 +80,6 @@ export const useGameStore = defineStore('game', () => {
     service.skipTurn()
   }
 
-  function drawCard() {
-    service.drawCard()
-  }
-
-  function useCard(cardId, context = {}) {
-    service.useCard(cardId, context)
-    boardTargetCardId.value = null
-  }
-
-  function setBoardTarget(cardId) {
-    boardTargetCardId.value = cardId
-  }
-
-  function clearBoardTarget() {
-    boardTargetCardId.value = null
-  }
-
-  function skipCardInteraction() {
-    service.skipCardInteraction()
-  }
-
   function resetGame() {
     service.resetGame()
   }
@@ -134,11 +101,7 @@ export const useGameStore = defineStore('game', () => {
     currentTurnAction,
     candidateCells,
     allCandidates,
-    myHand,
-    deckSize,
-    activeCard,
     myPlayerId,
-    boardTargetCardId,
     isCandidateCell,
     getCandidateAction,
     getCellShieldCount,
@@ -146,11 +109,6 @@ export const useGameStore = defineStore('game', () => {
     rollDice,
     makeMove,
     skipTurn,
-    drawCard,
-    useCard,
-    skipCardInteraction,
-    setBoardTarget,
-    clearBoardTarget,
     resetGame,
     subscribeOnline
   }

@@ -10,6 +10,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useGameStore } from '@/stores/gameStore.js'
+import { useCardStore } from '@/stores/cardStore.js'
 import { useDiceRoll } from '@/composables/useDiceRoll.js'
 import RollDiceOverlay from './Overlays/RollDiceOverlay.vue'
 import CardPhaseOverlay from './Overlays/CardPhaseOverlay.vue'
@@ -21,12 +22,13 @@ defineProps({
 defineEmits(['cancel-select'])
 
 const game = useGameStore()
+const card = useCardStore()
 const { showingResult } = useDiceRoll()
 
 const visible = computed(() =>
   !game.isOver &&
   (game.myTurn || !game.isOnline) &&
-  !game.boardTargetCardId &&
+  !card.boardTargetCardId &&
   (game.isRolling || showingResult.value || (game.isCardPhase && game.isAdvanced))
 )
 </script>

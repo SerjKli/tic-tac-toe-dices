@@ -4,7 +4,7 @@
       <aside class="sidebar"  v-if="game.isAdvanced && (game.myTurn || !game.isOnline)">
         <CardHand
           v-if="game.isAdvanced && !game.isOver"
-          :cards="game.myHand"
+          :cards="card.myHand"
           :selectedCardId="selectedHandCardId"
           :disabled="handDisabled"
           :lockMessage="handLockMessage"
@@ -35,7 +35,7 @@
           <div class="status-message">
             <p v-if="isDoubles && game.myTurn" class="doubles-notice">{{ t('game.doubles') }}</p>
 
-            <p v-if="game.boardTargetCardId" class="hint shield-target-hint">{{ t('cards.shieldClickCell') }}</p>
+            <p v-if="card.boardTargetCardId" class="hint shield-target-hint">{{ t('cards.shieldClickCell') }}</p>
 
             <template v-if="game.myTurn || !game.isOnline">
               <template v-if="game.canSkip">
@@ -72,6 +72,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '../stores/gameStore.js'
+import { useCardStore } from '../stores/cardStore.js'
 import { TurnAction } from '../core/constants.js'
 import { useRoomStore } from '../stores/roomStore.js'
 import { useChatStore } from '../stores/chatStore.js'
@@ -87,6 +88,7 @@ import BoardActionOverlay from '@/components/game/BoardOverlay/BoardActionOverla
 const router = useRouter()
 const route = useRoute()
 const game = useGameStore()
+const card = useCardStore()
 const room = useRoomStore()
 const chat = useChatStore()
 const { t } = useI18n()
@@ -133,8 +135,8 @@ function handleRoll() {
 }
 
 function handleCellClick(event) {
-  if (game.boardTargetCardId) {
-    game.useCard(game.boardTargetCardId, { row: event.row, col: event.col })
+  if (card.boardTargetCardId) {
+    card.useCard(card.boardTargetCardId, { row: event.row, col: event.col })
     return
   }
   if (game.isChoosing && (game.myTurn || !game.isOnline)) game.makeMove(event)
@@ -155,7 +157,7 @@ const isDoubles = computed(() => game.state.lastRoll && game.state.lastRoll[0] =
 const myActionMessage = computed(() => {
   if (!game.currentTurnAction) return null
   if (game.canSkip) return null
-  if (game.boardTargetCardId) return null
+  if (card.boardTargetCardId) return null
   const map = {
     [TurnAction.SELECT_CARD]: t('game.turnAction.selectCard'),
     [TurnAction.ROLL_DICE]:   t('game.turnAction.rollDice'),

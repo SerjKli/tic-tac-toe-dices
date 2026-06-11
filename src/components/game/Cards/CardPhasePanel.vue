@@ -55,12 +55,14 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '@/stores/gameStore.js'
+import { useCardStore } from '@/stores/cardStore.js'
 import { CARDS } from '@/core/cards.js'
 import { MAX_HAND_SIZE } from '@/core/constants.js'
 import PlayerStrip from "@/components/game/PlayerStrip.vue";
 
 const { t } = useI18n()
 const game = useGameStore()
+const card = useCardStore()
 
 const props = defineProps({
   selectedCardId: { type: String, default: null }
@@ -68,8 +70,8 @@ const props = defineProps({
 
 const emit = defineEmits(['cancel-select'])
 
-const myHand = computed(() => game.myHand)
-const deckSize = computed(() => game.deckSize)
+const myHand = computed(() => card.myHand)
+const deckSize = computed(() => card.deckSize)
 
 const selectedDef = computed(() => props.selectedCardId ? CARDS[props.selectedCardId] : null)
 const isShield = computed(() => selectedDef.value?.id === 'SHIELD')
@@ -80,20 +82,20 @@ const otherPlayers = computed(() =>
 )
 
 function handleDraw() {
-  game.drawCard()
+  card.drawCard()
 }
 
 function handleSkip() {
-  game.skipCardInteraction()
+  card.skipCardInteraction()
 }
 
 function confirmUseCard(context) {
-  game.useCard(props.selectedCardId, context)
+  card.useCard(props.selectedCardId, context)
   emit('cancel-select')
 }
 
 function activateShieldTarget() {
-  game.setBoardTarget(props.selectedCardId)
+  card.setBoardTarget(props.selectedCardId)
   emit('cancel-select')
 }
 </script>
