@@ -35,24 +35,4 @@ function handleRoll() {
   gap: 12px;
 }
 
-.roll-btn {
-  padding: 10px 24px;
-  font-size: 1rem;
-  font-weight: 600;
-  background: #3498db;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.15s, opacity 0.15s;
-}
-
-.roll-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.roll-btn:not(:disabled):hover {
-  background: #2980b9;
-}
 </style>

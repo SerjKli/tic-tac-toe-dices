@@ -16,11 +16,11 @@
           :lockMessage="handLockMessage"
           @select="handleCardSelect"
         />
-        <DiceRoller
-          :roll="game.state.lastRoll"
-          :canRoll="game.isRolling && game.myTurn"
-          @roll="handleRoll"
-        />
+<!--        <DiceRoller-->
+<!--          :roll="game.state.lastRoll"-->
+<!--          :canRoll="game.isRolling && game.myTurn"-->
+<!--          @roll="handleRoll"-->
+<!--        />-->
       </aside>
 
       <main class="board-area">

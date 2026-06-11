@@ -1,46 +1,19 @@
 <template>
   <Transition name="overlay">
     <div v-if="visible" class="board-action-overlay">
-      <div class="overlay-panel">
-        <!-- Roll dice phase -->
-        <template v-if="game.isRolling">
-          <p class="overlay-label">{{ t('game.rollDice') }}</p>
-          <button class="overlay-btn roll-btn" @click="handleRoll">
-            <span class="btn-icon">🎲</span>
-            <span class="btn-text">{{ t('game.rollDice') }}</span>
-          </button>
-        </template>
-
-        <!-- Card phase -->
-        <template v-else-if="game.isCardPhase && game.isAdvanced">
-          <p class="overlay-label">{{ t('cards.phaseLabel') }}</p>
-          <button
-            class="overlay-btn draw-btn"
-            :disabled="drawDisabled"
-            @click="game.drawCard()"
-          >
-            <span class="btn-text">{{ drawLabel }}</span>
-            <span v-if="game.deckSize > 0 && !drawDisabled" class="deck-badge">{{ game.deckSize }}</span>
-          </button>
-          <button class="overlay-btn skip-btn" @click="game.skipCardInteraction()">
-            {{ t('cards.skip') }}
-          </button>
-        </template>
-      </div>
+      <RollDiceOverlay v-if="game.isRolling" />
+      <CardPhaseOverlay v-else-if="game.isCardPhase && game.isAdvanced" />
     </div>
   </Transition>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useGameStore } from '@/stores/gameStore.js'
-import { useDiceRoll } from '@/composables/useDiceRoll.js'
-import { MAX_HAND_SIZE } from '@/core/constants.js'
+import RollDiceOverlay from './Overlays/RollDiceOverlay.vue'
+import CardPhaseOverlay from './Overlays/CardPhaseOverlay.vue'
 
-const { t } = useI18n()
 const game = useGameStore()
-const { startRoll } = useDiceRoll()
 
 const visible = computed(() =>
   !game.isOver &&
@@ -48,25 +21,9 @@ const visible = computed(() =>
   !game.boardTargetCardId &&
   (game.isRolling || (game.isCardPhase && game.isAdvanced))
 )
-
-const drawDisabled = computed(() =>
-  game.deckSize === 0 || game.myHand.length >= MAX_HAND_SIZE
-)
-
-const drawLabel = computed(() => {
-  if (game.deckSize === 0) return t('cards.deckEmpty')
-  if (game.myHand.length >= MAX_HAND_SIZE) return t('cards.handFull')
-  return t('cards.draw')
-})
-
-function handleRoll() {
-  startRoll(() => game.rollDice())
-}
 </script>
 
 <style scoped>
-
-
 .overlay-panel {
   display: flex;
   flex-direction: column;
@@ -111,16 +68,6 @@ function handleRoll() {
 .overlay-btn:disabled {
   opacity: 0.4;
   cursor: default;
-}
-
-.roll-btn {
-  background: #3498db;
-  color: #fff;
-  font-size: 1.05rem;
-}
-
-.roll-btn:not(:disabled):hover {
-  background: #2980b9;
 }
 
 .btn-icon {
