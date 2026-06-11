@@ -46,38 +46,5 @@ function cardDef(card) {
 </script>
 
 <style scoped>
-.card-hand {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
 
-.hand-title {
-  margin: 0;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #999;
-}
-
-.not-your-turn-hint {
-  margin: 0;
-  font-size: 0.78rem;
-  color: #bbb;
-  font-style: italic;
-}
-
-.cards-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.empty-hand {
-  margin: 0;
-  font-size: 0.85rem;
-  color: #bbb;
-  font-style: italic;
-}
 </style>
