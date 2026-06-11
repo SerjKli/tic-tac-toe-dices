@@ -16,6 +16,15 @@ export default {
     shieldClickCell: 'Нажмите на свою клетку, чтобы защитить её',
     selectOnBoard: 'Выбрать на доске',
     emptyHand: 'Нет карт на руке',
+    cancel: 'Отмена',
+    useCardConfirm: 'Сыграть «{name}»?',
+    handTitle: 'Ваша рука',
+    notYourTurn: 'Сейчас не ваш ход',
+    type: {
+      defensive: 'Защита',
+      offensive: 'Атака',
+      expanding: 'Расширение'
+    },
     rowMark: { name: 'Строка', desc: 'Поставьте метку в любой клетке выпавших строк' },
     colMark: { name: 'Столбец', desc: 'Поставьте метку в любой клетке выпавших столбцов' },
     area3x3: { name: 'Область 3×3', desc: 'Поставьте метку в области 3×3 вокруг выпавшей клетки' },

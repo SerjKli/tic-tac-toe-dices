@@ -16,6 +16,15 @@ export default {
     shieldClickCell: 'Click one of your cells to shield it',
     selectOnBoard: 'Select on Board',
     emptyHand: 'No cards in hand',
+    cancel: 'Cancel',
+    useCardConfirm: 'Use {name}?',
+    handTitle: 'Your Hand',
+    notYourTurn: 'Not your turn',
+    type: {
+      defensive: 'Defensive',
+      offensive: 'Offensive',
+      expanding: 'Expanding'
+    },
     rowMark: { name: 'Row Mark', desc: 'Place your mark on any cell in the rolled rows' },
     colMark: { name: 'Col Mark', desc: 'Place your mark on any cell in the rolled columns' },
     area3x3: { name: '3×3 Area', desc: 'Place your mark in a 3×3 area around the rolled cell' },

@@ -2,28 +2,22 @@
   <div class="card-phase-panel">
     <p class="phase-label">{{ t('cards.phaseLabel') }}</p>
 
-    <div v-if="!showHand" class="actions">
+    <div class="actions">
       <button class="card-btn draw-btn" :disabled="deckSize === 0 || myHand.length >= MAX_HAND_SIZE" @click="handleDraw">
         {{ deckSize === 0 ? t('cards.deckEmpty') : myHand.length >= MAX_HAND_SIZE ? t('cards.handFull') : t('cards.draw') }}
         <span v-if="deckSize > 0" class="deck-count">{{ deckSize }}</span>
       </button>
-      <button class="card-btn hand-btn" :disabled="myHand.length === 0" @click="showHand = true">
-        {{ t('cards.useCard') }} ({{ myHand.length }})
-      </button>
       <button class="card-btn skip-btn" @click="handleSkip">{{ t('cards.skip') }}</button>
     </div>
 
-    <div v-else class="hand-view">
-      <p class="select-hint">{{ selectHint }}</p>
-      <CardHand
-        :cards="myHand"
-        :selectedCardId="selectedCardId"
-        @select="handleCardSelect"
-      />
+    <div v-if="selectedCardId && selectedDef" class="confirm-section">
+      <p class="confirm-label">
+        {{ t('cards.useCardConfirm', { name: t(selectedDef.nameKey) }) }}
+      </p>
 
-      <template v-if="selectedCardId && needsTarget">
+      <template v-if="isSkipTurn">
         <p class="target-hint">{{ t('cards.selectTarget') }}</p>
-        <div v-if="isSkipTurn" class="player-targets">
+        <div class="player-targets">
           <button
             v-for="p in otherPlayers"
             :key="p.id"
@@ -34,48 +28,46 @@
         </div>
       </template>
 
-      <template v-else-if="selectedCardId && isShield">
+      <template v-else-if="isShield">
         <p class="target-hint">{{ t('cards.shieldClickCell') }}</p>
         <button class="card-btn confirm-btn" @click="activateShieldTarget">{{ t('cards.selectOnBoard') }}</button>
       </template>
 
-      <template v-else-if="selectedCardId && !needsTarget">
+      <template v-else>
         <button class="card-btn confirm-btn" @click="confirmUseCard({})">{{ t('cards.confirm') }}</button>
       </template>
 
-      <button class="card-btn back-btn" @click="cancelHand">{{ t('cards.back') }}</button>
+      <button class="card-btn cancel-btn" @click="$emit('cancel-select')">{{ t('cards.cancel') }}</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '@/stores/gameStore.js'
 import { CARDS } from '@/core/cards.js'
 import { MAX_HAND_SIZE } from '@/core/constants.js'
-import CardHand from './CardHand.vue'
 
 const { t } = useI18n()
 const game = useGameStore()
 
+const props = defineProps({
+  selectedCardId: { type: String, default: null }
+})
+
+const emit = defineEmits(['cancel-select'])
+
 const myHand = computed(() => game.myHand)
 const deckSize = computed(() => game.deckSize)
-const showHand = ref(false)
-const selectedCardId = ref(null)
 
-const selectedDef = computed(() => selectedCardId.value ? CARDS[selectedCardId.value] : null)
-
+const selectedDef = computed(() => props.selectedCardId ? CARDS[props.selectedCardId] : null)
 const isShield = computed(() => selectedDef.value?.id === 'SHIELD')
 const isSkipTurn = computed(() => selectedDef.value?.id === 'SKIP_TURN')
-
-const needsTarget = computed(() => isSkipTurn.value)
 
 const otherPlayers = computed(() =>
   game.state.players?.filter(p => p.id !== game.myPlayerId) ?? []
 )
-
-const selectHint = computed(() => selectedCardId.value ? t('cards.cardSelected') : t('cards.selectCard'))
 
 function handleDraw() {
   game.drawCard()
@@ -85,24 +77,14 @@ function handleSkip() {
   game.skipCardInteraction()
 }
 
-function handleCardSelect(cardId) {
-  selectedCardId.value = selectedCardId.value === cardId ? null : cardId
-}
-
 function confirmUseCard(context) {
-  if (!selectedCardId.value) return
-  game.useCard(selectedCardId.value, context)
-  cancelHand()
+  game.useCard(props.selectedCardId, context)
+  emit('cancel-select')
 }
 
 function activateShieldTarget() {
-  game.setBoardTarget(selectedCardId.value)
-  cancelHand()
-}
-
-function cancelHand() {
-  showHand.value = false
-  selectedCardId.value = null
+  game.setBoardTarget(props.selectedCardId)
+  emit('cancel-select')
 }
 </script>
 
@@ -159,14 +141,6 @@ function cancelHand() {
 
 .draw-btn:not(:disabled):hover { background: #6a4ca8; }
 
-.hand-btn {
-  background: #fff;
-  color: #7c5cbf;
-  border: 2px solid #7c5cbf;
-}
-
-.hand-btn:not(:disabled):hover { background: #f0eaff; }
-
 .skip-btn {
   background: #eee;
   color: #666;
@@ -182,13 +156,22 @@ function cancelHand() {
   font-size: 0.8rem;
 }
 
-.hand-view {
+.confirm-section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  border-top: 1px solid #e0d5f5;
+  padding-top: 12px;
 }
 
-.select-hint, .target-hint {
+.confirm-label {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4a3080;
+}
+
+.target-hint {
   margin: 0;
   font-size: 0.85rem;
   color: #7c5cbf;
@@ -201,12 +184,15 @@ function cancelHand() {
 
 .confirm-btn:hover { background: #229954; }
 
-.back-btn {
-  background: #eee;
-  color: #666;
+.cancel-btn {
+  background: transparent;
+  color: #999;
+  border: 1px solid #ddd;
+  font-size: 0.85rem;
+  padding: 7px 14px;
 }
 
-.back-btn:hover { background: #ddd; }
+.cancel-btn:hover { background: #f5f5f5; color: #666; }
 
 .player-targets {
   display: flex;

@@ -5,6 +5,16 @@
 <!--        <PlayerInfo v-if="game.state.currentPlayer" :player="game.state.currentPlayer" />-->
         <CardPhasePanel
           v-if="game.isAdvanced && game.isCardPhase && (game.myTurn || !game.isOnline)"
+          :selectedCardId="selectedHandCardId"
+          @cancel-select="selectedHandCardId = null"
+        />
+        <CardHand
+          v-if="game.isAdvanced && !game.isOver"
+          :cards="game.myHand"
+          :selectedCardId="selectedHandCardId"
+          :disabled="handDisabled"
+          :lockMessage="handLockMessage"
+          @select="handleCardSelect"
         />
         <DiceRoller
           :roll="game.state.lastRoll"
@@ -71,7 +81,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '../stores/gameStore.js'
@@ -87,6 +97,7 @@ import EmojiPicker from '../components/game/EmojiPicker.vue'
 import LanguageSelector from '@/components/LanguageSelector.vue'
 import FloatingRollDiceButton from "@/components/game/FloatingRollDiceButton.vue"
 import CardPhasePanel from '@/components/game/CardPhasePanel.vue'
+import CardHand from '@/components/game/CardHand.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -101,6 +112,25 @@ const myPlayerId = computed(() =>
   game.isOnline ? room.myPlayerId : game.state.currentPlayer?.id ?? null
 )
 
+const selectedHandCardId = ref(null)
+
+const handDisabled = computed(() =>
+  !game.isCardPhase || (game.isOnline && !game.myTurn)
+)
+
+const handLockMessage = computed(() => {
+  if (!game.isCardPhase) return null
+  if (game.isOnline && !game.myTurn) return t('cards.notYourTurn')
+  return null
+})
+
+watch(() => game.isCardPhase, (active) => {
+  if (!active) selectedHandCardId.value = null
+})
+
+function handleCardSelect(cardId) {
+  selectedHandCardId.value = selectedHandCardId.value === cardId ? null : cardId
+}
 
 onMounted(() => {
   if (game.isOnline) {
