@@ -7,12 +7,14 @@
     @click="$emit('click', { row: cell.row, col: cell.col })"
   >
     <span v-if="cell.ownerId" class="cell-mark">{{ playerMark }}</span>
-    <span v-if="hasShield" class="shield-badge">🛡️</span>
+
+    <GameCellEffects :cell="props.cell"/>
   </button>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import GameCellEffects from "@/components/game/GameCellEffects.vue";
 
 const props = defineProps({
   cell: { type: Object, required: true },
@@ -28,7 +30,6 @@ const owner = computed(() =>
 )
 const playerMark = computed(() => owner.value?.mark ?? '')
 const ownerColor = computed(() => owner.value?.color ?? null)
-const hasShield = computed(() => (props.cell.shieldCount ?? 0) > 0)
 </script>
 
 <style scoped>
@@ -44,6 +45,7 @@ const hasShield = computed(() => (props.cell.shieldCount ?? 0) > 0)
   font-size: clamp(1rem, 7vw, 2rem);
   transition: background 0.15s, transform 0.1s, border-color 0.15s;
   color: var(--owner-color, #333);
+  position: relative;
 }
 
 .game-cell.is-candidate {
@@ -78,13 +80,7 @@ const hasShield = computed(() => (props.cell.shieldCount ?? 0) > 0)
   display: block;
   line-height: 1;
   user-select: none;
+  z-index: 999;
 }
 
-.shield-badge {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  font-size: 0.6rem;
-  line-height: 1;
-}
 </style>

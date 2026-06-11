@@ -23,11 +23,17 @@
           @click="confirmUseCard(p.id)"
           class="player-target-btn"
       />
+
+      <button class="overlay-btn cancel-btn" @click="card.clearSelectedCard()">
+        {{ t('cards.cancel') }}
+      </button>
     </div>
 
-    <button class="overlay-btn cancel-btn" @click="card.clearSelectedCard()" v-if="isSkipTurn">
-      {{ t('cards.cancel') }}
-    </button>
+    <template v-else-if="isShield">
+      <p class="target-hint">{{ t('cards.shieldClickCell') }}</p>
+      <button class="overlay-btn confirm-btn" @click="activateShieldTarget">{{ t('cards.selectOnBoard') }}</button>
+    </template>
+
   </div>
 </template>
 
@@ -38,6 +44,7 @@ import { useGameStore } from '@/stores/gameStore.js'
 import { useCardStore } from '@/stores/cardStore.js'
 import { MAX_HAND_SIZE } from '@/core/constants.js'
 import PlayerStrip from "@/components/game/PlayerStrip.vue";
+import {CARDS} from "@/core/cards.js";
 
 const { t } = useI18n()
 const game = useGameStore()
@@ -55,7 +62,9 @@ const drawLabel = computed(() => {
 
 const haveCards = computed(() => card.myHand.length > 0)
 
+const selectedDef = computed(() => card.selectedCardId ? CARDS[card.selectedCardId] : null)
 const isSkipTurn = computed(() => card.selectedCardId === 'SKIP_TURN')
+const isShield = computed(() => selectedDef.value?.id === 'SHIELD')
 
 const otherPlayers = computed(() =>
   game.state.players?.filter(p => p.id !== game.myPlayerId) ?? []
@@ -63,5 +72,10 @@ const otherPlayers = computed(() =>
 
 function confirmUseCard(targetPlayerId) {
   card.useCard(card.selectedCardId, { targetPlayerId })
+}
+
+function activateShieldTarget() {
+  card.setBoardTarget(card.selectedCardId)
+  card.clearSelectedCard()
 }
 </script>
