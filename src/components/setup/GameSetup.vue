@@ -40,9 +40,11 @@
 <!--      <p v-if="settings.gameMode === 'ADVANCED'" class="mode-hint">{{ t('setup.gameModeAdvancedHint') }}</p>-->
     </section>
 
-    <button class="start-btn" @click="$emit('start', { mode })">
-      {{ mode === 'online' ? t('setup.createRoom') : t('setup.startGame') }}
-    </button>
+    <div class="section">
+      <button class="start-btn" @click="$emit('start', { mode })">
+        {{ mode === 'online' ? t('setup.createRoom') : t('setup.startGame') }}
+      </button>
+    </div>
 
     <section v-if="mode === 'local'" class="section players-grid">
       <PlayerCard

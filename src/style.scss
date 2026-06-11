@@ -147,17 +147,17 @@ a {
   overflow: hidden;
 }
 
+.game-mode-difficulty {
+  .toggle-row{
+    border: 2px solid #7c5cbf;
 
+    .mode-btn {
+      color: #7c5cbf;
+    }
 
-.game-mode-difficulty .toggle-row{
-  border: 2px solid #7c5cbf;
-}
-
-.game-mode-difficulty .toggle-row .mode-btn {
-  color: #7c5cbf;
-}
-
-.game-mode-difficulty .toggle-row .mode-btn.active {
-  background: #7c5cbf;
-  color: #fff;
+    .mode-btn.active {
+      background: #7c5cbf;
+      color: #fff;
+    }
+  }
 }
