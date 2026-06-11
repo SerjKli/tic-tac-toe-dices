@@ -18,6 +18,7 @@ export default {
     emptyHand: 'No cards in hand',
     cancel: 'Cancel',
     useCardConfirm: 'Use {name}?',
+    useCardHint: 'Or use your card in hand',
     handTitle: 'Your Hand',
     notYourTurn: 'Not your turn',
     type: {

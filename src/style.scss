@@ -27,14 +27,15 @@ button {
   display: flex;
   gap: 32px;
   align-items: center;
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 320px;
+  }
 }
 
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  min-width: 220px;
-}
 
 .board-area {
   flex: 1;
