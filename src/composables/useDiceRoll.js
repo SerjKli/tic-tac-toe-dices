@@ -3,30 +3,29 @@ import { ref } from 'vue'
 // Module-level singletons — shared across all component instances
 const isAnimating = ref(false)
 const justLanded = ref(false)
+const showingResult = ref(false)
 const animValues = ref([1, 1])
 let intervalId = null
 let timeoutId = null
-let safetyTimeoutId = null
-
-function land() {
-  clearTimeout(safetyTimeoutId)
-  isAnimating.value = false
-  justLanded.value = true
-  setTimeout(() => { justLanded.value = false }, 500)
-}
+let showingResultTimeoutId = null
 
 export function useDiceRoll() {
   function notifyRollArrived() {
-    if (isAnimating.value) land()
+    if (isAnimating.value) {
+      isAnimating.value = false
+      justLanded.value = true
+      setTimeout(() => { justLanded.value = false }, 500)
+    }
   }
 
   function startRoll(onRollEmit) {
     isAnimating.value = true
     justLanded.value = false
+    showingResult.value = false
 
     clearInterval(intervalId)
     clearTimeout(timeoutId)
-    clearTimeout(safetyTimeoutId)
+    clearTimeout(showingResultTimeoutId)
 
     intervalId = setInterval(() => {
       animValues.value = [
@@ -37,10 +36,16 @@ export function useDiceRoll() {
 
     timeoutId = setTimeout(() => {
       clearInterval(intervalId)
+      isAnimating.value = false
+      justLanded.value = true
+      setTimeout(() => { justLanded.value = false }, 500)
       onRollEmit()
-      safetyTimeoutId = setTimeout(land, 2000)
+      showingResult.value = true
+      showingResultTimeoutId = setTimeout(() => {
+        showingResult.value = false
+      }, 1000)
     }, 700)
   }
 
-  return { isAnimating, justLanded, animValues, startRoll, notifyRollArrived }
+  return { isAnimating, justLanded, showingResult, animValues, startRoll, notifyRollArrived }
 }

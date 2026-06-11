@@ -1,6 +1,6 @@
 <template>
   <div class="overlay-panel">
-    <DiceFaces :roll="roll" v-if="isAnimating"/>
+    <DiceFaces :roll="showingResult ? game.state.lastRoll : null" v-if="isAnimating || showingResult"/>
 
     <template v-else>
       <p class="overlay-label">{{ t('game.rollDice') }}</p>
@@ -20,8 +20,7 @@ import DiceFaces from "@/components/game/DiceFaces.vue";
 
 const { t } = useI18n()
 const game = useGameStore()
-const { startRoll,isAnimating } = useDiceRoll()
-
+const { startRoll, isAnimating, showingResult } = useDiceRoll()
 
 function handleRoll() {
   startRoll(() => game.rollDice())
