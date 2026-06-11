@@ -526,3 +526,17 @@ a {
   color: #bbb;
   font-style: italic;
 }
+
+@keyframes pop-bounce {
+  0%   { transform: scale(0) rotate(-25deg) translateY(10px); opacity: 0; filter: blur(3px); }
+  45%  { transform: scale(1.45) rotate(10deg) translateY(-8px); opacity: 1; filter: blur(0); }
+  65%  { transform: scale(0.82) rotate(-5deg) translateY(2px); }
+  80%  { transform: scale(1.15) rotate(3deg) translateY(-2px); }
+  92%  { transform: scale(0.95) rotate(-1deg) translateY(0); }
+  100% { transform: scale(1) rotate(0deg) translateY(0); opacity: 1; }
+}
+
+.pop-in {
+  animation: pop-bounce 0.55s ease forwards;
+  transform-origin: center bottom;
+}

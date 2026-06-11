@@ -22,6 +22,8 @@
       </template>
     </svg>
 
+    <span v-if="cardAmount > 1" :key="cardAmount" class="card-amount pop-in">×{{ cardAmount }}</span>
+
     <div class="card-inner">
 
       <span class="card-type-badge" v-if="card.type === 'OFFENSIVE'">
@@ -53,7 +55,8 @@ const { t } = useI18n()
 defineProps({
   card: { type: Card, required: true },
   selected: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false }
+  disabled: { type: Boolean, default: false },
+  cardAmount: { type: Number, default: 1 }
 })
 
 defineEmits(['select'])
@@ -63,11 +66,11 @@ defineEmits(['select'])
 .card-item {
   position: relative;
   width: 100%;
-  height: 140px;
+  height: 160px;
   background: #fff;
   border: 1.5px solid color-mix(in srgb, var(--card-color) 25%, #e4e4e4);
   border-radius: 10px;
-  overflow: hidden;
+  //overflow: hidden;
   cursor: pointer;
   transition: border-color 0.15s, box-shadow 0.15s, transform 0.12s, opacity 0.15s;
   text-align: left;
@@ -103,6 +106,26 @@ defineEmits(['select'])
   cursor: not-allowed;
 }
 
+.card-amount {
+  position: absolute;
+  top: -13px;
+  right: 8px;
+  z-index: 3;
+  width: 26px;
+  height: 26px;
+  padding: 0 4px;
+  border-radius: 13px;
+  background: var(--card-color);
+  color: #fff;
+  font-size: 0.8rem;
+  text-align: center;
+  box-sizing: border-box;
+  transform: rotate(-30deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .card-geo {
   position: absolute;
   top: 0;
@@ -129,13 +152,13 @@ defineEmits(['select'])
   color: var(--card-color);
   background: color-mix(in srgb, var(--card-color) 10%, white);
   border: 1px solid color-mix(in srgb, var(--card-color) 25%, transparent);
-  border-radius: 50%;
+  border-radius: 10px 0 10px 0;
   padding: 2px 3px;
   align-self: flex-start;
   white-space: nowrap;
   position: absolute;
-  bottom: -3px;
-  right: -5px;
+  bottom: -1px;
+  right: -1px;
 }
 
 .card-content {

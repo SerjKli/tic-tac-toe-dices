@@ -9,7 +9,7 @@
     >
       <span class="mark">{{ player.mark }}</span>
       <span class="name">{{ player.name }}</span>
-      <span v-if="playerEmojis[player.id]" class="chat-emoji" :key="playerEmojis[player.id]">{{ playerEmojis[player.id] }}</span>
+      <span v-if="playerEmojis[player.id]" class="chat-emoji pop-in" :key="playerEmojis[player.id]">{{ playerEmojis[player.id] }}</span>
 
       <PlayerDebuffs :player="player" />
     </div>
@@ -52,8 +52,6 @@ defineProps({
   position: absolute;
   top: -12px;
   left: -12px;
-  animation: emoji-pop 0.55s ease forwards;
-  transform-origin: center bottom;
 }
 
 .chat-emoji::after {
@@ -66,12 +64,4 @@ defineProps({
   border-radius: 4px;
 }
 
-@keyframes emoji-pop {
-  0%   { transform: scale(0) rotate(-25deg) translateY(10px); opacity: 0; filter: blur(3px); }
-  45%  { transform: scale(1.45) rotate(10deg) translateY(-8px); opacity: 1; filter: blur(0); }
-  65%  { transform: scale(0.82) rotate(-5deg) translateY(2px); }
-  80%  { transform: scale(1.15) rotate(3deg) translateY(-2px); }
-  92%  { transform: scale(0.95) rotate(-1deg) translateY(0); }
-  100% { transform: scale(1) rotate(0deg) translateY(0); opacity: 1; }
-}
 </style>

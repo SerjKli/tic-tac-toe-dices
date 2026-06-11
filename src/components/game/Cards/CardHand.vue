@@ -5,10 +5,11 @@
 
     <div v-if="cardStore.myHand.length > 0" class="cards-list">
       <CardItem
-        v-for="card in cardStore.myHand"
-        :key="card.instanceId"
-        :card="cardDef(card)"
-        :selected="cardStore.selectedCardId === card.cardId"
+        v-for="group in groupedHand"
+        :key="group.cardId"
+        :card="cardDef(group)"
+        :card-amount="group.amount"
+        :selected="cardStore.selectedCardId === group.cardId"
         :disabled="disabled"
         @select="cardStore.selectCard($event)"
       />
@@ -31,6 +32,17 @@ const game = useGameStore()
 
 defineProps({
   showTitle: { type: Boolean, default: true }
+})
+
+const groupedHand = computed(() => {
+  const groups = {}
+  for (const card of cardStore.myHand) {
+    if (!groups[card.cardId]) {
+      groups[card.cardId] = { ...card, amount: 0 }
+    }
+    groups[card.cardId].amount++
+  }
+  return Object.values(groups)
 })
 
 const disabled = computed(() =>
