@@ -116,12 +116,8 @@ button {
 }
 
 @media (max-width: 600px) {
-  .game-view {
-    padding-top: 64px;
-  }
-
   .game-layout {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
   }
 

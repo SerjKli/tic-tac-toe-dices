@@ -3,14 +3,14 @@
     <p class="phase-label">{{ t('cards.phaseLabel') }}</p>
 
     <div class="actions">
-      <button class="overlay-btn draw-btn" :disabled="deckSize === 0 || myHand.length >= MAX_HAND_SIZE" @click="handleDraw">
-        {{ deckSize === 0 ? t('cards.deckEmpty') : myHand.length >= MAX_HAND_SIZE ? t('cards.handFull') : t('cards.draw') }}
-        <span v-if="deckSize > 0" class="deck-count">{{ deckSize }}</span>
+      <button class="overlay-btn draw-btn" :disabled="card.deckSize === 0 || card.myHand.length >= MAX_HAND_SIZE" @click="handleDraw">
+        {{ card.deckSize === 0 ? t('cards.deckEmpty') : card.myHand.length >= MAX_HAND_SIZE ? t('cards.handFull') : t('cards.draw') }}
+        <span v-if="card.deckSize > 0" class="deck-count">{{ card.deckSize }}</span>
       </button>
       <button class="overlay-btn skip-btn" @click="handleSkip">{{ t('cards.skip') }}</button>
     </div>
 
-    <div v-if="selectedCardId && selectedDef" class="confirm-section">
+    <div v-if="card.selectedCardId && selectedDef" class="confirm-section">
       <p class="confirm-label">
         {{ t('cards.useCardConfirm', { name: t(selectedDef.nameKey) }) }}
       </p>
@@ -18,21 +18,10 @@
       <template v-if="isSkipTurn">
         <p class="target-hint">{{ t('cards.selectTarget') }}</p>
 
-
         <PlayerStrip
             v-if="game.state.players?.length"
             :players="otherPlayers"
         />
-
-<!--        <div class="player-targets">-->
-<!--          <button-->
-<!--            v-for="p in otherPlayers"-->
-<!--            :key="p.id"-->
-<!--            class="player-target-btn"-->
-<!--            :style="{ borderColor: p.color }"-->
-<!--            @click="confirmUseCard({ targetPlayerId: p.id })"-->
-<!--          >{{ p.name }}</button>-->
-<!--        </div>-->
       </template>
 
       <template v-else-if="isShield">
@@ -44,7 +33,7 @@
         <button class="overlay-btn confirm-btn" @click="confirmUseCard({})">{{ t('cards.confirm') }}</button>
       </template>
 
-      <button class="overlay-btn cancel-btn" @click="$emit('cancel-select')">{{ t('cards.cancel') }}</button>
+      <button class="overlay-btn cancel-btn" @click="card.clearSelectedCard()">{{ t('cards.cancel') }}</button>
     </div>
 
 
@@ -64,16 +53,7 @@ const { t } = useI18n()
 const game = useGameStore()
 const card = useCardStore()
 
-const props = defineProps({
-  selectedCardId: { type: String, default: null }
-})
-
-const emit = defineEmits(['cancel-select'])
-
-const myHand = computed(() => card.myHand)
-const deckSize = computed(() => card.deckSize)
-
-const selectedDef = computed(() => props.selectedCardId ? CARDS[props.selectedCardId] : null)
+const selectedDef = computed(() => card.selectedCardId ? CARDS[card.selectedCardId] : null)
 const isShield = computed(() => selectedDef.value?.id === 'SHIELD')
 const isSkipTurn = computed(() => selectedDef.value?.id === 'SKIP_TURN')
 
@@ -90,13 +70,12 @@ function handleSkip() {
 }
 
 function confirmUseCard(context) {
-  card.useCard(props.selectedCardId, context)
-  emit('cancel-select')
+  card.useCard(card.selectedCardId, context)
 }
 
 function activateShieldTarget() {
-  card.setBoardTarget(props.selectedCardId)
-  emit('cancel-select')
+  card.setBoardTarget(card.selectedCardId)
+  card.clearSelectedCard()
 }
 </script>
 

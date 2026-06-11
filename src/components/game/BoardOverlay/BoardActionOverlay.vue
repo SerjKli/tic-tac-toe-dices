@@ -2,7 +2,7 @@
   <Transition name="overlay">
     <div v-if="visible" class="board-action-overlay">
       <RollDiceOverlay v-if="game.isRolling || showingResult" />
-      <CardPhaseOverlay v-else-if="game.isCardPhase && game.isAdvanced" :selectedCardId="selectedCardId" @cancel-select="$emit('cancel-select')" />
+      <CardPhaseOverlay v-else-if="game.isCardPhase && game.isAdvanced" />
     </div>
   </Transition>
 </template>
@@ -14,12 +14,6 @@ import { useCardStore } from '@/stores/cardStore.js'
 import { useDiceRoll } from '@/composables/useDiceRoll.js'
 import RollDiceOverlay from './Overlays/RollDiceOverlay.vue'
 import CardPhaseOverlay from './Overlays/CardPhaseOverlay.vue'
-
-defineProps({
-  selectedCardId: { type: String, default: null }
-})
-
-defineEmits(['cancel-select'])
 
 const game = useGameStore()
 const card = useCardStore()

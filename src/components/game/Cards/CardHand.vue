@@ -3,14 +3,14 @@
     <p v-if="showTitle" class="hand-title">{{ t('cards.handTitle') }}</p>
     <p v-if="lockMessage" class="not-your-turn-hint">{{ lockMessage }}</p>
 
-    <div v-if="cards.length > 0" class="cards-list">
+    <div v-if="cardStore.myHand.length > 0" class="cards-list">
       <CardItem
-        v-for="card in cards"
+        v-for="card in cardStore.myHand"
         :key="card.instanceId"
         :card="cardDef(card)"
-        :selected="selectedCardId === card.cardId"
+        :selected="cardStore.selectedCardId === card.cardId"
         :disabled="disabled"
-        @select="$emit('select', card.cardId)"
+        @select="cardStore.selectCard($event)"
       />
     </div>
     <p v-else class="empty-hand">{{ t('cards.emptyHand') }}</p>
@@ -18,21 +18,30 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useCardStore } from '@/stores/cardStore.js'
+import { useGameStore } from '@/stores/gameStore.js'
 import { CARDS } from '@/core/cards.js'
 import CardItem from './CardItem.vue'
 
 const { t } = useI18n()
+const cardStore = useCardStore()
+const game = useGameStore()
 
 defineProps({
-  cards: { type: Array, default: () => [] },
-  selectedCardId: { type: String, default: null },
-  disabled: { type: Boolean, default: false },
-  showTitle: { type: Boolean, default: true },
-  lockMessage: { type: String, default: null }
+  showTitle: { type: Boolean, default: true }
 })
 
-defineEmits(['select'])
+const disabled = computed(() =>
+  !cardStore.isCardPhase || (game.isOnline && !game.myTurn)
+)
+
+const lockMessage = computed(() => {
+  if (!cardStore.isCardPhase) return null
+  if (game.isOnline && !game.myTurn) return t('cards.notYourTurn')
+  return null
+})
 
 function cardDef(card) {
   return CARDS[card.cardId] ?? {

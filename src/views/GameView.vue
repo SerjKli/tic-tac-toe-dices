@@ -2,14 +2,7 @@
   <div class="game-view">
     <div class="game-layout">
       <aside class="sidebar"  v-if="game.isAdvanced && (game.myTurn || !game.isOnline)">
-        <CardHand
-          v-if="game.isAdvanced && !game.isOver"
-          :cards="card.myHand"
-          :selectedCardId="selectedHandCardId"
-          :disabled="handDisabled"
-          :lockMessage="handLockMessage"
-          @select="handleCardSelect"
-        />
+        <CardHand v-if="game.isAdvanced && !game.isOver" />
       </aside>
 
       <main class="board-area">
@@ -28,7 +21,7 @@
             :winCells="game.state.winCells"
             @cell-click="handleCellClick($event)"
           />
-          <BoardActionOverlay :selectedCardId="selectedHandCardId" @cancel-select="selectedHandCardId = null" />
+          <BoardActionOverlay />
         </div>
 
         <div class="status-line">
@@ -68,7 +61,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '../stores/gameStore.js'
@@ -81,7 +74,6 @@ import PlayerStrip from '../components/game/PlayerStrip.vue'
 import WinBanner from '../components/game/WinBanner.vue'
 import ExitButton from '../components/game/ExitButton.vue'
 import EmojiPicker from '../components/game/EmojiPicker.vue'
-import CardPhasePanel from '@/components/game/Cards/CardPhasePanel.vue'
 import CardHand from '@/components/game/Cards/CardHand.vue'
 import BoardActionOverlay from '@/components/game/BoardOverlay/BoardActionOverlay.vue'
 
@@ -98,26 +90,6 @@ const onlineRoomId = computed(() => route.query.room ?? null)
 const myPlayerId = computed(() =>
   game.isOnline ? room.myPlayerId : game.state.currentPlayer?.id ?? null
 )
-
-const selectedHandCardId = ref(null)
-
-const handDisabled = computed(() =>
-  !game.isCardPhase || (game.isOnline && !game.myTurn)
-)
-
-const handLockMessage = computed(() => {
-  if (!game.isCardPhase) return null
-  if (game.isOnline && !game.myTurn) return t('cards.notYourTurn')
-  return null
-})
-
-watch(() => game.isCardPhase, (active) => {
-  if (!active) selectedHandCardId.value = null
-})
-
-function handleCardSelect(cardId) {
-  selectedHandCardId.value = selectedHandCardId.value === cardId ? null : cardId
-}
 
 onMounted(() => {
   if (game.isOnline) {

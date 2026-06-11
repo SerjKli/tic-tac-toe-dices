@@ -1,20 +1,26 @@
 import { defineStore } from 'pinia'
-import { computed, inject, ref } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 import { LocalGameService } from '../services/LocalGameService.js'
 import { gameServiceKey } from '../services/serviceKeys.js'
-import { GameMode } from '../core/constants.js'
+import { GameMode, GameState } from '../core/constants.js'
 
 export const useCardStore = defineStore('card', () => {
   const service = inject(gameServiceKey, () => new LocalGameService(), true)
   const state = service.state
 
+  // ── Refs ─────────────────────────────────────────────────────────────────────
+
   const boardTargetCardId = ref(null)
+  const selectedCardId = ref(null)
+
+  // ── Derived ───────────────────────────────────────────────────────────────────
 
   const myPlayerId = computed(() =>
     service.isOnline ? service._playerId : state.currentPlayer?.id ?? null
   )
 
   const isAdvanced = computed(() => state.gameMode === GameMode.ADVANCED)
+  const isCardPhase = computed(() => state.gameState === GameState.CARD_PHASE)
 
   const myHand = computed(() => {
     if (!isAdvanced.value) return []
@@ -27,6 +33,20 @@ export const useCardStore = defineStore('card', () => {
 
   const activeCard = computed(() => state.activeCard)
 
+  watch(isCardPhase, (active) => {
+    if (!active) selectedCardId.value = null
+  })
+
+  // ── Actions ───────────────────────────────────────────────────────────────────
+
+  function selectCard(cardId) {
+    selectedCardId.value = selectedCardId.value === cardId ? null : cardId
+  }
+
+  function clearSelectedCard() {
+    selectedCardId.value = null
+  }
+
   function drawCard() {
     service.drawCard()
   }
@@ -34,6 +54,7 @@ export const useCardStore = defineStore('card', () => {
   function useCard(cardId, context = {}) {
     service.useCard(cardId, context)
     boardTargetCardId.value = null
+    selectedCardId.value = null
   }
 
   function setBoardTarget(cardId) {
@@ -46,14 +67,19 @@ export const useCardStore = defineStore('card', () => {
 
   function skipCardInteraction() {
     service.skipCardInteraction()
+    selectedCardId.value = null
   }
 
   return {
     boardTargetCardId,
+    selectedCardId,
     isAdvanced,
+    isCardPhase,
     myHand,
     deckSize,
     activeCard,
+    selectCard,
+    clearSelectedCard,
     drawCard,
     useCard,
     setBoardTarget,

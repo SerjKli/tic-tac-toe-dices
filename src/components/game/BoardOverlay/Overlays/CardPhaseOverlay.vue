@@ -25,7 +25,7 @@
       />
     </div>
 
-    <button class="overlay-btn cancel-btn" @click="$emit('cancel-select')" v-if="isSkipTurn">
+    <button class="overlay-btn cancel-btn" @click="card.clearSelectedCard()" v-if="isSkipTurn">
       {{ t('cards.cancel') }}
     </button>
   </div>
@@ -43,12 +43,6 @@ const { t } = useI18n()
 const game = useGameStore()
 const card = useCardStore()
 
-const props = defineProps({
-  selectedCardId: { type: String, default: null }
-})
-
-const emit = defineEmits(['cancel-select'])
-
 const drawDisabled = computed(() =>
   card.deckSize === 0 || card.myHand.length >= MAX_HAND_SIZE
 )
@@ -61,14 +55,13 @@ const drawLabel = computed(() => {
 
 const haveCards = computed(() => card.myHand.length > 0)
 
-const isSkipTurn = computed(() => props.selectedCardId === 'SKIP_TURN')
+const isSkipTurn = computed(() => card.selectedCardId === 'SKIP_TURN')
 
 const otherPlayers = computed(() =>
   game.state.players?.filter(p => p.id !== game.myPlayerId) ?? []
 )
 
 function confirmUseCard(targetPlayerId) {
-  card.useCard(props.selectedCardId, { targetPlayerId })
-  emit('cancel-select')
+  card.useCard(card.selectedCardId, { targetPlayerId })
 }
 </script>
