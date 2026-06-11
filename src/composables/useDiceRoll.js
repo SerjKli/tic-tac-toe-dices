@@ -43,7 +43,7 @@ export function useDiceRoll() {
       showingResult.value = true
       showingResultTimeoutId = setTimeout(() => {
         showingResult.value = false
-      }, 1000)
+      }, 700)
     }, 700)
   }
 

@@ -28,8 +28,5 @@ function pick(emoji) {
 </script>
 
 <style scoped>
-#emoji-button-wrapper{
-  right: 90px;
-}
 
 </style>
