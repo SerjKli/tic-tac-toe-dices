@@ -5,7 +5,7 @@
     <template v-else>
       <p class="overlay-label">{{ t('game.rollDice') }}</p>
       <button class="overlay-btn roll-btn" @click="handleRoll">
-        <span class="btn-icon">🎲</span>
+        <span class="btn-icon">🎲</span> &nbsp;
         <span class="btn-text">{{ t('game.rollDice') }}</span>
       </button>
     </template>
