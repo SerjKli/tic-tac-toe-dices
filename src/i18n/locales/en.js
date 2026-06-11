@@ -1,6 +1,32 @@
 export default {
   gameName: 'Tic-Tac-',
   gameNameSubtitle: 'Dice',
+  cards: {
+    phaseLabel: 'Card Phase',
+    draw: 'Draw Card',
+    deckEmpty: 'Deck Empty',
+    handFull: 'Hand Full',
+    useCard: 'Use Card',
+    skip: 'Skip',
+    confirm: 'Confirm',
+    back: 'Back',
+    selectCard: 'Select a card to use',
+    cardSelected: 'Card selected',
+    selectTarget: 'Select a target',
+    shieldClickCell: 'Click one of your cells to shield it',
+    selectOnBoard: 'Select on Board',
+    emptyHand: 'No cards in hand',
+    rowMark: { name: 'Row Mark', desc: 'Place your mark on any cell in the rolled rows' },
+    colMark: { name: 'Col Mark', desc: 'Place your mark on any cell in the rolled columns' },
+    area3x3: { name: '3×3 Area', desc: 'Place your mark in a 3×3 area around the rolled cell' },
+    shield: { name: 'Shield', desc: 'Add a shield to one of your cells, protecting it once' },
+    explosion4: { name: 'Explosion', desc: 'Clear all pieces in a 2×2 area (shields absorb the hit)' },
+    skipTurn: { name: 'Skip Turn', desc: "Force another player to skip their next turn" },
+    cleanse: { name: 'Cleanse', desc: 'Remove one skip-turn effect from yourself' },
+    extraTurn: { name: 'Extra Turn', desc: 'Take an extra turn after your current one' },
+    randomClear3: { name: 'Random Clear', desc: 'Remove 3 random pieces from the board' },
+    shake: { name: 'Shake', desc: 'Redistribute all pieces randomly (no winning combos)' }
+  },
   home: {
     tagline: 'A 6×6 strategy game where dice decide your battlefield.',
     rule1: '2–5 players, each with a unique mark',
@@ -21,7 +47,11 @@ export default {
     name: 'Name',
     mark: 'Mark',
     color: 'Color',
-    randomize: 'Randomize'
+    randomize: 'Randomize',
+    gameModeLabel: 'Game Mode',
+    gameModeClassic: 'Classic',
+    gameModeAdvanced: 'Advanced',
+    gameModeAdvancedHint: 'Draw and play cards each turn for extra effects!'
   },
   lobby: {
     roomCode: 'Room Code',

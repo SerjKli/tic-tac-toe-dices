@@ -1,8 +1,10 @@
 import { Board } from './models/Board.js'
 import { rollDice } from './Dice.js'
-import { evaluate } from './MoveEvaluator.js'
+import { evaluate, evaluateWithCard } from './MoveEvaluator.js'
 import { checkWin } from './WinDetector.js'
-import { GameState, CellAction } from './constants.js'
+import { GameState, GameMode, CellAction } from './constants.js'
+import { CardEngine } from './CardEngine.js'
+import { CARDS } from './cards.js'
 
 export class GameEngine extends EventTarget {
   constructor() {
@@ -13,25 +15,92 @@ export class GameEngine extends EventTarget {
     this.currentPlayerIndex = 0
     this.lastRoll = null
     this.lastEvaluation = null
+
+    this.gameMode = GameMode.CLASSIC
+    this.deck = []
+    this.activeCard = null
+    this._cardEngine = new CardEngine()
   }
 
   // ── Public API ──────────────────────────────────────────────────────────────
 
-  startGame(players) {
+  startGame(players, gameMode = GameMode.CLASSIC) {
     this.players = players
     this.board = new Board()
     this.currentPlayerIndex = 0
+    this.lastRoll = null
+    this.lastEvaluation = null
+    this.gameMode = gameMode
+    this.activeCard = null
+
+    if (gameMode === GameMode.ADVANCED) {
+      this.deck = this._cardEngine.buildDeck()
+      for (const p of this.players) {
+        p.hand = []
+        p.skipTurnCount = 0
+        p.extraTurnCount = 0
+      }
+      this._enterCardPhase()
+    } else {
+      this._transition(GameState.ROLLING)
+    }
+  }
+
+  // ── Card phase actions ──────────────────────────────────────────────────────
+
+  drawCard() {
+    if (this.state !== GameState.CARD_PHASE) return
+    const player = this._currentPlayer()
+    const entry = this._cardEngine.drawCard(this.deck, player)
+    if (!entry) return
+    this._emit('card-drawn', { card: entry, player })
     this._transition(GameState.ROLLING)
   }
+
+  useCard(cardId, context = {}) {
+    if (this.state !== GameState.CARD_PHASE) return
+    const player = this._currentPlayer()
+    const idx = player.hand.findIndex(c => c.cardId === cardId)
+    if (idx === -1) return
+    const card = player.hand.splice(idx, 1)[0]
+
+    const def = CARDS[cardId]
+    this._emit('card-used', { card, player, context })
+
+    if (def.behavior === 'SIDE_EFFECT') {
+      this._cardEngine.applyCardSideEffect(card, context, {
+        board: this.board,
+        players: this.players,
+        currentPlayer: player
+      })
+      this._transition(GameState.ROLLING)
+    } else if (def.behavior === 'IMMEDIATE') {
+      const events = this._cardEngine.applyCardImmediate(card, this.board, this.players)
+      for (const ev of events) this._emit(ev.type, ev)
+      this._advanceTurn(false)
+    } else if (def.behavior === 'DEFERRED') {
+      this.activeCard = card
+      this._transition(GameState.ROLLING)
+    }
+  }
+
+  skipCardInteraction() {
+    if (this.state !== GameState.CARD_PHASE) return
+    this._emit('card-skipped', { player: this._currentPlayer() })
+    this._transition(GameState.ROLLING)
+  }
+
+  // ── Main turn actions ───────────────────────────────────────────────────────
 
   rollDice() {
     if (this.state !== GameState.ROLLING) return
     const roll = rollDice()
     this.lastRoll = roll
-    const evaluation = evaluate(roll, this.board, this._currentPlayer().id)
+    const evaluation = this.activeCard
+      ? evaluateWithCard(roll, this.board, this._currentPlayer().id, this.activeCard)
+      : evaluate(roll, this.board, this._currentPlayer().id)
     this.lastEvaluation = evaluation
     this._emit('dice-rolled', { roll, evaluation, player: this._currentPlayer() })
-
     this._transition(GameState.CHOOSING)
   }
 
@@ -40,7 +109,8 @@ export class GameEngine extends EventTarget {
     this._emit('turn-skipped', { player: this._currentPlayer() })
     this.lastEvaluation = null
     this.lastRoll = null
-    this._nextTurn(false)
+    this.activeCard = null
+    this._advanceTurn(false)
   }
 
   makeMove({ row, col }) {
@@ -49,19 +119,50 @@ export class GameEngine extends EventTarget {
     if (!candidate || candidate.action === CellAction.BLOCKED) return
 
     const player = this._currentPlayer()
-
     const isDoubles = this.lastEvaluation.isDoubles
+    const card = this.activeCard
+    this.activeCard = null
+
+    if (candidate.action === CellAction.EXPLODE) {
+      // Clear 2×2 area from anchor (row, col), respecting shields
+      const cleared = []
+      for (let r = row; r <= row + 1; r++) {
+        for (let c = col; c <= col + 1; c++) {
+          const cell = this.board.getCell(r, c)
+          if (cell.shieldCount > 0) {
+            cell.shieldCount--
+            this._emit('shield-blocked', { row: r, col: c })
+          } else if (cell.ownerId !== null) {
+            this.board.setOwner(r, c, null)
+            cleared.push({ row: r, col: c })
+          }
+        }
+      }
+      this._emit('explosion-cleared', { anchor: { row, col }, cleared, player })
+      this.lastEvaluation = null
+      this.lastRoll = null
+      this._advanceTurn(false)
+      return
+    }
 
     if (candidate.action === CellAction.CAPTURE) {
+      const cell = this.board.getCell(row, col)
+      if (cell.shieldCount > 0) {
+        cell.shieldCount--
+        this._emit('shield-blocked', { row, col })
+        this.lastEvaluation = null
+        this.lastRoll = null
+        this._advanceTurn(isDoubles)
+        return
+      }
       this.board.setOwner(row, col, null)
       this._emit('piece-captured', { row, col, by: player })
     } else {
-      // PLACE
+      // PLACE (or expanded area placement)
       this.board.setOwner(row, col, player.id)
       this._emit('move-made', { row, col, player })
 
       const win = checkWin(this.board, player.id)
-
       if (win) {
         this.lastEvaluation = null
         this._transition(GameState.GAME_OVER)
@@ -72,7 +173,7 @@ export class GameEngine extends EventTarget {
 
     this.lastEvaluation = null
     this.lastRoll = null
-    this._nextTurn(isDoubles)
+    this._advanceTurn(isDoubles)
   }
 
   resetGame() {
@@ -82,6 +183,9 @@ export class GameEngine extends EventTarget {
     this.currentPlayerIndex = 0
     this.lastRoll = null
     this.lastEvaluation = null
+    this.gameMode = GameMode.CLASSIC
+    this.deck = []
+    this.activeCard = null
   }
 
   // ── Getters ─────────────────────────────────────────────────────────────────
@@ -93,7 +197,10 @@ export class GameEngine extends EventTarget {
       players: this.players,
       currentPlayer: this._currentPlayer(),
       lastRoll: this.lastRoll,
-      lastEvaluation: this.lastEvaluation
+      lastEvaluation: this.lastEvaluation,
+      gameMode: this.gameMode,
+      deck: this.deck,
+      activeCard: this.activeCard
     }
   }
 
@@ -107,13 +214,42 @@ export class GameEngine extends EventTarget {
     this.state = newState
   }
 
-  _nextTurn(isExtraTurn) {
+  _enterCardPhase() {
+    // Check if current player must skip turn
+    const player = this._currentPlayer()
+    if (player.skipTurnCount > 0) {
+      player.skipTurnCount--
+      this._emit('turn-skipped', { player })
+      this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length
+      this._enterCardPhase()
+      return
+    }
+    this._transition(GameState.CARD_PHASE)
+  }
+
+  _advanceTurn(isExtraTurn) {
     if (isExtraTurn) {
       this._emit('extra-turn', { player: this._currentPlayer() })
     } else {
+      const player = this._currentPlayer()
+      if (player.extraTurnCount > 0) {
+        player.extraTurnCount--
+        this._emit('extra-turn', { player })
+        if (this.gameMode === GameMode.ADVANCED) {
+          this._enterCardPhase()
+        } else {
+          this._transition(GameState.ROLLING)
+        }
+        return
+      }
       this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length
     }
-    this._transition(GameState.ROLLING)
+
+    if (this.gameMode === GameMode.ADVANCED) {
+      this._enterCardPhase()
+    } else {
+      this._transition(GameState.ROLLING)
+    }
   }
 
   _emit(type, detail = {}) {

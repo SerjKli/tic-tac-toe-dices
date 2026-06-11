@@ -26,7 +26,7 @@ async function startGame({ mode }) {
       color: hostPlayer.color
     })
   } else {
-    game.startGame(settings.playerObjects)
+    game.startGame(settings.playerObjects, settings.gameMode)
     router.push('/game')
   }
 }

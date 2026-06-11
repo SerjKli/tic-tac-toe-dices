@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { DEFAULT_MARKS, DEFAULT_COLORS, MIN_PLAYERS } from '../core/constants.js'
+import { DEFAULT_MARKS, DEFAULT_COLORS, MIN_PLAYERS, GameMode } from '../core/constants.js'
 import { Player } from '../core/models/Player.js'
 
 export const useSettingsStore = defineStore('settings', () => {
   const playerCount = ref(MIN_PLAYERS)
   const players = ref(buildDefaultPlayers(MIN_PLAYERS))
   const theme = ref('default')
+  const gameMode = ref(GameMode.CLASSIC)
 
   function buildDefaultPlayers(count) {
     return Array.from({ length: count }, (_, i) => ({
@@ -38,5 +39,5 @@ export const useSettingsStore = defineStore('settings', () => {
     players.value.map(p => new Player(p))
   )
 
-  return { playerCount, players, theme, setPlayerCount, updatePlayer, playerObjects }
+  return { playerCount, players, theme, gameMode, setPlayerCount, updatePlayer, playerObjects }
 })

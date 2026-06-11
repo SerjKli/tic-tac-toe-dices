@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useSettingsStore } from './settingsStore.js'
 import { ref as dbRef, set as dbSet } from 'firebase/database'
 import { db } from '../firebase/firebase.js'
 import {
@@ -24,6 +25,7 @@ import { FirebaseGameService } from '../services/FirebaseGameService.js'
 
 export const useRoomStore = defineStore('room', () => {
   const router = useRouter()
+  const settings = useSettingsStore()
 
   const roomId = ref(null)
   const myPlayerId = ref(getOrCreatePlayerId())
@@ -54,7 +56,7 @@ export const useRoomStore = defineStore('room', () => {
     playerCount.value = count
     roomId.value = id
 
-    await rtdbCreateRoom(id, pid, count)
+    await rtdbCreateRoom(id, pid, count, settings.gameMode)
     setHostDisconnect(id)
 
     const hostSlot = { playerId: pid, ...hostPlayerData, ready: false }
@@ -129,8 +131,9 @@ export const useRoomStore = defineStore('room', () => {
       color: s.color
     }))
 
+    const gameMode = roomData.meta?.gameMode ?? 'CLASSIC'
     const fbService = new FirebaseGameService(roomId.value, myPlayerId.value, 0)
-    await fbService.startGame({ players })
+    await fbService.startGame({ players, gameMode })
 
     await setRoomStatus(roomId.value, 'playing')
     window.location.href = `/ttt-6/game?room=${roomId.value}`

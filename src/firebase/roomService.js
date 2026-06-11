@@ -9,12 +9,13 @@ import {
   onDisconnect
 } from 'firebase/database'
 
-export function createRoom(roomId, hostId, playerCount) {
+export function createRoom(roomId, hostId, playerCount, gameMode = 'CLASSIC') {
   const roomRef = ref(db, `rooms/${roomId}`)
   return set(roomRef, {
     meta: {
       hostId,
       playerCount,
+      gameMode,
       createdAt: Date.now(),
       status: 'waiting'
     },

@@ -22,6 +22,7 @@ export const DEFAULT_CHAT_EMOJIS = ['😀', '😂', '😍', '😢', '😡', '�
 
 export const GameState = Object.freeze({
   IDLE: 'IDLE',
+  CARD_PHASE: 'CARD_PHASE',
   ROLLING: 'ROLLING',
   CHOOSING: 'CHOOSING',
   GAME_OVER: 'GAME_OVER'
@@ -30,5 +31,20 @@ export const GameState = Object.freeze({
 export const CellAction = Object.freeze({
   PLACE: 'PLACE',
   CAPTURE: 'CAPTURE',
-  BLOCKED: 'BLOCKED'
+  BLOCKED: 'BLOCKED',
+  EXPLODE: 'EXPLODE'
 })
+
+export const GameMode = Object.freeze({
+  CLASSIC: 'CLASSIC',
+  ADVANCED: 'ADVANCED'
+})
+
+export const CardType = Object.freeze({
+  DEFENSIVE: 'DEFENSIVE',
+  OFFENSIVE: 'OFFENSIVE',
+  EXPANDING: 'EXPANDING'
+})
+
+export const DECK_SIZE = 28
+export const MAX_HAND_SIZE = 5

@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { GameEngine } from '../core/GameEngine.js'
-import { GameState } from '../core/constants.js'
+import { GameState, GameMode } from '../core/constants.js'
 import { Board } from '../core/models/Board.js'
 import { Cell } from '../core/models/Cell.js'
 import { db } from '../firebase/firebase.js'
@@ -29,7 +29,10 @@ export class FirebaseGameService {
       lastEvaluation: null,
       winnerPlayer: null,
       winCells: [],
-      currentPlayerIndex: 0
+      currentPlayerIndex: 0,
+      gameMode: GameMode.CLASSIC,
+      deck: [],
+      activeCard: null
     })
   }
 
@@ -41,10 +44,10 @@ export class FirebaseGameService {
     return this.state.currentPlayerIndex === this._slotIndex
   }
 
-  async startGame({ players }) {
+  async startGame({ players, gameMode = GameMode.CLASSIC }) {
     this.state.winnerPlayer = null
     this.state.winCells = []
-    this._engine.startGame(players)
+    this._engine.startGame(players, gameMode)
     this._bindEngineEvents()
     this._syncState()
     await this._pushSnapshot()
@@ -68,6 +71,27 @@ export class FirebaseGameService {
   skipTurn() {
     if (!this.isMyTurn) return
     this._engine.skipTurn()
+    this._syncState()
+    this._pushSnapshot()
+  }
+
+  drawCard() {
+    if (!this.isMyTurn) return
+    this._engine.drawCard()
+    this._syncState()
+    this._pushSnapshot()
+  }
+
+  useCard(cardId, context = {}) {
+    if (!this.isMyTurn) return
+    this._engine.useCard(cardId, context)
+    this._syncState()
+    this._pushSnapshot()
+  }
+
+  skipCardInteraction() {
+    if (!this.isMyTurn) return
+    this._engine.skipCardInteraction()
     this._syncState()
     this._pushSnapshot()
   }
@@ -114,6 +138,9 @@ export class FirebaseGameService {
     this._engine.currentPlayerIndex = data.currentPlayerIndex ?? 0
     this._engine.lastRoll = data.lastRoll ?? null
     this._engine.lastEvaluation = data.lastEvaluation ?? null
+    this._engine.gameMode = data.gameMode ?? GameMode.CLASSIC
+    this._engine.deck = data.deck ?? []
+    this._engine.activeCard = data.activeCard ?? null
     this._bindEngineEvents()
   }
 
@@ -125,6 +152,9 @@ export class FirebaseGameService {
     this.state.currentPlayer = (data.players ?? [])[data.currentPlayerIndex ?? 0] ?? null
     this.state.lastRoll = data.lastRoll ?? null
     this.state.lastEvaluation = data.lastEvaluation ?? null
+    this.state.gameMode = data.gameMode ?? GameMode.CLASSIC
+    this.state.deck = data.deck ?? []
+    this.state.activeCard = data.activeCard ?? null
     if (data.winnerIndex != null && data.players) {
       this.state.winnerPlayer = data.players[data.winnerIndex] ?? null
     }
@@ -140,12 +170,17 @@ export class FirebaseGameService {
     this.state.currentPlayerIndex = this._engine.currentPlayerIndex
     this.state.lastRoll = snap.lastRoll
     this.state.lastEvaluation = snap.lastEvaluation
+    this.state.gameMode = snap.gameMode
+    this.state.deck = snap.deck
+    this.state.activeCard = snap.activeCard
   }
 
   _pushSnapshot() {
     const snap = this._engine.snapshot
     const boardData = snap.board
-      ? snap.board.grid.map(row => row.map(c => ({ row: c.row, col: c.col, ownerId: c.ownerId })))
+      ? snap.board.grid.map(row => row.map(c => ({
+          row: c.row, col: c.col, ownerId: c.ownerId, shieldCount: c.shieldCount ?? 0
+        })))
       : null
 
     return pushGameState(this._roomId, {
@@ -158,13 +193,16 @@ export class FirebaseGameService {
       winnerIndex: this.state.winnerPlayer
         ? snap.players.findIndex(p => p.id === this.state.winnerPlayer?.id)
         : null,
-      winCells: this.state.winCells
+      winCells: this.state.winCells,
+      gameMode: snap.gameMode,
+      deck: snap.deck,
+      activeCard: snap.activeCard
     })
   }
 
   _boardFromData(grid) {
     const b = new Board(grid.length)
-    b.grid = grid.map(row => row.map(c => new Cell(c.row, c.col, c.ownerId)))
+    b.grid = grid.map(row => row.map(c => new Cell(c.row, c.col, c.ownerId, c.shieldCount ?? 0)))
     return b
   }
 

@@ -20,6 +20,23 @@
       >{{ t('setup.modeOnline') }}</button>
     </section>
 
+    <section class="section game-mode-toggle">
+      <p class="section-label">{{ t('setup.gameModeLabel') }}</p>
+      <div class="toggle-row">
+        <button
+          class="mode-btn"
+          :class="{ active: settings.gameMode === 'CLASSIC' }"
+          @click="settings.gameMode = 'CLASSIC'"
+        >{{ t('setup.gameModeClassic') }}</button>
+        <button
+          class="mode-btn"
+          :class="{ active: settings.gameMode === 'ADVANCED' }"
+          @click="settings.gameMode = 'ADVANCED'"
+        >{{ t('setup.gameModeAdvanced') }}</button>
+      </div>
+      <p v-if="settings.gameMode === 'ADVANCED'" class="mode-hint">{{ t('setup.gameModeAdvancedHint') }}</p>
+    </section>
+
     <button class="start-btn" @click="$emit('start', { mode })">
       {{ mode === 'online' ? t('setup.createRoom') : t('setup.startGame') }}
     </button>
@@ -103,6 +120,39 @@ h1 {
   border: 2px solid #27ae60;
   border-radius: 10px;
   overflow: hidden;
+}
+
+.game-mode-toggle {
+  gap: 8px;
+}
+
+.section-label {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 600;
+}
+
+.toggle-row {
+  display: flex;
+  border: 2px solid #7c5cbf;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.toggle-row .mode-btn {
+  color: #7c5cbf;
+}
+
+.toggle-row .mode-btn.active {
+  background: #7c5cbf;
+  color: #fff;
+}
+
+.mode-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #7c5cbf;
 }
 
 .mode-btn {

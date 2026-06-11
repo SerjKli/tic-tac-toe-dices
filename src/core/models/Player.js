@@ -4,5 +4,8 @@ export class Player {
     this.name = name
     this.mark = mark
     this.color = color
+    this.hand = []
+    this.skipTurnCount = 0
+    this.extraTurnCount = 0
   }
 }

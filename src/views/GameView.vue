@@ -3,6 +3,9 @@
     <div class="game-layout">
       <aside class="sidebar">
 <!--        <PlayerInfo v-if="game.state.currentPlayer" :player="game.state.currentPlayer" />-->
+        <CardPhasePanel
+          v-if="game.isAdvanced && game.isCardPhase && (game.myTurn || !game.isOnline)"
+        />
         <DiceRoller
           :roll="game.state.lastRoll"
           :canRoll="game.isRolling && game.myTurn"
@@ -32,13 +35,16 @@
         />
         <p v-if="isDoubles && game.myTurn" class="doubles-notice">{{ t('game.doubles') }}</p>
 
+        <p v-if="game.boardTargetCardId" class="hint shield-target-hint">{{ t('cards.shieldClickCell') }}</p>
+
         <template v-if="game.myTurn || !game.isOnline">
           <template v-if="game.canSkip">
             <p class="hint">{{ t('game.allCellsOwned') }}</p>
             <button class="skip-btn" @click="game.skipTurn()">{{ t('game.skipTurn') }}</button>
           </template>
           <p v-else-if="game.isChoosing" class="hint">{{ t('game.chooseCell') }}</p>
-          <p v-if="game.isRolling" class="hint">{{ t('game.rollPrompt') }}</p>
+          <p v-if="game.isRolling && !game.isCardPhase" class="hint">{{ t('game.rollPrompt') }}</p>
+          <p v-if="game.isCardPhase && (!game.isAdvanced || (!game.myTurn && game.isOnline))" class="hint">{{ t('game.waitingForPlayer', { name: game.state.currentPlayer?.name ?? '…' }) }}</p>
         </template>
 
         <div v-if="game.isOnline && !game.myTurn && !game.isOver" class="waiting-overlay">
@@ -79,7 +85,8 @@ import WinBanner from '../components/game/WinBanner.vue'
 import ExitButton from '../components/game/ExitButton.vue'
 import EmojiPicker from '../components/game/EmojiPicker.vue'
 import LanguageSelector from '@/components/LanguageSelector.vue'
-import FloatingRollDiceButton from "@/components/game/FloatingRollDiceButton.vue";
+import FloatingRollDiceButton from "@/components/game/FloatingRollDiceButton.vue"
+import CardPhasePanel from '@/components/game/CardPhasePanel.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -93,6 +100,7 @@ const onlineRoomId = computed(() => route.query.room ?? null)
 const myPlayerId = computed(() =>
   game.isOnline ? room.myPlayerId : game.state.currentPlayer?.id ?? null
 )
+
 
 onMounted(() => {
   if (game.isOnline) {
@@ -110,6 +118,10 @@ function handleRoll() {
 }
 
 function handleCellClick(event) {
+  if (game.boardTargetCardId) {
+    game.useCard(game.boardTargetCardId, { row: event.row, col: event.col })
+    return
+  }
   if (game.isChoosing && (game.myTurn || !game.isOnline)) game.makeMove(event)
 }
 
@@ -161,6 +173,11 @@ const isDoubles = computed(() => game.state.lastRoll && game.state.lastRoll[0] =
   color: #888;
   font-size: 0.95rem;
   margin: 0;
+}
+
+.shield-target-hint {
+  color: #607D8B;
+  font-weight: 600;
 }
 
 .skip-btn {

@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { GameEngine } from '../core/GameEngine.js'
-import { GameState } from '../core/constants.js'
+import { GameState, GameMode } from '../core/constants.js'
 import { Board } from '../core/models/Board.js'
 import { Cell } from '../core/models/Cell.js'
 
@@ -17,16 +17,19 @@ export class LocalGameService {
       lastRoll: null,
       lastEvaluation: null,
       winnerPlayer: null,
-      winCells: []
+      winCells: [],
+      gameMode: GameMode.CLASSIC,
+      deck: [],
+      activeCard: null
     })
     this._bindEngineEvents()
     this._restore()
   }
 
-  startGame({ players }) {
+  startGame({ players, gameMode = GameMode.CLASSIC }) {
     this.state.winnerPlayer = null
     this.state.winCells = []
-    this._engine.startGame(players)
+    this._engine.startGame(players, gameMode)
     this._syncState()
   }
 
@@ -42,6 +45,21 @@ export class LocalGameService {
 
   skipTurn() {
     this._engine.skipTurn()
+    this._syncState()
+  }
+
+  drawCard() {
+    this._engine.drawCard()
+    this._syncState()
+  }
+
+  useCard(cardId, context = {}) {
+    this._engine.useCard(cardId, context)
+    this._syncState()
+  }
+
+  skipCardInteraction() {
+    this._engine.skipCardInteraction()
     this._syncState()
   }
 
@@ -61,6 +79,9 @@ export class LocalGameService {
     this.state.currentPlayer = snap.currentPlayer
     this.state.lastRoll = snap.lastRoll
     this.state.lastEvaluation = snap.lastEvaluation
+    this.state.gameMode = snap.gameMode
+    this.state.deck = snap.deck
+    this.state.activeCard = snap.activeCard
     this._save()
   }
 
@@ -71,7 +92,7 @@ export class LocalGameService {
         gameState: this._engine.state,
         board: this._engine.board
           ? this._engine.board.grid.map(row =>
-              row.map(c => ({ row: c.row, col: c.col, ownerId: c.ownerId }))
+              row.map(c => ({ row: c.row, col: c.col, ownerId: c.ownerId, shieldCount: c.shieldCount ?? 0 }))
             )
           : null,
         players: this._engine.players,
@@ -79,7 +100,10 @@ export class LocalGameService {
         lastRoll: this._engine.lastRoll,
         lastEvaluation: this._engine.lastEvaluation,
         winnerPlayer: this.state.winnerPlayer,
-        winCells: this.state.winCells
+        winCells: this.state.winCells,
+        gameMode: this._engine.gameMode,
+        deck: this._engine.deck,
+        activeCard: this._engine.activeCard
       }))
     } catch {
       // storage unavailable or full
@@ -99,6 +123,9 @@ export class LocalGameService {
       this._engine.currentPlayerIndex = data.currentPlayerIndex ?? 0
       this._engine.lastRoll = data.lastRoll ?? null
       this._engine.lastEvaluation = data.lastEvaluation ?? null
+      this._engine.gameMode = data.gameMode ?? GameMode.CLASSIC
+      this._engine.deck = data.deck ?? []
+      this._engine.activeCard = data.activeCard ?? null
 
       this.state.winnerPlayer = data.winnerPlayer ?? null
       this.state.winCells = data.winCells ?? []
@@ -110,7 +137,7 @@ export class LocalGameService {
 
   _boardFromData(grid) {
     const b = new Board(grid.length)
-    b.grid = grid.map(row => row.map(c => new Cell(c.row, c.col, c.ownerId)))
+    b.grid = grid.map(row => row.map(c => new Cell(c.row, c.col, c.ownerId, c.shieldCount ?? 0)))
     return b
   }
 

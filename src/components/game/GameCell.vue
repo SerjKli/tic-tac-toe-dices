@@ -1,12 +1,13 @@
 <template>
   <button
     class="game-cell"
-    :class="[`action-${candidateAction ?? 'none'}`, { 'is-candidate': isCandidateCell }]"
+    :class="[`action-${candidateAction ?? 'none'}`, { 'is-candidate': isCandidateCell, 'has-shield': hasShield }]"
     :style="ownerColor ? { '--owner-color': ownerColor } : {}"
     :disabled="!isCandidateCell"
     @click="$emit('click', { row: cell.row, col: cell.col })"
   >
     <span v-if="cell.ownerId" class="cell-mark">{{ playerMark }}</span>
+    <span v-if="hasShield" class="shield-badge">🛡️</span>
   </button>
 </template>
 
@@ -27,6 +28,7 @@ const owner = computed(() =>
 )
 const playerMark = computed(() => owner.value?.mark ?? '')
 const ownerColor = computed(() => owner.value?.color ?? null)
+const hasShield = computed(() => (props.cell.shieldCount ?? 0) > 0)
 </script>
 
 <style scoped>
@@ -58,13 +60,31 @@ const ownerColor = computed(() => owner.value?.color ?? null)
   background: #fdf3f2;
 }
 
+.game-cell.action-EXPLODE.is-candidate {
+  border-color: #ff6b00;
+  background: #fff3e0;
+  box-shadow: 0 0 0 2px #ff6b0044;
+}
+
 .game-cell.is-candidate:hover {
   transform: scale(1.06);
+}
+
+.game-cell.has-shield {
+  position: relative;
 }
 
 .cell-mark {
   display: block;
   line-height: 1;
   user-select: none;
+}
+
+.shield-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 0.6rem;
+  line-height: 1;
 }
 </style>
