@@ -1,17 +1,24 @@
 <template>
-  <div class="overlay-panel">
+  <div class="overlay-panel card-phase-panel">
     <p class="overlay-label">{{ t('cards.phaseLabel') }}</p>
-    <button
-      class="overlay-btn draw-btn"
-      :disabled="drawDisabled"
-      @click="game.drawCard()"
-    >
-      <span class="btn-text">{{ drawLabel }}</span>
-      <span v-if="game.deckSize > 0 && !drawDisabled" class="deck-badge">{{ game.deckSize }}</span>
-    </button>
-    <button class="overlay-btn skip-btn" @click="game.skipCardInteraction()">
-      {{ t('cards.skip') }}
-    </button>
+    <div class="actions">
+      <button
+          class="card-btn draw-btn"
+          :disabled="drawDisabled"
+          @click="game.drawCard()"
+      >
+        <span class="btn-text">{{ drawLabel }}</span>
+        <span v-if="game.deckSize > 0 && !drawDisabled" class="deck-count">{{ game.deckSize }}</span>
+      </button>
+
+      <p class="text-center">
+        Или вы можете использовать<br/>имеющуюся карту
+      </p>
+    </div>
+
+<!--    <button class="overlay-btn skip-btn" @click="game.skipCardInteraction()">-->
+<!--      {{ t('cards.skip') }}-->
+<!--    </button>-->
   </div>
 </template>
 

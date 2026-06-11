@@ -1,12 +1,7 @@
 <template>
   <div class="game-view">
     <div class="game-layout">
-      <aside class="sidebar"  v-if="game.isAdvanced && game.isCardPhase">
-        <CardPhasePanel
-          v-if="game.isAdvanced && game.isCardPhase && (game.myTurn || !game.isOnline)"
-          :selectedCardId="selectedHandCardId"
-          @cancel-select="selectedHandCardId = null"
-        />
+      <aside class="sidebar"  v-if="game.isAdvanced && (game.myTurn || !game.isOnline)">
         <CardHand
           v-if="game.isAdvanced && !game.isOver"
           :cards="game.myHand"
