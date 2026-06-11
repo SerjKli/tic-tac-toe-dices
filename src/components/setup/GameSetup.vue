@@ -7,20 +7,23 @@
       <PlayerCountPicker :modelValue="settings.playerCount" @update:modelValue="settings.setPlayerCount" />
     </section>
 
-    <section class="section mode-toggle">
-      <button
-        class="mode-btn"
-        :class="{ active: mode === 'local' }"
-        @click="mode = 'local'"
-      >{{ t('setup.modeLocal') }}</button>
-      <button
-        class="mode-btn"
-        :class="{ active: mode === 'online' }"
-        @click="mode = 'online'"
-      >{{ t('setup.modeOnline') }}</button>
+    <section class="section game-mode-toggle">
+      <p class="section-label">{{ t('setup.modelNetworkLabel') }}</p>
+      <div class="toggle-row">
+        <button
+            class="mode-btn"
+            :class="{ active: mode === 'local' }"
+            @click="mode = 'local'"
+        >{{ t('setup.modeLocal') }}</button>
+        <button
+            class="mode-btn"
+            :class="{ active: mode === 'online' }"
+            @click="mode = 'online'"
+        >{{ t('setup.modeOnline') }}</button>
+      </div>
     </section>
 
-    <section class="section game-mode-toggle">
+    <section class="section game-mode-toggle game-mode-difficulty">
       <p class="section-label">{{ t('setup.gameModeLabel') }}</p>
       <div class="toggle-row">
         <button
@@ -34,7 +37,7 @@
           @click="settings.gameMode = 'ADVANCED'"
         >{{ t('setup.gameModeAdvanced') }}</button>
       </div>
-      <p v-if="settings.gameMode === 'ADVANCED'" class="mode-hint">{{ t('setup.gameModeAdvancedHint') }}</p>
+<!--      <p v-if="settings.gameMode === 'ADVANCED'" class="mode-hint">{{ t('setup.gameModeAdvancedHint') }}</p>-->
     </section>
 
     <button class="start-btn" @click="$emit('start', { mode })">
@@ -102,58 +105,13 @@ h1 {
   font-size: 0.9rem;
 }
 
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 .players-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
 }
 
-.mode-toggle {
-  flex-direction: row;
-  gap: 0;
-  border: 2px solid #27ae60;
-  border-radius: 10px;
-  overflow: hidden;
-}
 
-.game-mode-toggle {
-  gap: 8px;
-}
-
-.section-label {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #555;
-  font-weight: 600;
-}
-
-.toggle-row {
-  display: flex;
-  border: 2px solid #7c5cbf;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.toggle-row .mode-btn {
-  color: #7c5cbf;
-}
-
-.toggle-row .mode-btn.active {
-  background: #7c5cbf;
-  color: #fff;
-}
-
-.mode-hint {
-  margin: 0;
-  font-size: 0.85rem;
-  color: #7c5cbf;
-}
 
 .mode-btn {
   flex: 1;

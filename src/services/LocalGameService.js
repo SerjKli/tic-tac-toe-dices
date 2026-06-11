@@ -75,8 +75,8 @@ export class LocalGameService {
     const snap = this._engine.snapshot
     this.state.gameState = snap.state
     this.state.board = snap.board ? snap.board.clone() : null
-    this.state.players = snap.players
-    this.state.currentPlayer = snap.currentPlayer
+    this.state.players = snap.players.map(p => p.clone())
+    this.state.currentPlayer = snap.currentPlayer ? snap.currentPlayer.clone() : null
     this.state.lastRoll = snap.lastRoll
     this.state.lastEvaluation = snap.lastEvaluation
     this.state.gameMode = snap.gameMode

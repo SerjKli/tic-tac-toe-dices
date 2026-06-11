@@ -49,6 +49,7 @@ export default {
     playersNumber: 'Количество игроков',
     startGame: 'Начать игру',
     createRoom: 'Создать комнату',
+    modelNetworkLabel:'С кем играем?',
     modeLocal: 'Локально',
     modeOnline: 'Онлайн',
     onlineHint: 'Настройте своего игрока, затем создайте комнату и поделитесь ссылкой с друзьями.',
@@ -60,7 +61,7 @@ export default {
     gameModeLabel: 'Режим игры',
     gameModeClassic: 'Классический',
     gameModeAdvanced: 'Продвинутый',
-    gameModeAdvancedHint: 'Берите и играйте карты каждый ход для дополнительных эффектов!'
+    // gameModeAdvancedHint: 'Берите и играйте карты каждый ход для дополнительных эффектов!'
   },
   lobby: {
     roomCode: 'Код комнаты',

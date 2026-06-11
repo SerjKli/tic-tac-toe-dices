@@ -49,6 +49,7 @@ export default {
     playersNumber: 'Number of Players',
     startGame: 'Start Game',
     createRoom: 'Create Room',
+    modelNetworkLabel:'Play with who?',
     modeLocal: 'Local',
     modeOnline: 'Online',
     onlineHint: 'Configure your player, then create a room to share with friends.',
@@ -60,7 +61,7 @@ export default {
     gameModeLabel: 'Game Mode',
     gameModeClassic: 'Classic',
     gameModeAdvanced: 'Advanced',
-    gameModeAdvancedHint: 'Draw and play cards each turn for extra effects!'
+    // gameModeAdvancedHint: 'Draw and play cards each turn for extra effects!'
   },
   lobby: {
     roomCode: 'Room Code',
