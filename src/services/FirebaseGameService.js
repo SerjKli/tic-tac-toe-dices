@@ -96,6 +96,13 @@ export class FirebaseGameService {
     this._pushSnapshot()
   }
 
+  confirmSkipTurn() {
+    if (!this.isMyTurn) return
+    this._engine.confirmSkipTurn()
+    this._syncState()
+    this._pushSnapshot()
+  }
+
   resetGame() {
     this._engine.resetGame()
     this.state.winnerPlayer = null
@@ -134,7 +141,10 @@ export class FirebaseGameService {
   _restoreEngine(data) {
     this._engine.state = data.state
     this._engine.board = data.board ? this._boardFromData(data.board) : null
-    this._engine.players = data.players ?? []
+    this._engine.players = (data.players ?? []).map(p => ({
+      ...p,
+      hand: Array.isArray(p.hand) ? p.hand : [],
+    }))
     this._engine.currentPlayerIndex = data.currentPlayerIndex ?? 0
     this._engine.lastRoll = data.lastRoll ?? null
     this._engine.lastEvaluation = data.lastEvaluation ?? null
