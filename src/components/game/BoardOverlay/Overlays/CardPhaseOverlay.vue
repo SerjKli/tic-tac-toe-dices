@@ -1,6 +1,6 @@
 <template>
   <div class="overlay-panel card-phase-panel">
-    <div class="actions">
+    <div class="actions" v-if="!selectedDef">
       <button
           class="overlay-btn draw-btn"
           :disabled="drawDisabled"
@@ -9,30 +9,45 @@
         <span class="btn-text">{{ drawLabel }}</span>
       </button>
 
-      <p class="text-center" v-if="haveCards && !isSkipTurn">
+      <p class="text-center" v-if="haveCards && !isSkipTurn && !selectedDef">
         {{ t('cards.useCardHint') }}
       </p>
     </div>
 
-    <div v-if="isSkipTurn" class="target-section">
-      <p class="target-hint">{{ t('cards.selectTarget') }}</p>
-      <PlayerStrip
-          v-for="p in otherPlayers"
-          :players="[p]"
-          :style="{ borderColor: p.color }"
-          @click="confirmUseCard(p.id)"
-          class="player-target-btn"
-      />
 
-      <button class="overlay-btn cancel-btn" @click="card.clearSelectedCard()">
-        {{ t('cards.cancel') }}
-      </button>
+    <div v-if="card.selectedCardId && selectedDef" class="confirm-section">
+      <p class="confirm-label">
+        {{ t('cards.useCardConfirm', { name: t(selectedDef.nameKey) }) }}
+      </p>
+
+      <div v-if="isSkipTurn" class="target-section">
+        <p class="target-hint">{{ t('cards.selectTarget') }}</p>
+        <PlayerStrip
+            v-for="p in otherPlayers"
+            :players="[p]"
+            :style="{ borderColor: p.color }"
+            @click="confirmUseCard(p.id)"
+            class="player-target-btn"
+        />
+
+        <button class="overlay-btn cancel-btn" @click="card.clearSelectedCard()">
+          {{ t('cards.cancel') }}
+        </button>
+      </div>
+
+      <template v-else-if="isShield">
+        <p class="target-hint">{{ t('cards.shieldClickCell') }}</p>
+        <button class="overlay-btn confirm-btn" @click="activateShieldTarget">{{ t('cards.selectOnBoard') }}</button>
+      </template>
+
+      <template v-else>
+        <button class="overlay-btn confirm-btn" @click="confirmUseCard({})">{{ t('cards.confirm') }}</button>
+      </template>
     </div>
 
-    <template v-else-if="isShield">
-      <p class="target-hint">{{ t('cards.shieldClickCell') }}</p>
-      <button class="overlay-btn confirm-btn" @click="activateShieldTarget">{{ t('cards.selectOnBoard') }}</button>
-    </template>
+    <button class="overlay-btn cancel-btn" @click="card.clearSelectedCard()" v-if="card.selectedCardId">
+      {{ t('cards.cancel') }}
+    </button>
 
   </div>
 </template>

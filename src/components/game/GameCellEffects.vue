@@ -1,7 +1,14 @@
 <template>
-  <span v-if="hasShield" class="shield-badge appear-in">
-    <span class="material-icons">shield</span>
-  </span>
+  <template v-if="hasShield">
+      <span  class="shield-badge appear-in"><span class="material-icons">shield</span></span>
+
+      <span  class="shield-badge appear-in" v-for="i in props.cell.shieldCount-1" :style="{
+        left: `${(i-1)*5}px`,
+      }">
+        <span class="material-icons">shield</span>
+      </span>
+  </template>
+
 
 </template>
 
@@ -21,7 +28,7 @@ const hasShield = computed(() => (props.cell.shieldCount ?? 0) > 0)
   position: absolute;
   line-height: 1;
   top: 14px;
-  color: #e3e3e3;
+  color: #adadad30;
 }
 .shield-badge .material-icons{
   font-size: 48px;

@@ -80,7 +80,7 @@ const ownerColor = computed(() => owner.value?.color ?? null)
   display: block;
   line-height: 1;
   user-select: none;
-  z-index: 999;
+  z-index: 9;
 }
 
 </style>

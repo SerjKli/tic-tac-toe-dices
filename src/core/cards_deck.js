@@ -1,8 +1,8 @@
 export const DECK_CONFIG = [
   // { cardId: 'ROW_MARK', count: 4 },
-  // { cardId: 'COL_MARK', count: 4 },
+  { cardId: 'COL_MARK', count: 4 },
   // { cardId: 'AREA_3X3', count: 3 },
-  { cardId: 'SHIELD', count: 30 },
+  // { cardId: 'SHIELD', count: 3 },
   // { cardId: 'EXPLOSION4', count: 2 },
   // { cardId: 'SKIP_TURN', count: 3 },
   // { cardId: 'CLEANSE', count: 3 },
