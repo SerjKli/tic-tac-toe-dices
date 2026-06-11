@@ -35,7 +35,7 @@ export default {
     cleanse: { name: 'Cleanse', desc: 'Remove one skip-turn effect from yourself' },
     extraTurn: { name: 'Extra Turn', desc: 'Take an extra turn after your current one' },
     randomClear3: { name: 'Random Clear', desc: 'Remove 3 random pieces from the board' },
-    shake: { name: 'Shake', desc: 'Redistribute all pieces randomly (no winning combos)' }
+    shake: { name: 'Shake', desc: 'Redistribute all pieces randomly' }
   },
   home: {
     tagline: 'A 6×6 strategy game where dice decide your battlefield.',
