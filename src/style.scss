@@ -127,24 +127,39 @@ button {
   }
 
   .sidebar {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    min-width: unset;
-    width: 100%;
-    gap: 10px;
+    //flex-direction: row;
+    //flex-wrap: wrap;
+    //justify-content: center;
+    //min-width: unset;
+    //width: 100%;
+    //gap: 10px;
+
+    .card-hand{
+      width: 100%;
+      overflow-x: hidden;
+
+      .cards-list{
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        overflow-x: scroll;
+        gap: 8px;
+        padding: 24px 0;
+
+        .card-item{
+          width: 140px !important;
+          min-width: 140px !important;
+          flex-shrink: 0 !important;
+        }
+      }
+    }
   }
 
   .board-area {
     width: 100%;
   }
 
-  .card-hand{
-    .cards-list{
-      display: flex;
-      flex-direction: column;
-    }
-  }
+
 }
 
 a {

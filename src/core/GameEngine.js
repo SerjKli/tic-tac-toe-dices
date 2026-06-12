@@ -49,8 +49,11 @@ export class GameEngine extends EventTarget {
     // TODO: !remove in production
     // this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
     // this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
-    // this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
-    // this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
+    this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
+    this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
+    this.players[0].hand.push({'instanceId': "COL_MARK_12", 'cardId': "COL_MARK" });
+    this.players[0].hand.push({'instanceId': "AREA_3X3_12", 'cardId': "AREA_3X3" });
+    this.players[0].hand.push({'instanceId': "CLEANSE_12", 'cardId': "CLEANSE" });
     // this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
     // this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
     // //
