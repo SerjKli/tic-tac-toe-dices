@@ -16,7 +16,7 @@
 <script setup>
 import { computed } from 'vue'
 import GameCell from './GameCell.vue'
-import { BOARD_SIZE } from '../../core/constants.js'
+import { BOARD_SIZE } from '../../../core/constants.js'
 
 const props = defineProps({
   board: { type: Object, required: true },

@@ -10,7 +10,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import DiceFaces from './DiceFaces.vue'
-import { useDiceRoll } from '@/composables/useDiceRoll'
+import { useDiceRoll } from '@/composables/useDiceRoll.js'
 
 const props = defineProps({
   roll: { type: Array, default: null },

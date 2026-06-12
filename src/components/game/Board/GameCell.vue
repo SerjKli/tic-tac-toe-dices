@@ -14,7 +14,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import GameCellEffects from "@/components/game/GameCellEffects.vue";
+import GameCellEffects from "@/components/game/Board/GameCellEffects.vue";
 
 const props = defineProps({
   cell: { type: Object, required: true },

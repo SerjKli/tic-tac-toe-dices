@@ -103,6 +103,14 @@ export class FirebaseGameService {
     this._pushSnapshot()
   }
 
+  useCleanseInSkipPhase() {
+    if (!this.isMyTurn) return
+    this._engine.useCleanseInSkipPhase()
+    this._syncState()
+    this._pushSnapshot()
+  }
+
+
   resetGame() {
     this._engine.resetGame()
     this.state.winnerPlayer = null

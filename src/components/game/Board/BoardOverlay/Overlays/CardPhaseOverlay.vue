@@ -58,7 +58,7 @@ import { useI18n } from 'vue-i18n'
 import { useGameStore } from '@/stores/gameStore.js'
 import { useCardStore } from '@/stores/cardStore.js'
 import { MAX_HAND_SIZE } from '@/core/constants.js'
-import PlayerStrip from "@/components/game/PlayerStrip.vue";
+import PlayerStrip from "@/components/game/Player/PlayerStrip.vue";
 import {CARDS} from "@/core/cards.js";
 
 const { t } = useI18n()

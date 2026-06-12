@@ -1,7 +1,7 @@
 <template>
   <div class="game-view">
     <div class="game-layout">
-      <aside class="sidebar"  v-if="game.isAdvanced && (game.myTurn || !game.isOnline)">
+      <aside class="sidebar"  v-if="game.isAdvanced && (game.myTurn || game.isOnline)">
         <CardHand v-if="game.isAdvanced && !game.isOver" />
       </aside>
 
@@ -69,13 +69,13 @@ import { useCardStore } from '../stores/cardStore.js'
 import { TurnAction } from '../core/constants.js'
 import { useRoomStore } from '../stores/roomStore.js'
 import { useChatStore } from '../stores/chatStore.js'
-import GameBoard from '../components/game/GameBoard.vue'
-import PlayerStrip from '../components/game/PlayerStrip.vue'
+import GameBoard from '../components/game/Board/GameBoard.vue'
+import PlayerStrip from '../components/game/Player/PlayerStrip.vue'
 import WinBanner from '../components/game/WinBanner.vue'
 import ExitButton from '../components/game/ExitButton.vue'
-import EmojiPicker from '../components/game/EmojiPicker.vue'
+import EmojiPicker from '../components/game/Chat/EmojiPicker.vue'
 import CardHand from '@/components/game/Cards/CardHand.vue'
-import BoardActionOverlay from '@/components/game/BoardOverlay/BoardActionOverlay.vue'
+import BoardActionOverlay from '@/components/game/Board/BoardOverlay/BoardActionOverlay.vue'
 
 const router = useRouter()
 const route = useRoute()

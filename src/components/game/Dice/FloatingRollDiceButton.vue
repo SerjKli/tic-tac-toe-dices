@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { useDiceRoll } from '@/composables/useDiceRoll'
+import { useDiceRoll } from '@/composables/useDiceRoll.js'
 
 const props = defineProps({
   canRoll: { type: Boolean, default: false }

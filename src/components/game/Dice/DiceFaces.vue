@@ -14,7 +14,7 @@
 <script setup>
 import { computed, watch } from 'vue'
 import DiceFace from './DiceFace.vue'
-import { useDiceRoll } from '@/composables/useDiceRoll'
+import { useDiceRoll } from '@/composables/useDiceRoll.js'
 
 const props = defineProps({
   roll: { type: Array, default: null }

@@ -16,7 +16,7 @@
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '@/stores/gameStore.js'
 import { useDiceRoll } from '@/composables/useDiceRoll.js'
-import DiceFaces from "@/components/game/DiceFaces.vue";
+import DiceFaces from "@/components/game/Dice/DiceFaces.vue";
 
 const { t } = useI18n()
 const game = useGameStore()
