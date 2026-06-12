@@ -1,5 +1,5 @@
 <template>
-  <div class="player-skip-turns  pop-in">
+  <div class="player-skip-turns pop-in">
     <span v-for="i in player.skipTurnCount">❌</span>
   </div>
 </template>

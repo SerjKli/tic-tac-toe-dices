@@ -6,7 +6,7 @@
 
 <script setup>
 import {Player} from "@/core/models/Player.js";
-import SkipTurns from "@/components/game/PlayerDebuffs/SkipTurns.vue";
+import SkipTurns from "@/components/game/Player/PlayerBuffs/Debuffs/SkipTurns.vue";
 
 defineProps({
   player: { type: Player, required: true },
@@ -14,10 +14,5 @@ defineProps({
 </script>
 
 <style scoped>
-.player-debuffs{
-  position: absolute;
-  bottom: -7px;
-  left: 0;
-  font-size: 0.5rem;
-}
+
 </style>

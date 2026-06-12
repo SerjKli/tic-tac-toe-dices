@@ -11,13 +11,13 @@
       <span class="name">{{ player.name }}</span>
       <span v-if="playerEmojis[player.id]" class="chat-emoji pop-in" :key="playerEmojis[player.id]">{{ playerEmojis[player.id] }}</span>
 
-      <PlayerDebuffs :player="player" />
+      <PlayerBuffs :player="player" />
     </div>
   </div>
 </template>
 
 <script setup>
-import PlayerDebuffs from "@/components/game/PlayerDebuffs/PlayerDebuffs.vue";
+import PlayerBuffs from "@/components/game/Player/PlayerBuffs/PlayerBuffs.vue";
 
 defineProps({
   players: { type: Array, required: true },
