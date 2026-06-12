@@ -12,6 +12,7 @@ export const useCardStore = defineStore('card', () => {
 
   const boardTargetCardId = ref(null)
   const selectedCardId = ref(null)
+  const cardErrorKey = ref(null)
 
   // ── Derived ───────────────────────────────────────────────────────────────────
 
@@ -43,7 +44,16 @@ export const useCardStore = defineStore('card', () => {
   // ── Actions ───────────────────────────────────────────────────────────────────
 
   function selectCard(cardId) {
+    const reasonKey = service.hasReasonNotSelectCard(cardId)
+    if (reasonKey) {
+      cardErrorKey.value = reasonKey
+      return
+    }
     selectedCardId.value = selectedCardId.value === cardId ? null : cardId
+  }
+
+  function clearCardError() {
+    cardErrorKey.value = null
   }
 
   function clearSelectedCard() {
@@ -76,6 +86,7 @@ export const useCardStore = defineStore('card', () => {
   return {
     boardTargetCardId,
     selectedCardId,
+    cardErrorKey,
     isAdvanced,
     isCardPhase,
     myHand,
@@ -85,6 +96,7 @@ export const useCardStore = defineStore('card', () => {
     pendingCardId,
     selectCard,
     clearSelectedCard,
+    clearCardError,
     drawCard,
     useCard,
     setBoardTarget,

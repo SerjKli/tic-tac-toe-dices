@@ -89,6 +89,10 @@ export class FirebaseGameService {
     this._pushSnapshot()
   }
 
+  hasReasonNotSelectCard(cardId) {
+    return this._engine.hasReasonNotSelectCard(cardId)
+  }
+
   skipCardInteraction() {
     if (!this.isMyTurn) return
     this._engine.skipCardInteraction()

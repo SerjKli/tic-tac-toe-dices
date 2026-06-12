@@ -16,6 +16,12 @@ export default {
     selectTarget: 'Select a target',
     shieldClickCell: 'Click one of your cells to shield it',
     selectOnBoard: 'Select on Board',
+    cantSelectReason:{
+      noPlayer: 'Player not found',
+      noCard: 'Card not found',
+      noPlayerMarks: 'You have no pieces on the board',
+      noSkipTurn: 'You have no skip-turn effect to remove'
+    },
     emptyHand: 'No cards in hand',
     cancel: 'Cancel',
     useCardConfirm: 'Use {name}?',

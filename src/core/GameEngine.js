@@ -47,15 +47,17 @@ export class GameEngine extends EventTarget {
     }
 
     // TODO: !remove in production
-    this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
-    this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
-    this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
-    this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
-
-
+    // this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
+    // this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
+    // this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
+    this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
+    this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
+    this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
+    //
+    //
     for(let r = 0; r < BOARD_SIZE; r++) {
       for (let c = 0; c < BOARD_SIZE; c++) {
-        this.board.grid[r][c].ownerId = 'p1';
+        this.board.grid[r][c].ownerId = 'p2';
       }
     }
   }
@@ -78,6 +80,8 @@ export class GameEngine extends EventTarget {
     if (idx === -1) return
 
     const def = CARDS[cardId]
+
+
 
     if (def.behavior === 'IMMEDIATE') {
       const card = player.hand.splice(idx, 1)[0]
@@ -109,6 +113,14 @@ export class GameEngine extends EventTarget {
       this.activeCard = card
       this._transition(GameState.ROLLING)
     }
+  }
+
+  hasReasonNotSelectCard(cardId) {
+    const player = this._currentPlayer()
+    if (!player) return 'card.cantSelectReason.noPlayer'
+    const entry = player.hand.find(c => c.cardId === cardId)
+    if (!entry) return 'card.cantSelectReason.noCard'
+    return this._cardEngine.hasReasonNotSelectCard(entry, player, { board: this.board })
   }
 
   skipCardInteraction() {

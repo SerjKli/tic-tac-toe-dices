@@ -16,6 +16,12 @@ export default {
     selectTarget: 'Выберите цель',
     shieldClickCell: 'Нажмите на свою клетку, чтобы защитить её',
     selectOnBoard: 'Выбрать на доске',
+    cantSelectReason:{
+      noPlayer: 'Игрок не найден',
+      noCard: 'Карта не найдена',
+      noPlayerMarks: 'У вас нет фишек на поле',
+      noSkipTurn: 'Никто не накладывал на вас пропуск хода'
+    },
     emptyHand: 'Нет карт на руке',
     cancel: 'Отмена',
     useCardConfirm: 'Сыграть «{name}»?',

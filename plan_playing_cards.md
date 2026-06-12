@@ -135,7 +135,7 @@ Pure logic class (no Vue reactivity). Methods:
 ```js
 buildDeck()                        // → shuffled Card[] from DECK_CONFIG
 drawCard(deck, player)             // mutate: deck.shift() → player.hand.push()
-canUseCard(card, player, board, players)  // → bool (e.g. Cleanse needs skipTurnCount>0)
+hasReasonNotSelectCard(card, player, board, players)  // → bool (e.g. Cleanse needs skipTurnCount>0)
 applyCardSideEffect(card, context, engine) 
   // context: { targetPlayerId?, row?, col? }
   // Handles: SHIELD (set cell.shieldCount++), SKIP_TURN (target.skipTurnCount++),

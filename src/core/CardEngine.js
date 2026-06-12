@@ -15,11 +15,14 @@ export class CardEngine {
     return entry
   }
 
-  canUseCard(card, player) {
+  hasReasonNotSelectCard(card, player, { board } = {}) {
     const def = CARDS[card.cardId]
-    if (!def) return false
-    if (def.id === CardId.CLEANSE) return player.skipTurnCount > 0
-    return true
+    if (!def) return 'cards.cantSelectReason.noCard'
+    if (def.id === CardId.SHIELD)
+      return board?.cells().some(c => c.ownerId === player.id) ? null : 'cards.cantSelectReason.noPlayerMarks'
+    if (def.id === CardId.CLEANSE)
+      return player.skipTurnCount > 0 ? null : 'cards.cantSelectReason.noSkipTurn'
+    return null
   }
 
   applyCardSideEffect(card, context, { board, players, currentPlayer }) {

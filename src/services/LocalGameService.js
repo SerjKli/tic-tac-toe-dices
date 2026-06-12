@@ -60,6 +60,10 @@ export class LocalGameService {
     this._syncState()
   }
 
+  hasReasonNotSelectCard(cardId) {
+    return this._engine.hasReasonNotSelectCard(cardId)
+  }
+
   skipCardInteraction() {
     this._engine.skipCardInteraction()
     this._syncState()
