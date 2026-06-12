@@ -1,30 +1,21 @@
 <template>
   <Transition name="toast">
-    <div v-if="cardStore.cardErrorKey" class="card-error-toast">
-      {{ t(cardStore.cardErrorKey) }}
+    <div v-if="messageStore.messageKey" class="message-toast">
+      {{ t(messageStore.messageKey) }}
     </div>
   </Transition>
 </template>
 
 <script setup>
-import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useCardStore } from '@/stores/cardStore.js'
+import { useMessageStore } from '@/stores/messageStore.js'
 
 const { t } = useI18n()
-const cardStore = useCardStore()
-
-let dismissTimer = null
-
-watch(() => cardStore.cardErrorKey, (key) => {
-  if (!key) return
-  clearTimeout(dismissTimer)
-  dismissTimer = setTimeout(() => cardStore.clearCardError(), 2500)
-})
+const messageStore = useMessageStore()
 </script>
 
 <style scoped>
-.card-error-toast {
+.message-toast {
   position: fixed;
   bottom: 28px;
   left: 50%;

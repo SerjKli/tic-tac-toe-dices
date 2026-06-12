@@ -3,6 +3,7 @@ import { computed, inject, ref, watch } from 'vue'
 import { LocalGameService } from '../services/LocalGameService.js'
 import { gameServiceKey } from '../services/serviceKeys.js'
 import { GameMode, GameState } from '../core/constants.js'
+import { useMessageStore } from './messageStore.js'
 
 export const useCardStore = defineStore('card', () => {
   const service = inject(gameServiceKey, () => new LocalGameService(), true)
@@ -10,9 +11,10 @@ export const useCardStore = defineStore('card', () => {
 
   // ── Refs ─────────────────────────────────────────────────────────────────────
 
+  const messageService = useMessageStore()
+
   const boardTargetCardId = ref(null)
   const selectedCardId = ref(null)
-  const cardErrorKey = ref(null)
 
   // ── Derived ───────────────────────────────────────────────────────────────────
 
@@ -46,14 +48,10 @@ export const useCardStore = defineStore('card', () => {
   function selectCard(cardId) {
     const reasonKey = service.hasReasonNotSelectCard(cardId)
     if (reasonKey) {
-      cardErrorKey.value = reasonKey
+      messageService.showMessage(reasonKey, 'error')
       return
     }
     selectedCardId.value = selectedCardId.value === cardId ? null : cardId
-  }
-
-  function clearCardError() {
-    cardErrorKey.value = null
   }
 
   function clearSelectedCard() {
@@ -86,7 +84,6 @@ export const useCardStore = defineStore('card', () => {
   return {
     boardTargetCardId,
     selectedCardId,
-    cardErrorKey,
     isAdvanced,
     isCardPhase,
     myHand,
@@ -96,7 +93,6 @@ export const useCardStore = defineStore('card', () => {
     pendingCardId,
     selectCard,
     clearSelectedCard,
-    clearCardError,
     drawCard,
     useCard,
     setBoardTarget,
