@@ -4,6 +4,9 @@ import { useRouter } from 'vue-router'
 import { useSettingsStore } from './settingsStore.js'
 import { ref as dbRef, set as dbSet } from 'firebase/database'
 import { db } from '../firebase/firebase.js'
+import { ABANDONED_GRACE_MS } from '../core/constants.js'
+
+
 import {
   createRoom as rtdbCreateRoom,
   findAndClaimSlot,
@@ -12,7 +15,8 @@ import {
   getRoomOnce,
   subscribeToRoom,
   unsubscribeRoom,
-  setHostDisconnect
+  setHostDisconnect,
+  cancelHostDisconnect
 } from '../firebase/roomService.js'
 import {
   getOrCreatePlayerId,
@@ -36,6 +40,8 @@ export const useRoomStore = defineStore('room', () => {
   const error = ref(null)
   let _roomRef = null
   let _gameStarting = false
+  let _abandonedTimer = null
+
 
   const isHost = computed(() => {
     return slots.value[0]?.playerId === myPlayerId.value
@@ -107,10 +113,25 @@ export const useRoomStore = defineStore('room', () => {
       }
 
       if (data.meta?.status === 'abandoned') {
-        stopWatching()
-        clearRoomSession()
-        error.value = 'roomAbandoned'
+        if (isHost.value) {
+          await setRoomStatus(roomId.value, 'waiting')
+          setHostDisconnect(roomId.value)
+          return
+        }
+        if (!_abandonedTimer) {
+          _abandonedTimer = setTimeout(() => {
+            _abandonedTimer = null
+            stopWatching()
+            clearRoomSession()
+            error.value = 'roomAbandoned'
+          }, ABANDONED_GRACE_MS)
+        }
         return
+      }
+
+      if (_abandonedTimer) {
+        clearTimeout(_abandonedTimer)
+        _abandonedTimer = null
       }
 
       if (isHost.value && allSlotsReady.value && data.meta?.status !== 'playing') {
@@ -140,6 +161,7 @@ export const useRoomStore = defineStore('room', () => {
       await fbService.startGame({ players, gameMode })
 
       await setRoomStatus(roomId.value, 'playing')
+      await cancelHostDisconnect(roomId.value)
       window.location.href = `/ttt-6/game?room=${roomId.value}`
     } finally {
       _gameStarting = false
@@ -147,6 +169,10 @@ export const useRoomStore = defineStore('room', () => {
   }
 
   function stopWatching() {
+    if (_abandonedTimer) {
+      clearTimeout(_abandonedTimer)
+      _abandonedTimer = null
+    }
     if (_roomRef) {
       unsubscribeRoom(_roomRef)
       _roomRef = null
@@ -160,11 +186,21 @@ export const useRoomStore = defineStore('room', () => {
     const data = await getRoomOnce(session.roomId)
     if (!data) return false
 
+    const slotsArray = data.slots ? Object.values(data.slots) : []
+
+    if (data.meta?.status === 'abandoned') {
+      const currentUserIsHost = slotsArray[0]?.playerId === myPlayerId.value
+      if (currentUserIsHost) {
+        await setRoomStatus(session.roomId, 'waiting')
+        setHostDisconnect(session.roomId)
+      }
+    }
+
     roomId.value = session.roomId
     mySlotIndex.value = session.slotIndex
-    if (data.slots) slots.value = Object.values(data.slots)
+    slots.value = slotsArray
     if (data.meta) {
-      roomStatus.value = data.meta.status
+      roomStatus.value = data.meta.status === 'abandoned' ? 'waiting' : data.meta.status
       playerCount.value = data.meta.playerCount
     }
     return true

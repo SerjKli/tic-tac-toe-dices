@@ -90,6 +90,11 @@ export function setHostDisconnect(roomId) {
   onDisconnect(statusRef).set('abandoned')
 }
 
+export function cancelHostDisconnect(roomId) {
+  const statusRef = ref(db, `rooms/${roomId}/meta/status`)
+  return onDisconnect(statusRef).cancel()
+}
+
 export function pushPlayerEmoji(roomId, playerId, emoji) {
   return set(ref(db, `rooms/${roomId}/playerEmojis/${playerId}`), emoji)
 }

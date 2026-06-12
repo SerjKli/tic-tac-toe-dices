@@ -1,11 +1,12 @@
 export const BOARD_SIZE = 6
-// TODO: ! WIN_LENGTH set to 3 in production
-export const WIN_LENGTH = 5
+export const WIN_LENGTH = 3
 export const MAX_PLAYERS = 5
 export const MIN_PLAYERS = 2
 
 export const DECK_SIZE = 28
 export const MAX_HAND_SIZE = 5
+
+export const ABANDONED_GRACE_MS = 8000
 
 export const DEFAULT_MARKS = ['🧶', '💩', '👾', '👹', '🌌', '🕺','🦄', '🍃', '🌙', '🎈', '🪴', '🦋', '🍉', '🎨', '☁️', '🌸']
 export const DEFAULT_COLORS = [

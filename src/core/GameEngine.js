@@ -50,16 +50,16 @@ export class GameEngine extends EventTarget {
     // this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
     // this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
     // this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
-    this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
-    this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
-    this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
-    //
-    //
-    for(let r = 0; r < BOARD_SIZE; r++) {
-      for (let c = 0; c < BOARD_SIZE; c++) {
-        this.board.grid[r][c].ownerId = 'p2';
-      }
-    }
+    // this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
+    // this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
+    // this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
+    // //
+    // //
+    // for(let r = 0; r < BOARD_SIZE; r++) {
+    //   for (let c = 0; c < BOARD_SIZE; c++) {
+    //     this.board.grid[r][c].ownerId = 'p2';
+    //   }
+    // }
   }
 
   // ── Card phase actions ──────────────────────────────────────────────────────

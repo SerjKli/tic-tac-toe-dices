@@ -1,7 +1,10 @@
 <template>
   <div class="card-hand" :class="{ disabled }">
-    <p v-if="showTitle" class="hand-title">{{ t('cards.handTitle') }}</p>
-    <p v-if="lockMessage" class="not-your-turn-hint">{{ lockMessage }}</p>
+    <p class="hand-title">
+      {{ t('cards.handTitle') }}
+      <span v-if="lockMessage" class="not-your-turn-hint">{{ lockMessage }}</span>
+    </p>
+
 
     <div v-if="cardStore.myHand.length > 0" class="cards-list">
       <CardItem
@@ -30,10 +33,6 @@ import CardItem from './CardItem.vue'
 const { t } = useI18n()
 const cardStore = useCardStore()
 const game = useGameStore()
-
-defineProps({
-  showTitle: { type: Boolean, default: true }
-})
 
 const groupedHand = computed(() => {
   const groups = {}
