@@ -6,6 +6,7 @@
       <SkipTurnPhaseOverlay v-else-if="game.isSkipTurnPhase && game.isAdvanced" />
     </div>
   </Transition>
+  <CardUsedOverlay />
 </template>
 
 <script setup>
@@ -13,13 +14,17 @@ import {computed} from 'vue'
 import { useGameStore } from '@/stores/gameStore.js'
 import { useCardStore } from '@/stores/cardStore.js'
 import { useDiceRoll } from '@/composables/useDiceRoll.js'
+import { watchForCardUsed } from '@/composables/useCardUsed.js'
 import RollDiceOverlay from './Overlays/RollDiceOverlay.vue'
 import CardPhaseOverlay from './Overlays/CardPhaseOverlay.vue'
 import SkipTurnPhaseOverlay from './Overlays/SkipTurnPhaseOverlay.vue'
+import CardUsedOverlay from './Overlays/CardUsedOverlay.vue'
 
 const game = useGameStore()
 const card = useCardStore()
 const { showingResult } = useDiceRoll()
+
+watchForCardUsed(game)
 
 const visible = computed(() =>
   !game.isOver &&

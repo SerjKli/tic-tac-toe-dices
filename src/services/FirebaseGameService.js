@@ -32,7 +32,8 @@ export class FirebaseGameService {
       currentPlayerIndex: 0,
       gameMode: GameMode.CLASSIC,
       deck: [],
-      activeCard: null
+      activeCard: null,
+      lastUsedCard: null
     })
   }
 
@@ -84,6 +85,7 @@ export class FirebaseGameService {
 
   useCard(cardId, context = {}) {
     if (!this.isMyTurn) return
+    this.state.lastUsedCard = { cardId, playerId: this._playerId, ts: Date.now() }
     this._engine.useCard(cardId, context)
     this._syncState()
     this._pushSnapshot()
@@ -177,6 +179,7 @@ export class FirebaseGameService {
     this.state.gameMode = data.gameMode ?? GameMode.CLASSIC
     this.state.deck = data.deck ?? []
     this.state.activeCard = data.activeCard ?? null
+    this.state.lastUsedCard = data.lastUsedCard ?? null
     if (data.winnerIndex != null && data.players) {
       this.state.winnerPlayer = data.players[data.winnerIndex] ?? null
     }
@@ -220,7 +223,8 @@ export class FirebaseGameService {
       winCells: this.state.winCells,
       gameMode: snap.gameMode,
       deck: snap.deck,
-      activeCard: snap.activeCard
+      activeCard: snap.activeCard,
+      lastUsedCard: this.state.lastUsedCard ?? null
     }))
 
     return pushGameState(this._roomId, payload)
