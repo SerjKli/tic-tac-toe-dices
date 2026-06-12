@@ -1,17 +1,20 @@
 <template>
   <div class="game-view">
+    <PlayerStrip
+        v-if="game.state.players?.length"
+        :players="game.state.players"
+        :currentPlayerId="game.state.currentPlayer?.id"
+        :playerEmojis="chat.playerEmojis"
+    />
+    <br>
+
     <div class="game-layout">
       <aside class="sidebar"  v-if="game.isAdvanced && (game.myTurn || game.isOnline)">
         <CardHand v-if="game.isAdvanced && !game.isOver" />
       </aside>
 
       <main class="board-area">
-        <PlayerStrip
-          v-if="game.state.players?.length"
-          :players="game.state.players"
-          :currentPlayerId="game.state.currentPlayer?.id"
-          :playerEmojis="chat.playerEmojis"
-        />
+
         <div v-if="game.state.board" class="board-wrapper">
           <GameBoard
             :board="game.state.board"

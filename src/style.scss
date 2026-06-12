@@ -26,7 +26,12 @@ button {
   margin: 0 auto;
   display: flex;
   gap: 32px;
-  align-items: center;
+  align-items: stretch;
+  flex-direction: row;
+
+  .sidebar, .board-area{
+    flex:1;
+  }
 
   .sidebar {
     display: flex;
@@ -492,7 +497,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  overflow-y: auto;
+  //overflow-y: auto;
   max-height: 90vh;
   // TODO: fix height
 
@@ -500,6 +505,7 @@ a {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 6px;
+    max-height: 90vh;
   }
 
 }

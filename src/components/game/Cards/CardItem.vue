@@ -108,32 +108,16 @@ defineEmits(['select'])
 }
 
 @keyframes card-pending-shake {
-  0%, 70%, 100% {
-    transform: translate(0, 0) rotate(0deg);
+  0%, 50%, 100% {
+    transform:rotate(0deg);
   }
 
-  73% {
-    transform: translate(-2px, 1px) rotate(-4deg);
+  25%{
+    transform: rotate(8deg);
   }
 
-  76% {
-    transform: translate(2px, -1px) rotate(3.5deg);
-  }
-
-  79% {
-    transform: translate(-1.5px, 0.5px) rotate(-3deg);
-  }
-
-  82% {
-    transform: translate(1px, -0.5px) rotate(2deg);
-  }
-
-  85% {
-    transform: translate(-0.5px, 0) rotate(-1deg);
-  }
-
-  88% {
-    transform: translate(0, 0) rotate(0deg);
+  75%{
+    transform: rotate(-8deg);
   }
 }
 
