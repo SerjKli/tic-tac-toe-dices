@@ -1,9 +1,9 @@
-import { CardType } from './constants.js'
+import {CardId, CardType} from './constants.js'
 import { Card } from './models/Card.js'
 
 export const CARDS = Object.freeze({
   ROW_MARK: new Card({
-    id: 'ROW_MARK',
+    id: CardId.ROW_MARK,
     nameKey: 'cards.rowMark.name',
     descKey: 'cards.rowMark.desc',
     color: '#4CAF50',
@@ -12,7 +12,7 @@ export const CARDS = Object.freeze({
     behavior: 'DEFERRED'
   }),
   COL_MARK: new Card({
-    id: 'COL_MARK',
+    id: CardId.COL_MARK,
     nameKey: 'cards.colMark.name',
     descKey: 'cards.colMark.desc',
     color: '#2196F3',
@@ -21,7 +21,7 @@ export const CARDS = Object.freeze({
     behavior: 'DEFERRED'
   }),
   AREA_3X3: new Card({
-    id: 'AREA_3X3',
+    id: CardId.AREA_3X3,
     nameKey: 'cards.area3x3.name',
     descKey: 'cards.area3x3.desc',
     color: '#9C27B0',
@@ -30,7 +30,7 @@ export const CARDS = Object.freeze({
     behavior: 'DEFERRED'
   }),
   SHIELD: new Card({
-    id: 'SHIELD',
+    id: CardId.SHIELD,
     nameKey: 'cards.shield.name',
     descKey: 'cards.shield.desc',
     color: '#607D8B',
@@ -39,7 +39,7 @@ export const CARDS = Object.freeze({
     behavior: 'SIDE_EFFECT'
   }),
   EXPLOSION4: new Card({
-    id: 'EXPLOSION4',
+    id: CardId.EXPLOSION4,
     nameKey: 'cards.explosion4.name',
     descKey: 'cards.explosion4.desc',
     color: '#FF5722',
@@ -48,7 +48,7 @@ export const CARDS = Object.freeze({
     behavior: 'DEFERRED'
   }),
   SKIP_TURN: new Card({
-    id: 'SKIP_TURN',
+    id: CardId.SKIP_TURN,
     nameKey: 'cards.skipTurn.name',
     descKey: 'cards.skipTurn.desc',
     color: '#F44336',
@@ -57,7 +57,7 @@ export const CARDS = Object.freeze({
     behavior: 'SIDE_EFFECT'
   }),
   CLEANSE: new Card({
-    id: 'CLEANSE',
+    id: CardId.CLEANSE,
     nameKey: 'cards.cleanse.name',
     descKey: 'cards.cleanse.desc',
     color: '#00BCD4',
@@ -66,7 +66,7 @@ export const CARDS = Object.freeze({
     behavior: 'SIDE_EFFECT'
   }),
   EXTRA_TURN: new Card({
-    id: 'EXTRA_TURN',
+    id: CardId.EXTRA_TURN,
     nameKey: 'cards.extraTurn.name',
     descKey: 'cards.extraTurn.desc',
     color: '#FF9800',
@@ -75,7 +75,7 @@ export const CARDS = Object.freeze({
     behavior: 'SIDE_EFFECT'
   }),
   RANDOM_CLEAR3: new Card({
-    id: 'RANDOM_CLEAR3',
+    id: CardId.RANDOM_CLEAR3,
     nameKey: 'cards.randomClear3.name',
     descKey: 'cards.randomClear3.desc',
     color: '#795548',
@@ -84,7 +84,7 @@ export const CARDS = Object.freeze({
     behavior: 'IMMEDIATE'
   }),
   SHAKE: new Card({
-    id: 'SHAKE',
+    id: CardId.SHAKE,
     nameKey: 'cards.shake.name',
     descKey: 'cards.shake.desc',
     color: '#FF6B6B',

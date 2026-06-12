@@ -1,6 +1,6 @@
 import { CARDS } from './cards.js'
 import { buildDeck } from './cards_deck.js'
-import { MAX_HAND_SIZE } from './constants.js'
+import {CardId, MAX_HAND_SIZE} from './constants.js'
 import { checkWin } from './WinDetector.js'
 
 export class CardEngine {
@@ -18,30 +18,30 @@ export class CardEngine {
   canUseCard(card, player) {
     const def = CARDS[card.cardId]
     if (!def) return false
-    if (def.id === 'CLEANSE') return player.skipTurnCount > 0
+    if (def.id === CardId.CLEANSE) return player.skipTurnCount > 0
     return true
   }
 
   applyCardSideEffect(card, context, { board, players, currentPlayer }) {
     const def = CARDS[card.cardId]
     switch (def.id) {
-      case 'SHIELD': {
+      case CardId.SHIELD: {
         const { row, col } = context
         if (row != null && col != null) {
           board.grid[row][col].shieldCount++
         }
         break
       }
-      case 'SKIP_TURN': {
+      case CardId.SKIP_TURN: {
         const target = players.find(p => p.id === context.targetPlayerId)
         if (target) target.skipTurnCount++
         break
       }
-      case 'CLEANSE': {
+      case CardId.CLEANSE: {
         if (currentPlayer.skipTurnCount > 0) currentPlayer.skipTurnCount--
         break
       }
-      case 'EXTRA_TURN': {
+      case CardId.EXTRA_TURN: {
         currentPlayer.extraTurnCount++
         break
       }
@@ -52,7 +52,7 @@ export class CardEngine {
     const def = CARDS[card.cardId]
     const events = []
 
-    if (def.id === 'RANDOM_CLEAR3') {
+    if (def.id === CardId.RANDOM_CLEAR3) {
       const occupied = board.cells().filter(c => c.ownerId !== null)
       const count = Math.min(3, occupied.length)
       const picked = this._sample(occupied, count)
@@ -67,8 +67,9 @@ export class CardEngine {
       }
     }
 
-    if (def.id === 'SHAKE') {
-      const occupied = board.cells().filter(c => c.ownerId !== null)
+    if (def.id === CardId.SHAKE) {
+      const occupied = board.cells()
+          // .filter(c => c.ownerId !== null)
       if (occupied.length > 0) {
         const ownerIds = occupied.map(c => c.ownerId)
         let shuffled

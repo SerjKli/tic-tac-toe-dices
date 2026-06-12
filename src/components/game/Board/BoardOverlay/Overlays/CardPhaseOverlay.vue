@@ -56,7 +56,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useGameStore } from '@/stores/gameStore.js'
 import { useCardStore } from '@/stores/cardStore.js'
-import { MAX_HAND_SIZE } from '@/core/constants.js'
+import {CardId, MAX_HAND_SIZE} from '@/core/constants.js'
 import PlayerStrip from "@/components/game/Player/PlayerStrip.vue";
 import {CARDS} from "@/core/cards.js";
 
@@ -82,8 +82,8 @@ const hintTextLabel = computed(() => {
 const haveCards = computed(() => card.myHand.length > 0)
 
 const selectedDef = computed(() => card.selectedCardId ? CARDS[card.selectedCardId] : null)
-const isSkipTurn = computed(() => card.selectedCardId === 'SKIP_TURN')
-const isShield = computed(() => selectedDef.value?.id === 'SHIELD')
+const isSkipTurn = computed(() => card.selectedCardId === CardId.SKIP_TURN)
+const isShield = computed(() => selectedDef.value?.id === CardId.SHIELD)
 
 const otherPlayers = computed(() =>
   game.state.players?.filter(p => p.id !== game.myPlayerId) ?? []

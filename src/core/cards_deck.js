@@ -1,14 +1,16 @@
+import {CardId} from "@/core/constants.js";
+
 export const DECK_CONFIG = [
-  // { cardId: 'ROW_MARK', count: 4 },
-  // { cardId: 'COL_MARK', count: 4 },
-  // { cardId: 'AREA_3X3', count: 3 },
-  // { cardId: 'SHIELD', count: 3 },
-  // { cardId: 'EXPLOSION4', count: 20 },
-  // { cardId: 'SKIP_TURN', count: 3 },
-  // { cardId: 'CLEANSE', count: 3 },
-  // { cardId: 'EXTRA_TURN', count: 2 },
-  // { cardId: 'RANDOM_CLEAR3', count: 2 },
-  { cardId: 'SHAKE', count: 20 }
+  // { cardId: CardId.ROW_MARK, count: 4 },
+  // { cardId: CardId.COL_MARK, count: 4 },
+  // { cardId: CardId.AREA_3X3, count: 3 },
+  // { cardId: CardId.SHIELD, count: 3 },
+  // { cardId: CardId.EXPLOSION4, count: 20 },
+  // { cardId: CardId.SKIP_TURN, count: 3 },
+  // { cardId: CardId.CLEANSE, count: 3 },
+  // { cardId: CardId.EXTRA_TURN, count: 2 },
+  // { cardId: CardId.RANDOM_CLEAR3, count: 2 },
+  { cardId: CardId.SHAKE, count: 20 }
   // total = 28 = DECK_SIZE
 ]
 

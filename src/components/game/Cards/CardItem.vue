@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card-item"
+    class="card-item pop-in"
     :class="[`type-${card.type.toLowerCase()}`, { selected, disabled, pending }]"
     :style="{ '--card-color': card.color }"
     @click="!disabled && $emit('select', card.id)"

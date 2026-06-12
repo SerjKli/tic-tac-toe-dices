@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import {computed} from 'vue'
 import { useGameStore } from '@/stores/gameStore.js'
 import { useCardStore } from '@/stores/cardStore.js'
 import { useDiceRoll } from '@/composables/useDiceRoll.js'
@@ -27,6 +27,7 @@ const visible = computed(() =>
   !card.boardTargetCardId &&
   (game.isRolling || showingResult.value || (game.isCardPhase && game.isAdvanced) || game.isSkipTurnPhase)
 )
+
 </script>
 
 <style scoped>

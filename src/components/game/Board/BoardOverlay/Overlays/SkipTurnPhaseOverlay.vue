@@ -29,6 +29,7 @@ import { useI18n } from 'vue-i18n'
 import { useGameStore } from '@/stores/gameStore.js'
 import { CARDS } from '@/core/cards.js'
 import CardItem from '@/components/game/Cards/CardItem.vue'
+import {CardId} from "@/core/constants.js";
 
 const { t } = useI18n()
 const game = useGameStore()
@@ -37,8 +38,8 @@ const skipCount = computed(() => game.state.currentPlayer?.skipTurnCount ?? 0)
 
 const cleanseCards = computed(() => {
   const hand = game.state.currentPlayer?.hand ?? []
-  const count = hand.filter(c => c.cardId === 'CLEANSE').length
-  return count > 0 ? [{ cardId: 'CLEANSE', count }] : []
+  const count = hand.filter(c => c.cardId === CardId.CLEANSE).length
+  return count > 0 ? [{ cardId: CardId.CLEANSE, count }] : []
 })
 </script>
 

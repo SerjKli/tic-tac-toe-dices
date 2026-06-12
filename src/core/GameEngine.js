@@ -247,7 +247,7 @@ export class GameEngine extends EventTarget {
   useCleanseInSkipPhase() {
     if (this.state !== GameState.SKIP_TURN_PHASE) return
     const player = this._currentPlayer()
-    const idx = player.hand.findIndex(c => c.cardId === 'CLEANSE')
+    const idx = player.hand.findIndex(c => c.cardId === CardId.CLEANSE)
     if (idx === -1) return
     const card = player.hand.splice(idx, 1)[0]
     this._emit('card-used', { card, player })

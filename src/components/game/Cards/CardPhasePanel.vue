@@ -46,7 +46,7 @@ import { useI18n } from 'vue-i18n'
 import { useGameStore } from '@/stores/gameStore.js'
 import { useCardStore } from '@/stores/cardStore.js'
 import { CARDS } from '@/core/cards.js'
-import { MAX_HAND_SIZE } from '@/core/constants.js'
+import {CardId, MAX_HAND_SIZE} from '@/core/constants.js'
 import PlayerStrip from "@/components/game/Player/PlayerStrip.vue";
 
 const { t } = useI18n()
@@ -54,8 +54,8 @@ const game = useGameStore()
 const card = useCardStore()
 
 const selectedDef = computed(() => card.selectedCardId ? CARDS[card.selectedCardId] : null)
-const isShield = computed(() => selectedDef.value?.id === 'SHIELD')
-const isSkipTurn = computed(() => selectedDef.value?.id === 'SKIP_TURN')
+const isShield = computed(() => selectedDef.value?.id === CardId.SHIELD)
+const isSkipTurn = computed(() => selectedDef.value?.id === CardId.SKIP_TURN)
 
 const otherPlayers = computed(() =>
   game.state.players?.filter(p => p.id !== game.myPlayerId) ?? []

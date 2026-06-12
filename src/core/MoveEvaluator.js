@@ -1,5 +1,5 @@
 import { getCandidates } from './Dice.js'
-import { CellAction, BOARD_SIZE } from './constants.js'
+import {CellAction, BOARD_SIZE, CardId} from './constants.js'
 import { CARDS } from './cards.js'
 
 /**
@@ -47,7 +47,7 @@ export function evaluateWithCard(roll, board, playerId, activeCard) {
   const def = CARDS[activeCard.cardId]
   let candidates = []
 
-  if (def.id === 'ROW_MARK') {
+  if (def.id === CardId.ROW_MARK) {
     const rows = isDoubles ? [d1] : [d1, d2]
     for (const r of rows) {
       for (let c = 0; c < BOARD_SIZE; c++) {
@@ -57,7 +57,7 @@ export function evaluateWithCard(roll, board, playerId, activeCard) {
         }
       }
     }
-  } else if (def.id === 'COL_MARK') {
+  } else if (def.id === CardId.COL_MARK) {
     const cols = isDoubles ? [d2] : [d1, d2]
     for (const c of cols) {
       for (let r = 0; r < BOARD_SIZE; r++) {
@@ -67,7 +67,7 @@ export function evaluateWithCard(roll, board, playerId, activeCard) {
         }
       }
     }
-  } else if (def.id === 'AREA_3X3') {
+  } else if (def.id === CardId.AREA_3X3) {
     const rMin = Math.max(0, d1 - 1)
     const rMax = Math.min(BOARD_SIZE - 1, d1 + 1)
     const cMin = Math.max(0, d2 - 1)
@@ -80,7 +80,7 @@ export function evaluateWithCard(roll, board, playerId, activeCard) {
         }
       }
     }
-  } else if (def.id === 'EXPLOSION4') {
+  } else if (def.id === CardId.EXPLOSION4) {
     // Valid 2×2 top-left anchors: anchor must be within board and 2×2 area must contain (d1, d2)
     const rMin = Math.max(0, d1 - 1)
     const rMax = Math.min(BOARD_SIZE - 2, d1)

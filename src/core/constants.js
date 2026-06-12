@@ -50,6 +50,18 @@ export const CardType = Object.freeze({
   EXPANDING: 'EXPANDING'
 })
 
+export const CardId = Object.freeze({
+  ROW_MARK: 'ROW_MARK',
+  COL_MARK: 'COL_MARK',
+  AREA_3X3: 'AREA_3X3',
+  SHIELD: 'SHIELD',
+  EXPLOSION4: 'EXPLOSION4',
+  SKIP_TURN: 'SKIP_TURN',
+  CLEANSE: 'CLEANSE',
+  EXTRA_TURN: 'EXTRA_TURN',
+  RANDOM_CLEAR3: 'RANDOM_CLEAR3',
+  SHAKE: 'SHAKE',
+})
 
 
 export const TurnAction = Object.freeze({
