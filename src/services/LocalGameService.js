@@ -92,7 +92,7 @@ export class LocalGameService {
     this.state.lastRoll = snap.lastRoll
     this.state.lastEvaluation = snap.lastEvaluation
     this.state.gameMode = snap.gameMode
-    this.state.deck = snap.deck
+    this.state.deck = [...snap.deck]
     this.state.activeCard = snap.activeCard
     this.state.pendingCardId = snap.pendingCardId
     this._save()

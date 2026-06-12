@@ -6,14 +6,14 @@
           :disabled="drawDisabled"
           @click="card.drawCard()"
       >
+        <span class="btn-icon">🃏</span> &nbsp;
         <span class="btn-text">{{ drawLabel }}</span>
       </button>
 
       <p class="text-center" v-if="haveCards && !isSkipTurn && !selectedDef">
-        {{ t('cards.useCardHint') }}
+        {{ hintTextLabel }}
       </p>
     </div>
-
 
     <div v-if="card.selectedCardId && selectedDef" class="confirm-section">
       <p class="confirm-label">
@@ -29,10 +29,6 @@
             @click="confirmUseCard(p.id)"
             class="player-target-btn"
         />
-
-<!--        <button class="overlay-btn cancel-btn" @click="card.clearSelectedCard()">-->
-<!--          {{ t('cards.cancel') }}-->
-<!--        </button>-->
       </div>
 
       <template v-else-if="isShield">
@@ -49,6 +45,9 @@
       {{ t('cards.cancel') }}
     </button>
 
+    <button class="overlay-btn cancel-btn" v-if="!card.canInteractWithCards" @click="card.skipCardInteraction()">
+      {{ t('cards.skipPhase') }}
+    </button>
   </div>
 </template>
 
@@ -74,6 +73,11 @@ const drawLabel = computed(() => {
   if (card.myHand.length >= MAX_HAND_SIZE) return t('cards.handFull')
   return t('cards.draw')
 })
+
+const hintTextLabel = computed(() => {
+  if (card.deckSize === 0) return t('cards.useEmptyDeckCardHint')
+  return t('cards.useCardHint')
+});
 
 const haveCards = computed(() => card.myHand.length > 0)
 

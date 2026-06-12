@@ -34,6 +34,8 @@ export const useCardStore = defineStore('card', () => {
   const activeCard = computed(() => state.activeCard)
   const pendingCardId = computed(() => state.pendingCardId ?? null)
 
+  const canInteractWithCards = computed(() => deckSize.value > 0 || myHand.value.length > 0)
+
   watch(isCardPhase, (active) => {
     if (!active) selectedCardId.value = null
   })
@@ -78,6 +80,7 @@ export const useCardStore = defineStore('card', () => {
     isCardPhase,
     myHand,
     deckSize,
+    canInteractWithCards,
     activeCard,
     pendingCardId,
     selectCard,

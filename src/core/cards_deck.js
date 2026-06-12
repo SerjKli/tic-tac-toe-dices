@@ -4,11 +4,11 @@ export const DECK_CONFIG = [
   // { cardId: 'AREA_3X3', count: 3 },
   // { cardId: 'SHIELD', count: 3 },
   // { cardId: 'EXPLOSION4', count: 20 },
-  { cardId: 'SKIP_TURN', count: 30 },
+  // { cardId: 'SKIP_TURN', count: 3 },
   // { cardId: 'CLEANSE', count: 3 },
-  { cardId: 'EXTRA_TURN', count: 20 },
+  // { cardId: 'EXTRA_TURN', count: 2 },
   // { cardId: 'RANDOM_CLEAR3', count: 2 },
-  // { cardId: 'SHAKE', count: 2 }
+  { cardId: 'SHAKE', count: 20 }
   // total = 28 = DECK_SIZE
 ]
 

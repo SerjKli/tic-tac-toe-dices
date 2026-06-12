@@ -15,6 +15,8 @@ export const useGameStore = defineStore('game', () => {
   const isChoosing = computed(() => state.gameState === GameState.CHOOSING)
   const isOver = computed(() => state.gameState === GameState.GAME_OVER)
   const isCardPhase = computed(() => state.gameState === GameState.CARD_PHASE)
+
+
   const isSkipTurnPhase = computed(() => state.gameState === GameState.SKIP_TURN_PHASE)
   const canSkip = computed(() => isChoosing.value && !!state.lastEvaluation?.mustSkip)
   const isOnline = computed(() => !!service.isOnline)

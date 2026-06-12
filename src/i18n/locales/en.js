@@ -3,6 +3,7 @@ export default {
   gameNameSubtitle: 'Dice',
   cards: {
     phaseLabel: 'Card Phase',
+    skipPhase: 'Skip',
     draw: 'Draw Card',
     deckEmpty: 'Deck Empty',
     handFull: 'Hand Full',
@@ -19,6 +20,7 @@ export default {
     cancel: 'Cancel',
     useCardConfirm: 'Use {name}?',
     useCardHint: 'Or use your card in hand',
+    useEmptyDeckCardHint: "Use your card in hand",
     handTitle: 'Your Hand',
     notYourTurn: 'Not your turn',
     type: {

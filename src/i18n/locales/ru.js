@@ -3,6 +3,7 @@ export default {
   gameNameSubtitle: 'Кубики',
   cards: {
     phaseLabel: 'Фаза карт',
+    skipPhase: 'Пропустить',
     draw: 'Взять карту из колоды',
     deckEmpty: 'Колода пуста',
     handFull: 'Рука полна',
@@ -18,7 +19,8 @@ export default {
     emptyHand: 'Нет карт на руке',
     cancel: 'Отмена',
     useCardConfirm: 'Сыграть «{name}»?',
-    useCardHint: "Или вы можете использовать\nкарту из вашей колоды",
+    useCardHint: "Или вы можете использовать\nкарту у вас на руках",
+    useEmptyDeckCardHint: "Используйте\nкарту у вас на руках",
     handTitle: 'Ваша рука',
     notYourTurn: 'Сейчас не ваш ход',
     type: {
