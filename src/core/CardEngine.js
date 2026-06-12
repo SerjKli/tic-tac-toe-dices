@@ -68,10 +68,10 @@ export class CardEngine {
     }
 
     if (def.id === CardId.SHAKE) {
-      const occupied = board.cells()
+      const allCells = board.cells()
           // .filter(c => c.ownerId !== null)
-      if (occupied.length > 0) {
-        const ownerIds = occupied.map(c => c.ownerId)
+      if (allCells.length > 0) {
+        const ownerIds = allCells.map(c => c.ownerId)
         let shuffled
         let attempts = 0
         do {
@@ -82,9 +82,9 @@ export class CardEngine {
           }
           attempts++
           if (attempts > 50) break
-        } while (players.some(p => checkWin(this._boardWithOwners(board, occupied, shuffled), p.id)))
+        } while (players.some(p => checkWin(this._boardWithOwners(board, allCells, shuffled), p.id)))
 
-        occupied.forEach((cell, i) => { cell.ownerId = shuffled[i] })
+        allCells.forEach((cell, i) => { cell.ownerId = shuffled[i] })
         events.push({ type: 'shake-applied' })
       }
     }

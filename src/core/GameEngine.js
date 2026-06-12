@@ -2,7 +2,7 @@ import { Board } from './models/Board.js'
 import { rollDice } from './Dice.js'
 import { evaluate, evaluateWithCard } from './MoveEvaluator.js'
 import { checkWin } from './WinDetector.js'
-import { GameState, GameMode, CellAction } from './constants.js'
+import {GameState, GameMode, CellAction, CardId} from './constants.js'
 import { CardEngine } from './CardEngine.js'
 import { CARDS } from './cards.js'
 
@@ -71,7 +71,12 @@ export class GameEngine extends EventTarget {
       this._emit('card-used', { card, player, context })
       const events = this._cardEngine.applyCardImmediate(card, this.board, this.players)
       for (const ev of events) this._emit(ev.type, ev)
-      this._advanceTurn(false)
+      if(card.id === CardId.SHAKE){
+        this._transition(GameState.ROLLING)
+      }else{
+        // Skip rolling dice
+        this._advanceTurn(false)
+      }
       return
     }
 
