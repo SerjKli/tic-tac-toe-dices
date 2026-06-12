@@ -6,7 +6,7 @@
     :disabled="!isCandidateCell"
     @click="$emit('click', { row: cell.row, col: cell.col })"
   >
-    <span v-if="cell.ownerId" class="cell-mark">{{ playerMark }}</span>
+    <span v-if="cell.ownerId" class="cell-mark cell-mark-bounce-in">{{ playerMark }}</span>
 
     <GameCellEffects :cell="props.cell"/>
   </button>
