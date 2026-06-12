@@ -2,7 +2,7 @@ import { Board } from './models/Board.js'
 import { rollDice } from './Dice.js'
 import { evaluate, evaluateWithCard } from './MoveEvaluator.js'
 import { checkWin } from './WinDetector.js'
-import {GameState, GameMode, CellAction, CardId} from './constants.js'
+import {GameState, GameMode, CellAction, CardId, BOARD_SIZE} from './constants.js'
 import { CardEngine } from './CardEngine.js'
 import { CARDS } from './cards.js'
 
@@ -44,6 +44,19 @@ export class GameEngine extends EventTarget {
       this._enterCardPhase()
     } else {
       this._transition(GameState.ROLLING)
+    }
+
+    // TODO: !remove in production
+    this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
+    this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
+    this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
+    this.players[0].hand.push({'instanceId': "EXPLOSION4_12", 'cardId': "EXPLOSION4" });
+
+
+    for(let r = 0; r < BOARD_SIZE; r++) {
+      for (let c = 0; c < BOARD_SIZE; c++) {
+        this.board.grid[r][c].ownerId = 'p1';
+      }
     }
   }
 
@@ -142,16 +155,19 @@ export class GameEngine extends EventTarget {
     if (candidate.action === CellAction.EXPLODE) {
       // Clear 2×2 area from anchor (row, col), respecting shields
       const cleared = []
-      for (let r = row; r <= row + 1; r++) {
-        for (let c = col; c <= col + 1; c++) {
-          const cell = this.board.getCell(r, c)
-          if (cell.shieldCount > 0) {
-            cell.shieldCount--
-            this._emit('shield-blocked', { row: r, col: c })
-          } else if (cell.ownerId !== null) {
-            this.board.setOwner(r, c, null)
-            cleared.push({ row: r, col: c })
-          }
+
+      const candidates = this.lastEvaluation.candidates;
+      for (const candidate of candidates) {
+        if(candidate.action !== CellAction.EXPLODE) return
+        const r = candidate.row;
+        const c = candidate.col;
+        const cell = this.board.getCell(r, c)
+        if (cell.shieldCount > 0) {
+          cell.shieldCount--
+          this._emit('shield-blocked', { row: r, col: c })
+        } else if (cell.ownerId !== null) {
+          this.board.setOwner(r, c, null)
+          cleared.push({ row: r, col: c })
         }
       }
       this._emit('explosion-cleared', { anchor: { row, col }, cleared, player })

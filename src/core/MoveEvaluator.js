@@ -81,13 +81,13 @@ export function evaluateWithCard(roll, board, playerId, activeCard) {
       }
     }
   } else if (def.id === CardId.EXPLOSION4) {
-    // Valid 2×2 top-left anchors: anchor must be within board and 2×2 area must contain (d1, d2)
-    const rMin = Math.max(0, d1 - 1)
-    const rMax = Math.min(BOARD_SIZE - 2, d1)
-    const cMin = Math.max(0, d2 - 1)
-    const cMax = Math.min(BOARD_SIZE - 2, d2)
-    for (let r = rMin; r <= rMax; r++) {
-      for (let c = cMin; c <= cMax; c++) {
+    const rMin = d1;
+    const rMax = Math.min(d1+1, BOARD_SIZE-1);
+    const cMin = d2;
+    const cMax = Math.min(d2+1, BOARD_SIZE-1);
+
+    for(let r = rMin; r <= rMax; r++) {
+      for(let c = cMin; c <= cMax; c++) {
         candidates.push({ row: r, col: c, action: CellAction.EXPLODE })
       }
     }

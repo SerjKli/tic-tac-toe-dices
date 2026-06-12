@@ -28,7 +28,7 @@ const hasShield = computed(() => (props.cell.shieldCount ?? 0) > 0)
   position: absolute;
   line-height: 1;
   top: 14px;
-  color: #adadad30;
+  color: #52525230;
 }
 .shield-badge .material-icons{
   font-size: 48px;
