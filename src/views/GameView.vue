@@ -51,8 +51,6 @@
       </main>
     </div>
 
-
-
     <WinBanner
       v-if="game.isOver && game.state.winnerPlayer"
       :winner="game.state.winnerPlayer"

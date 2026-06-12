@@ -1,6 +1,8 @@
 <template>
   <div class="overlay-panel skip-turn-panel">
-    <div class="skip-icon">⏭</div>
+    <div class="skip-icon">
+      <span class="material-icons">skip_next</span>
+    </div>
     <h3 class="skip-title">{{ t('skipPhase.title') }}</h3>
     <p v-if="skipCount > 1" class="skip-count">{{ t('skipPhase.skipsLeft', { n: skipCount }) }}</p>
 

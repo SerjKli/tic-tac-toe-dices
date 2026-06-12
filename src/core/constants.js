@@ -6,7 +6,7 @@ export const MIN_PLAYERS = 2
 export const DECK_SIZE = 28
 export const MAX_HAND_SIZE = 5
 
-export const ABANDONED_GRACE_MS = 8000
+export const ABANDONED_GRACE_MS = 15000
 
 export const DEFAULT_MARKS = ['🧶', '💩', '👾', '👹', '🌌', '🕺','🦄', '🍃', '🌙', '🎈', '🪴', '🦋', '🍉', '🎨', '☁️', '🌸']
 export const DEFAULT_COLORS = [

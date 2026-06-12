@@ -57,7 +57,7 @@ export class GameEngine extends EventTarget {
     // //
     // for(let r = 0; r < BOARD_SIZE; r++) {
     //   for (let c = 0; c < BOARD_SIZE; c++) {
-    //     this.board.grid[r][c].ownerId = 'p2';
+    //     this.board.grid[r][c].ownerId = 'p1';
     //   }
     // }
   }
@@ -80,8 +80,6 @@ export class GameEngine extends EventTarget {
     if (idx === -1) return
 
     const def = CARDS[cardId]
-
-
 
     if (def.behavior === 'IMMEDIATE') {
       const card = player.hand.splice(idx, 1)[0]
@@ -140,7 +138,15 @@ export class GameEngine extends EventTarget {
       : evaluate(roll, this.board, this._currentPlayer().id)
     this.lastEvaluation = evaluation
     this._emit('dice-rolled', { roll, evaluation, player: this._currentPlayer() })
+
+    console.log(evaluation)
+    if(evaluation.mustSkip){
+      this._transition(GameState.SKIP_TURN_PHASE);
+    }else{
     this._transition(GameState.CHOOSING)
+    }
+
+
   }
 
   skipTurn() {
