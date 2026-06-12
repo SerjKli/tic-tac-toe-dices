@@ -71,7 +71,7 @@ export class GameEngine extends EventTarget {
       this._emit('card-used', { card, player, context })
       const events = this._cardEngine.applyCardImmediate(card, this.board, this.players)
       for (const ev of events) this._emit(ev.type, ev)
-      if(card.id === CardId.SHAKE){
+      if(cardId === CardId.SHAKE){
         this._transition(GameState.ROLLING)
       }else{
         // Skip rolling dice
