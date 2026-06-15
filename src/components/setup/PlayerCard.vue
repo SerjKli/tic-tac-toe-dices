@@ -2,7 +2,9 @@
   <div class="px-card">
     <!-- header -->
     <div class="px-header" :style="{ background: player.color }">
-      <div class="px-mark-tile">{{ player.mark }}</div>
+      <div class="px-mark-tile">
+        <Mark :mark="player.mark" />
+      </div>
       <div class="px-player-label">{{ t('setup.player', { n: index + 1 }) }}</div>
       <button class="px-random-btn" @click="randomize">
         <span class="die-spin">🎲</span> {{ t('setup.randomize') }}
@@ -28,7 +30,7 @@
           class="mark-tile"
           @click="update('mark', m)"
         >
-          {{ m }}
+          <Mark :mark="m" />
           <div v-if="player.mark === m" class="mark-sel-ring"></div>
         </div>
       </div>
@@ -52,6 +54,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { DEFAULT_MARKS, DEFAULT_COLORS } from '@/core/constants.js'
+import Mark from "@/components/game/Mark.vue";
 
 const { t } = useI18n()
 

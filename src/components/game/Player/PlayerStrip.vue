@@ -7,7 +7,7 @@
       :class="{ active: player.id === currentPlayerId }"
       :style="{ '--player-color': player.color }"
     >
-      <span class="mark">{{ player.mark }}</span>
+      <Mark :mark="player.mark" />
       <span class="name">{{ player.name }}</span>
       <span v-if="playerEmojis[player.id]" class="chat-emoji pop-in" :key="playerEmojis[player.id]">{{ playerEmojis[player.id] }}</span>
 
@@ -21,6 +21,7 @@
 <script setup>
 import PlayerBuffs from "@/components/game/Player/PlayerBuffs/PlayerBuffs.vue";
 import CardsHand from "@/components/game/Player/CardsHand.vue";
+import Mark from "@/components/game/Mark.vue";
 
 defineProps({
   players: { type: Array, required: true },

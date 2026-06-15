@@ -7,9 +7,7 @@
           <span class="card-used-type" :class="`type-${cardType}`">{{ typeLabel }}</span>
         </div>
         <div class="card-used-player" v-if="cardUsed.player.value">
-          <span class="player-mark" :style="{ color: cardUsed.player.value.color }">
-            {{ cardUsed.player.value.mark }}
-          </span>
+          <Mark :mark="cardUsed.player.value.mark" :style="{ color: cardUsed.player.value.color }" />
           <span class="player-name">{{ cardUsed.player.value.name }}</span>
         </div>
       </div>
@@ -24,6 +22,7 @@ import { useGameStore } from '@/stores/gameStore.js'
 import { useMessageStore } from '@/stores/messageStore.js'
 import { CARDS } from '@/core/cards.js'
 import { CardType } from '@/core/constants.js'
+import Mark from "@/components/game/Mark.vue";
 
 const { t } = useI18n()
 const cardUsed = useCardUsed()

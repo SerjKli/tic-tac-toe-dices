@@ -31,7 +31,7 @@
                 :disabled="takenMarks.includes(m)"
                 @click="guestMark = m"
             >
-              {{ m }}
+              <Mark :mark="m" />
               <span v-if="guestMark === m" class="mark-sel-ring"></span>
             </button>
           </div>
@@ -84,7 +84,9 @@
             class="slot"
             :class="{ empty: !slot.playerId, mine: i === room.mySlotIndex }"
           >
-            <span v-if="slot.playerId" class="slot-mark" :style="{ color: slot.color }">{{ slot.mark }}</span>
+            <span v-if="slot.playerId" class="slot-mark" :style="{ color: slot.color }">
+              <Mark :mark="slot.mark" />
+            </span>
             <span v-else class="slot-mark empty-mark">?</span>
             <span class="slot-name">{{ slot.playerId ? slot.name : t('lobby.emptySlot') }}</span>
             <span v-if="slot.ready" class="ready-badge">{{ t('lobby.ready') }}</span>
@@ -127,6 +129,7 @@ import { DEFAULT_MARKS, DEFAULT_COLORS } from '../core/constants.js'
 import LanguageSelector from '../components/LanguageSelector.vue'
 import ExitButton from "@/components/game/ExitButton.vue";
 import ViewWrapper from '@/components/ViewWrapper.vue'
+import Mark from "@/components/game/Mark.vue";
 
 const route = useRoute()
 const { t } = useI18n()
