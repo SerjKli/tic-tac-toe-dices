@@ -17,14 +17,18 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import {computed, watch} from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCardUsed } from '@/composables/useCardUsed.js'
+import { useGameStore } from '@/stores/gameStore.js'
+import { useMessageStore } from '@/stores/messageStore.js'
 import { CARDS } from '@/core/cards.js'
 import { CardType } from '@/core/constants.js'
 
 const { t } = useI18n()
 const cardUsed = useCardUsed()
+const game = useGameStore()
+const messageStore = useMessageStore()
 
 const cardDef = computed(() => cardUsed.cardId.value ? CARDS[cardUsed.cardId.value] : null)
 
@@ -37,6 +41,14 @@ const typeLabel = computed(() => {
     case CardType.EXPANDING:  return t('cards.type.expanding')
     default: return ''
   }
+})
+
+watch(cardUsed.visible, (isVisible) => {
+  if (!isVisible) return
+  const msgKey = cardDef.value?.receivedMsgKey
+  if (!msgKey) return
+  if (cardUsed.targetPlayerId.value !== game.myPlayerId) return
+  messageStore.showMessage(msgKey, 'error')
 })
 </script>
 

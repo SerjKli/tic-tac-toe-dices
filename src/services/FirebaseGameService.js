@@ -85,7 +85,7 @@ export class FirebaseGameService {
 
   useCard(cardId, context = {}) {
     if (!this.isMyTurn) return
-    this.state.lastUsedCard = { cardId, playerId: this._playerId, ts: Date.now() }
+    this.state.lastUsedCard = { cardId, playerId: this._playerId, targetPlayerId: context.targetPlayerId ?? null, ts: Date.now() }
     this._engine.useCard(cardId, context)
     this._syncState()
     this._pushSnapshot()

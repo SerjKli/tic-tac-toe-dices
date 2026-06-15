@@ -39,7 +39,7 @@ export default {
     area3x3: { name: '3×3 Area', desc: 'Place your mark in a 3×3 area around the rolled cell' },
     shield: { name: 'Shield', desc: 'Add a shield to one of your cells, protecting it once' },
     explosion4: { name: 'Explosion', desc: 'Clear all pieces in a 2×2 area (shields absorb the hit)' },
-    skipTurn: { name: 'Skip Turn', desc: "Force another player to skip their next turn" },
+    skipTurn: { name: 'Skip Turn', desc: "Force another player to skip their next turn", receivedDesc: 'Your turn will be skipped!' },
     cleanse: { name: 'Cleanse', desc: 'Remove one skip-turn effect from yourself' },
     extraTurn: { name: 'Extra Turn', desc: 'Take an extra turn after your current one' },
     randomClear3: { name: 'Random Clear', desc: 'Remove 3 random pieces from the board' },

@@ -54,7 +54,8 @@ export const CARDS = Object.freeze({
     color: '#F44336',
     type: CardType.OFFENSIVE,
     weight: 0.5,
-    behavior: 'SIDE_EFFECT'
+    behavior: 'SIDE_EFFECT',
+    receivedMsgKey: 'cards.skipTurn.receivedDesc'
   }),
   CLEANSE: new Card({
     id: CardId.CLEANSE,
