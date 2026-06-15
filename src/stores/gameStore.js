@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, inject } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { LocalGameService } from '../services/LocalGameService.js'
 import { gameServiceKey } from '../services/serviceKeys.js'
 import { GameState, GameMode, TurnAction } from '../core/constants.js'
@@ -10,6 +10,8 @@ export const useGameStore = defineStore('game', () => {
   const state = service.state
 
   // ── Derived ──────────────────────────────────────────────────────────────────
+
+  const showingBoard = ref(false)
 
   const isRolling = computed(() => state.gameState === GameState.ROLLING)
   const isChoosing = computed(() => state.gameState === GameState.CHOOSING)
@@ -101,6 +103,7 @@ export const useGameStore = defineStore('game', () => {
 
   return {
     state,
+    showingBoard,
     isRolling,
     isChoosing,
     isOver,

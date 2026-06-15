@@ -58,6 +58,9 @@
     />
 
     <EmojiPicker v-if="game.state.players?.length" @send="handleEmojiSend" />
+
+    <ShowBoardButton />
+
     <MessageToast />
   </div>
 </template>
@@ -79,6 +82,7 @@ import EmojiPicker from '../components/game/Chat/EmojiPicker.vue'
 import CardHand from '@/components/game/Cards/CardHand.vue'
 import BoardActionOverlay from '@/components/game/Board/BoardOverlay/BoardActionOverlay.vue'
 import MessageToast from '@/components/game/MessageToast.vue'
+import ShowBoardButton from "@/components/game/Board/ShowBoardButton.vue";
 
 const router = useRouter()
 const route = useRoute()

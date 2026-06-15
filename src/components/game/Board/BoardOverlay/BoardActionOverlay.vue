@@ -28,6 +28,7 @@ watchForCardUsed(game)
 
 const visible = computed(() =>
   !game.isOver &&
+  !game.showingBoard &&
   (game.myTurn || !game.isOnline) &&
   !card.boardTargetCardId &&
   (game.isRolling || showingResult.value || (game.isCardPhase && game.isAdvanced) || game.isSkipTurnPhase)
