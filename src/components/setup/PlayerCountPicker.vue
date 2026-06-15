@@ -1,25 +1,18 @@
 <template>
-  <div class="count-picker">
-    <label>{{ t('setup.playersNumber') }}</label>
-    <div class="count-buttons">
-      <button
-        v-for="n in options"
-        :key="n"
-        class="count-btn"
-        :class="{ active: modelValue === n }"
-        @click="$emit('update:modelValue', n)"
-      >
-        {{ n }}
-      </button>
-    </div>
+  <div class="count-buttons">
+    <button
+      v-for="n in options"
+      :key="n"
+      class="px-count-btn"
+      :class="{ active: modelValue === n }"
+      @click="$emit('update:modelValue', n)"
+    >{{ n }}</button>
   </div>
 </template>
 
 <script setup>
 import { MIN_PLAYERS, MAX_PLAYERS } from '../../core/constants.js'
-import {useI18n} from "vue-i18n";
 
-const { t } = useI18n()
 defineProps({
   modelValue: { type: Number, required: true }
 })
@@ -30,37 +23,29 @@ const options = Array.from({ length: MAX_PLAYERS - MIN_PLAYERS + 1 }, (_, i) => 
 </script>
 
 <style scoped>
-.count-picker {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-label {
-  font-weight: 600;
-  color: #555;
-}
-
 .count-buttons {
   display: flex;
-  gap: 10px;
+  gap: 14px;
+  margin-bottom: 0;
 }
 
-.count-btn {
-  width: 48px;
-  height: 48px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 1.2rem;
-  font-weight: 700;
+.px-count-btn {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  color: #2c2a4a;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
+  border: 4px solid #2c2a4a;
+  background: #fffdf5;
+  box-shadow: 4px 4px 0 #2c2a4a;
+  user-select: none;
+  transition: transform 0.08s, box-shadow 0.08s;
 }
 
-.count-btn.active {
-  border-color: #3498db;
-  background: #ebf5fb;
-  color: #3498db;
-}
+.px-count-btn:hover  { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #2c2a4a; }
+.px-count-btn.active { background: #ffd23f; }
 </style>

@@ -8,19 +8,12 @@ export const MAX_HAND_SIZE = 5
 
 export const ABANDONED_GRACE_MS = 15000
 
-export const DEFAULT_MARKS = ['🧶', '💩', '👾', '👹', '🌌', '🕺','🦄', '🍃', '🌙', '🎈', '🪴', '🦋', '🍉', '🎨', '☁️', '🌸']
+export const DEFAULT_MARKS = ['🧶', '💩', '👾', '👹', '🌌', '🕺', '🦄', '🌿', '🌙', '🎈', '🪴', '🦋', '🍉', '🎨', '☁️', '🌸']
 export const DEFAULT_COLORS = [
-  '#e74c3c', '#3498db', '#e91e63', '#f39c12', '#9b59b6','#2cf740', '#A8DADC',
-  '#FF6B6B',
-  '#4ECDC4',
-  '#45B7D1',
-  '#96CE5A',
-  '#FFE66D',
-  '#D65DB1',
-  '#FF9671',
-  '#00C9A7',
-  '#845EC2',
-  '#0081CF'
+  '#ef4444', '#3b82f6', '#ec4899', '#f59e0b', '#9d7be0',
+  '#22c55e', '#5ec5b8', '#ff8a7a', '#2dd4bf', '#38bdf8',
+  '#84cc16', '#fde047', '#e879f9', '#fb923c', '#14b8a6',
+  '#7c3aed', '#2563eb', '#f472b6', '#34d399', '#fb7185', '#60a5fa'
 ]
 
 export const DEFAULT_CHAT_EMOJIS = ['😀', '😂', '😍', '😢', '😡', '😮', '👍', '🎉', '🤔', '😴' ,'✅','⁉️','💋']

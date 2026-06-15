@@ -1,50 +1,55 @@
 <template>
-  <div class="player-card" :style="{ '--player-color': player.color }">
-    <div class="card-header">
-      <span class="player-mark">{{ player.mark }}</span>
-      <span class="player-label">{{ t('setup.player', { n: index + 1 }) }}</span>
-
-      <button class="go-random" @click="randomize">🎲 {{ t('setup.randomize') }}</button>
+  <div class="px-card">
+    <!-- header -->
+    <div class="px-header" :style="{ background: player.color }">
+      <div class="px-mark-tile">{{ player.mark }}</div>
+      <div class="px-player-label">PLAYER {{ index + 1 }}</div>
+      <button class="px-random-btn" @click="randomize">
+        <span class="die-spin">🎲</span> RANDOM
+      </button>
     </div>
-    <div class="card-body">
-      <label>{{ t('setup.name') }}</label>
+
+    <!-- body -->
+    <div class="px-body">
+      <div class="px-field-label">NAME</div>
       <input
+        class="px-input"
         type="text"
         :value="player.name"
         maxlength="20"
         @input="update('name', $event.target.value)"
       />
 
-      <label>{{ t('setup.mark') }}</label>
-      <div class="mark-options">
-        <button
+      <div class="px-field-label">MARK</div>
+      <div class="marks-grid">
+        <div
           v-for="m in availableMarks"
           :key="m"
-          class="mark-btn"
-          :class="{ active: player.mark === m }"
+          class="mark-tile"
           @click="update('mark', m)"
         >
           {{ m }}
-        </button>
+          <div v-if="player.mark === m" class="mark-sel-ring"></div>
+        </div>
       </div>
 
-      <label>{{ t('setup.color') }}</label>
-      <div class="color-options">
-        <button
+      <div class="px-field-label">COLOR</div>
+      <div class="colors-grid">
+        <div
           v-for="c in availableColors"
           :key="c"
-          class="color-btn"
-          :class="{ active: player.color === c }"
+          class="color-swatch"
           :style="{ background: c }"
           @click="update('color', c)"
-        />
+        >
+          <div v-if="player.color === c" class="color-sel-ring"></div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n'
 import { DEFAULT_MARKS, DEFAULT_COLORS } from '@/core/constants.js'
 
 defineProps({
@@ -53,7 +58,6 @@ defineProps({
 })
 
 const emit = defineEmits(['update'])
-const { t } = useI18n()
 
 function update(key, value) {
   emit('update', { key, value })
@@ -71,99 +75,141 @@ const availableColors = DEFAULT_COLORS
 </script>
 
 <style scoped>
-.player-card {
-  border: 2px solid var(--player-color);
-  border-radius: 12px;
-  overflow: hidden;
+.px-card {
+  border: 4px solid #2c2a4a;
+  background: #fffdf5;
+  box-shadow: 6px 6px 0 #2c2a4a;
 }
 
-.card-header {
-  background: var(--player-color);
-  color: white;
-  padding: 10px 16px;
+/* ── header ── */
+.px-header {
+  padding: 13px 14px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 700;
+  gap: 10px;
+  border-bottom: 4px solid #2c2a4a;
 }
 
-.player-mark {
-  font-size: 1.4rem;
-}
-
-.go-random {
-  margin-left: auto;
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.5);
-  border-radius: 6px;
-  color: white;
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.go-random:hover {
-  background: rgba(255,255,255,0.35);
-}
-
-.card-body {
-  padding: 16px;
+.px-mark-tile {
+  width: 46px;
+  height: 46px;
+  background: #fffdf5;
+  border: 3px solid #2c2a4a;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  box-shadow: 2px 2px 0 #2c2a4a;
+  flex-shrink: 0;
 }
 
-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #888;
-  text-transform: uppercase;
+.px-player-label {
+  flex: 1;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: #fff;
+  text-shadow: 2px 2px 0 #2c2a4a;
 }
 
-input[type="text"] {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 1rem;
+.px-random-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #2c2a4a;
+  background: #fffdf5;
+  border: 3px solid #2c2a4a;
+  box-shadow: 2px 2px 0 #2c2a4a;
+  padding: 8px 9px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+
+.px-random-btn:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #2c2a4a; }
+
+.die-spin {
+  font-size: 13px;
+  display: inline-block;
+  animation: px-spin 1.6s ease-in-out infinite;
+}
+
+/* ── body ── */
+.px-body {
+  padding: 18px;
+}
+
+.px-field-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #7d7a96;
+  margin-bottom: 9px;
+}
+
+.px-input {
   width: 100%;
-  box-sizing: border-box;
-}
-
-.mark-options,
-.color-options {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.mark-btn {
-  width: 40px;
-  height: 40px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+  color: #2c2a4a;
   background: #fff;
-  font-size: 1.2rem;
+  border: 3px solid #2c2a4a;
+  box-shadow: 2px 2px 0 #2c2a4a;
+  padding: 9px 12px 5px;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+/* ── mark picker ── */
+.marks-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 7px;
+  margin-bottom: 22px;
+}
+
+.mark-tile {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  background: #fff;
+  border: 3px solid #2c2a4a;
+  box-shadow: 2px 2px 0 #2c2a4a;
   cursor: pointer;
-  transition: border-color 0.15s;
 }
 
-.mark-btn.active {
-  border-color: var(--player-color);
+.mark-sel-ring {
+  position: absolute;
+  inset: -3px;
+  border: 4px solid #ffd23f;
+  box-shadow: 0 0 0 2px #2c2a4a;
+  pointer-events: none;
 }
 
-.color-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 3px solid transparent;
+/* ── color swatches ── */
+.colors-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.color-swatch {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 3px solid #2c2a4a;
+  box-shadow: 2px 2px 0 #2c2a4a;
   cursor: pointer;
-  transition: border-color 0.15s, transform 0.1s;
 }
 
-.color-btn.active {
-  border-color: #333;
-  transform: scale(1.15);
+.color-sel-ring {
+  position: absolute;
+  inset: -5px;
+  border: 4px solid #2c2a4a;
+  box-shadow: inset 0 0 0 2px #fff;
+  pointer-events: none;
 }
 </style>
