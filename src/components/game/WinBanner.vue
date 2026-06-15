@@ -2,7 +2,9 @@
   <div class="win-overlay">
     <div class="win-card px-card" :style="{ '--winner-color': winner.color }">
       <div class="win-header px-header" :style="{ background: winner.color }">
-        <div class="win-mark px-mark-tile">{{ winner.mark }}</div>
+        <div class="win-mark px-mark-tile">
+          <Mark :mark="winner.mark" />
+        </div>
         <h2 class="win-title">{{ t('game.wins', { name: winner.name }) }}</h2>
       </div>
       <div class="px-body win-body">
@@ -14,6 +16,7 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import Mark from "@/components/game/Mark.vue";
 
 defineProps({
   winner: { type: Object, required: true }

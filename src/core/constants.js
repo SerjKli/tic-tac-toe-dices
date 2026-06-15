@@ -8,7 +8,15 @@ export const MAX_HAND_SIZE = 5
 
 export const ABANDONED_GRACE_MS = 15000
 
-export const DEFAULT_MARKS = ['🧶', '💩', '👾', '👹', '🌌', '🕺', '🦄', '🌿', '🌙', '🎈', '🪴', '🦋', '🍉', '🎨', '☁️', '🌸']
+export const MARKS_SPRITE = './images/sprites/marks.png'
+
+export const DEFAULT_MARKS = [
+  // star, heart, diamond, coin, rock, tree, flag
+  'm:-4:-4:238:84', 'm:-38:-4:238:84', 'm:-71:-4:238:84', 'm:-103:-4:238:84', 'm:-136:-4:238:84', 'm:-170:-4:238:84', 'm:-204:-4:238:84',
+  // sword, shield, skull, red-potion, chest, blue-potion, fire
+  'm:-4:-42:238:84', 'm:-34:-42:238:84', 'm:-68:-42:238:84', 'm:-102:-42:238:84', 'm:-136:-42:238:84', 'm:-170:-42:238:84', 'm:-204:-42:238:84',
+    '🧶', '💩', '👾', '👹', '🌌', '🕺', '🦄', '🌿', '🌙', '🎈', '🪴', '🦋', '🍉', '🎨', '☁️', '🌸',
+]
 export const DEFAULT_COLORS = [
   '#ef4444', '#3b82f6', '#ec4899', '#f59e0b', '#9d7be0',
   '#22c55e', '#5ec5b8', '#ff8a7a', '#2dd4bf', '#38bdf8',

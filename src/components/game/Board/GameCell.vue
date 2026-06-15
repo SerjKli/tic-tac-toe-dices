@@ -6,7 +6,9 @@
     :disabled="!isCandidateCell"
     @click="$emit('click', { row: cell.row, col: cell.col })"
   >
-    <span v-if="cell.ownerId" class="cell-mark cell-mark-bounce-in">{{ playerMark }}</span>
+    <span v-if="cell.ownerId" class="cell-mark cell-mark-bounce-in">
+      <Mark :mark="playerMark" />
+    </span>
 
     <GameCellEffects :cell="props.cell"/>
   </button>
@@ -15,6 +17,7 @@
 <script setup>
 import { computed } from 'vue'
 import GameCellEffects from "@/components/game/Board/GameCellEffects.vue";
+import Mark from "@/components/game/Mark.vue";
 
 const props = defineProps({
   cell: { type: Object, required: true },
