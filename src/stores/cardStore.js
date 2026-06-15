@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, inject, ref, watch } from 'vue'
 import { LocalGameService } from '../services/LocalGameService.js'
 import { gameServiceKey } from '../services/serviceKeys.js'
-import { GameMode, GameState } from '../core/constants.js'
+import { GameMode, GameState, MAX_HAND_SIZE } from '../core/constants.js'
 import { useMessageStore } from './messageStore.js'
 
 export const useCardStore = defineStore('card', () => {
@@ -37,7 +37,10 @@ export const useCardStore = defineStore('card', () => {
   const activeCard = computed(() => state.activeCard)
   const pendingCardId = computed(() => state.pendingCardId ?? null)
 
-  const canInteractWithCards = computed(() => deckSize.value > 0 || myHand.value.length > 0)
+  const canInteractWithCards = computed(() => {
+    if (deckSize.value > 0 && myHand.value.length < MAX_HAND_SIZE) return true
+    return myHand.value.some(c => !service.hasReasonNotSelectCard(c.cardId))
+  })
 
   watch(isCardPhase, (active) => {
     if (!active) selectedCardId.value = null

@@ -6,7 +6,7 @@ export const DECK_CONFIG = [
   // { cardId: CardId.AREA_3X3, count: 3 },
   // { cardId: CardId.SHIELD, count: 3 },
   // { cardId: CardId.EXPLOSION4, count: 2 },
-  { cardId: CardId.SKIP_TURN, count: 30 },
+  // { cardId: CardId.SKIP_TURN, count: 3 },
   // { cardId: CardId.CLEANSE, count: 3 },
   // { cardId: CardId.EXTRA_TURN, count: 2 },
   // { cardId: CardId.RANDOM_CLEAR3, count: 2 },

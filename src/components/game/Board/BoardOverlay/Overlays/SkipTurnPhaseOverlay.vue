@@ -2,7 +2,7 @@
   <div class="overlay-panel skip-turn-panel">
     <template v-if="game.canSkip">
       <div class="skip-icon">
-        <span class="material-icons">block</span>
+        <span class="material-icons">skip_next</span>
       </div>
       <h3 class="skip-title">{{ t('game.allCellsOwned') }}</h3>
       <button class="overlay-btn skip-confirm-btn" @click="game.skipTurn()">
