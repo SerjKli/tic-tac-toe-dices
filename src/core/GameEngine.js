@@ -53,16 +53,16 @@ export class GameEngine extends EventTarget {
     // this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
     // this.players[0].hand.push({'instanceId': "COL_MARK_12", 'cardId': "COL_MARK" });
     // this.players[0].hand.push({'instanceId': "AREA_3X3_12", 'cardId': "AREA_3X3" });
-    this.players[0].hand.push({'instanceId': "CLEANSE_12", 'cardId': "CLEANSE" });
+    // this.players[0].hand.push({'instanceId': "CLEANSE_12", 'cardId': "CLEANSE" });
     // this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
     // this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
     // //
     // //
-    for(let r = 0; r < BOARD_SIZE; r++) {
-      for (let c = 0; c < BOARD_SIZE; c++) {
-        this.board.grid[r][c].ownerId = 'p1';
-      }
-    }
+    // for(let r = 0; r < BOARD_SIZE; r++) {
+    //   for (let c = 0; c < BOARD_SIZE; c++) {
+    //     this.board.grid[r][c].ownerId = 'p1';
+    //   }
+    // }
   }
 
   // ── Card phase actions ──────────────────────────────────────────────────────
