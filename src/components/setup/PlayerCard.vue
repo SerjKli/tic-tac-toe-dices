@@ -3,15 +3,15 @@
     <!-- header -->
     <div class="px-header" :style="{ background: player.color }">
       <div class="px-mark-tile">{{ player.mark }}</div>
-      <div class="px-player-label">PLAYER {{ index + 1 }}</div>
+      <div class="px-player-label">{{ t('setup.player', { n: index + 1 }) }}</div>
       <button class="px-random-btn" @click="randomize">
-        <span class="die-spin">🎲</span> RANDOM
+        <span class="die-spin">🎲</span> {{ t('setup.randomize') }}
       </button>
     </div>
 
     <!-- body -->
     <div class="px-body">
-      <div class="px-field-label">NAME</div>
+      <div class="px-field-label">{{ t('setup.name') }}</div>
       <input
         class="px-input"
         type="text"
@@ -20,7 +20,7 @@
         @input="update('name', $event.target.value)"
       />
 
-      <div class="px-field-label">MARK</div>
+      <div class="px-field-label">{{ t('setup.mark') }}</div>
       <div class="marks-grid">
         <div
           v-for="m in availableMarks"
@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <div class="px-field-label">COLOR</div>
+      <div class="px-field-label">{{ t('setup.color') }}</div>
       <div class="colors-grid">
         <div
           v-for="c in availableColors"
@@ -50,7 +50,10 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
 import { DEFAULT_MARKS, DEFAULT_COLORS } from '@/core/constants.js'
+
+const { t } = useI18n()
 
 defineProps({
   player: { type: Object, required: true },

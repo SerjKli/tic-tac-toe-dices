@@ -54,12 +54,7 @@ button {
 
 
 .game-view {
-  min-height: 100vh;
   padding: 24px 16px;
-  position: relative;
-  background: linear-gradient(#aee6ff 0%, #cdf3ff 45%, #dff7e6 100%);
-  font-family: 'VT323', monospace;
-  overflow-x: hidden;
 }
 
 .game-layout {
@@ -806,44 +801,65 @@ a {
 .seg-btn.active.seg-blue   { background: #46b6e8; color: #fff; text-shadow: 2px 2px 0 #2c2a4a; }
 .seg-btn.active.seg-purple { background: #9d7be0; color: #fff; text-shadow: 2px 2px 0 #2c2a4a; }
 
+.view-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(#aee6ff 0%, #cdf3ff 45%, #dff7e6 100%);
+  font-family: 'VT323', monospace;
+  position: relative;
+  overflow-x: hidden;
+}
+
 /* Pixel scenery container (ambient clouds/sun decorations) */
 .px-scenery {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-}
 
-.px-cloud {
-  position: absolute;
-  background: #fff;
-  opacity: 0.85;
-  display: block;
-}
 
-.px-cloud-1 {
-  top: 42px; left: 7%;
-  width: 14px; height: 14px;
-  box-shadow: 14px 0 #fff, 28px 0 #fff, 42px 0 #fff, 14px -14px #fff, 28px -14px #fff;
-  animation: px-floaty 7s ease-in-out infinite;
-}
+  .px-cloud {
+    position: absolute;
+    background: #fff;
+    opacity: 0.85;
+    display: block;
+  }
 
-.px-cloud-2 {
-  top: 180px; right: 8%;
-  width: 12px; height: 12px;
-  opacity: 0.7;
-  box-shadow: 12px 0 #fff, 24px 0 #fff, 36px 0 #fff, 12px -12px #fff, 24px -12px #fff;
-  animation: px-floaty2 10s ease-in-out infinite;
-}
+  .px-cloud-1 {
+    top: 42px; left: 7%;
+    width: 14px; height: 14px;
+    box-shadow: 14px 0 #fff, 28px 0 #fff, 42px 0 #fff, 14px -14px #fff, 28px -14px #fff;
+    animation: px-floaty 7s ease-in-out infinite;
+  }
 
-.px-sun {
-  position: absolute;
-  top: 28px; right: 5%;
-  width: 40px; height: 40px;
-  background: #ffd23f;
-  border: 4px solid #2c2a4a;
-  box-shadow: -8px 0 #ffd23f, 8px 0 #ffd23f, 0 -8px #ffd23f, 0 8px #ffd23f;
-  animation: px-floaty2 8s ease-in-out infinite;
+  .px-cloud-2 {
+    top: 180px; right: 8%;
+    width: 12px; height: 12px;
+    opacity: 0.7;
+    box-shadow: 12px 0 #fff, 24px 0 #fff, 36px 0 #fff, 12px -12px #fff, 24px -12px #fff;
+    animation: px-floaty2 10s ease-in-out infinite;
+  }
+
+  .px-cloud-3 {
+    top: 330px;
+    left: 4%;
+    width: 12px;
+    height: 12px;
+    opacity: 0.7;
+    box-shadow: 12px 0 #fff, 24px 0 #fff, 12px -12px #fff;
+    animation: px-floaty 11s ease-in-out infinite;
+  }
+
+  .px-sun {
+    position: absolute;
+    top: 28px; right: 5%;
+    width: 40px; height: 40px;
+    background: #ffd23f;
+    border: 4px solid #ed5800;
+    box-shadow: -8px 0 #ffd23f, 8px 0 #ffd23f, 0 -8px #ffd23f, 0 8px #ffd23f;
+    animation: px-floaty2 8s ease-in-out infinite;
+  }
+
 }
 
 .card-item {
@@ -1190,6 +1206,24 @@ a {
     color: #fffdf5;
     text-shadow: 2px 2px 0 #2f8f44;
   }
+
+  &.btn-primary{
+    background: #3498db;
+    color: #fffdf5;
+    text-shadow: 2px 2px 0 #2a78ac;
+  }
+
+  &.btn-danger{
+    border-color: #ef4444;
+    box-shadow: 2px 2px 0 #ef4444;
+    color: #ef4444;
+  }
+
+  &.btn-xs{
+    padding: 4px;
+    font-size: 0.6rem;
+  }
+
   &:hover:not(:disabled) {
     transform: translate(-2px, -2px); box-shadow: var(--px-shadow);
   }

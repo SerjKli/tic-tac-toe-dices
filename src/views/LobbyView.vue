@@ -1,5 +1,5 @@
 <template>
-  <div class="lobby-view">
+  <ViewWrapper class="lobby-view">
 
     <LanguageSelector class="lang-pos" />
 
@@ -71,7 +71,7 @@
       <div class="px-body">
         <div class="room-code-row">
           <span class="room-code">{{ room.roomId }}</span>
-          <button class="action-btn" :class="{ 'btn-success':copied }" @click="copyLink">
+          <button class="action-btn btn-xs" :class="{ 'btn-success':copied }" @click="copyLink">
             {{ copied ? t('lobby.linkCopied') : t('lobby.copyLink') }}
           </button>
         </div>
@@ -113,7 +113,7 @@
     </div>
 
     <ExitButton />
-  </div>
+  </ViewWrapper>
 </template>
 
 <script setup>
@@ -126,6 +126,7 @@ import { getRoomSession } from '../utils/identity.js'
 import { DEFAULT_MARKS, DEFAULT_COLORS } from '../core/constants.js'
 import LanguageSelector from '../components/LanguageSelector.vue'
 import ExitButton from "@/components/game/ExitButton.vue";
+import ViewWrapper from '@/components/ViewWrapper.vue'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -224,27 +225,13 @@ function copyLink() {
 <style scoped>
 
 .lobby-view {
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px 16px;
   flex-direction: column;
   gap: 16px;
-  background: linear-gradient(#aee6ff 0%, #cdf3ff 45%, #dff7e6 100%);
-  font-family: 'VT323', monospace;
-  position: relative;
-  overflow-x: hidden;
 }
-
-/* pixel scenery */
-.lobby-view::before,
-.lobby-view::after {
-  content: '';
-  position: absolute;
-  pointer-events: none;
-}
-
 
 .slot-list {
   list-style: none;

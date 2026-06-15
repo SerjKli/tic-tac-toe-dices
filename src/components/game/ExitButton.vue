@@ -1,5 +1,5 @@
 <template>
-  <button class="exit-btn" @click="handleExit">{{ t('game.exitGame') }}</button>
+  <button class="action-btn btn-danger btn-xs" @click="handleExit">{{ t('game.exitGame') }}</button>
 </template>
 
 <script setup>
@@ -24,8 +24,8 @@ function handleExit() {
   padding: 8px 14px 6px;
   border: 3px solid #ef4444;
   background: #fffdf5;
-  color: #ef4444;
-  box-shadow: 2px 2px 0 #ef4444;
+
+
   cursor: pointer;
   transition: transform 0.08s, box-shadow 0.08s, background 0.08s, color 0.08s;
 }

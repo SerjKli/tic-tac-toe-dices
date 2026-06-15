@@ -1,6 +1,8 @@
 <template>
-  <LanguageSelector class="lang-pos" />
-  <GameSetup @start="startGame" />
+  <ViewWrapper>
+    <LanguageSelector class="lang-pos" />
+    <GameSetup @start="startGame" />
+  </ViewWrapper>
 </template>
 
 <script setup>
@@ -10,6 +12,7 @@ import { useSettingsStore } from '../stores/settingsStore.js'
 import { useGameStore } from '../stores/gameStore.js'
 import { useRoomStore } from '../stores/roomStore.js'
 import LanguageSelector from '@/components/LanguageSelector.vue'
+import ViewWrapper from '@/components/ViewWrapper.vue'
 
 const router = useRouter()
 const settings = useSettingsStore()

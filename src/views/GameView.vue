@@ -1,11 +1,6 @@
 <template>
-  <div class="game-view">
-    <div class="px-scenery" aria-hidden="true">
-      <span class="px-cloud px-cloud-1"></span>
-      <span class="px-cloud px-cloud-2"></span>
-      <div class="px-sun"></div>
-    </div>
-
+  <ViewWrapper>
+    <div class="game-view">
     <PlayerStrip
         v-if="game.state.players?.length"
         :players="game.state.players"
@@ -64,7 +59,8 @@
     <ShowBoardButton />
 
     <MessageToast />
-  </div>
+    </div>
+  </ViewWrapper>
 </template>
 
 <script setup>
@@ -85,6 +81,7 @@ import CardHand from '@/components/game/Cards/CardHand.vue'
 import BoardActionOverlay from '@/components/game/Board/BoardOverlay/BoardActionOverlay.vue'
 import MessageToast from '@/components/game/MessageToast.vue'
 import ShowBoardButton from "@/components/game/Board/ShowBoardButton.vue";
+import ViewWrapper from '@/components/ViewWrapper.vue'
 
 const router = useRouter()
 const route = useRoute()

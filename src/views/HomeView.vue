@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <ViewWrapper class="home">
     <LanguageSelector class="lang-pos" />
 
     <div class="hero">
@@ -11,27 +11,26 @@
         <li>{{ t('home.rule3') }}</li>
         <li>{{ t('home.rule4') }}</li>
       </ul>
-      <router-link to="/setup" class="play-btn">{{ t('home.playNow') }}</router-link>
+      <router-link to="/setup" class="action-btn btn-primary">{{ t('home.playNow') }}</router-link>
     </div>
-  </div>
+  </ViewWrapper>
 </template>
 
 <script setup>
 import { useI18n } from 'vue-i18n'
 import LanguageSelector from '../components/LanguageSelector.vue'
 import GameName from '../components/GameName.vue'
+import ViewWrapper from '../components/ViewWrapper.vue'
 
 const { t } = useI18n()
 </script>
 
 <style scoped>
 .home {
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 32px 16px;
-  position: relative;
 }
 
 .hero {
@@ -71,19 +70,4 @@ p {
   font-weight: 700;
 }
 
-.play-btn {
-  display: inline-block;
-  padding: 14px 40px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  background: #3498db;
-  color: #fff;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: background 0.15s;
-}
-
-.play-btn:hover {
-  background: #2980b9;
-}
 </style>
