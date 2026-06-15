@@ -3,7 +3,7 @@
     <div v-if="visible" class="board-action-overlay">
       <RollDiceOverlay v-if="game.isRolling || showingResult" />
       <CardPhaseOverlay v-else-if="game.isCardPhase && game.isAdvanced" />
-      <SkipTurnPhaseOverlay v-else-if="game.isSkipTurnPhase && game.isAdvanced" />
+      <SkipTurnPhaseOverlay v-else-if="(game.isSkipTurnPhase && game.isAdvanced) || game.canSkip" />
     </div>
   </Transition>
   <CardUsedOverlay />
@@ -31,7 +31,7 @@ const visible = computed(() =>
   !game.showingBoard &&
   (game.myTurn || !game.isOnline) &&
   !card.boardTargetCardId &&
-  (game.isRolling || showingResult.value || (game.isCardPhase && game.isAdvanced) || game.isSkipTurnPhase)
+  (game.isRolling || showingResult.value || (game.isCardPhase && game.isAdvanced) || game.isSkipTurnPhase || game.canSkip)
 )
 
 </script>

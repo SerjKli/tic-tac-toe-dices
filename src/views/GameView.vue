@@ -34,11 +34,7 @@
             <p v-if="card.boardTargetCardId" class="hint shield-target-hint">{{ t('cards.shieldClickCell') }}</p>
 
             <template v-if="game.myTurn || !game.isOnline">
-              <template v-if="game.canSkip">
-                <p class="hint">{{ t('game.allCellsOwned') }}</p>
-                <button class="skip-btn" @click="game.skipTurn()">{{ t('game.skipTurn') }}</button>
-              </template>
-              <p v-else-if="myActionMessage" class="hint">{{ myActionMessage }}</p>
+                <p v-if="myActionMessage" class="hint">{{ myActionMessage }}</p>
             </template>
 
             <div v-if="game.isOnline && !game.myTurn && !game.isOver" class="waiting-overlay">

@@ -58,11 +58,11 @@ export class GameEngine extends EventTarget {
     // this.players[0].hand.push({'instanceId': "SHIELD_12", 'cardId': "SHIELD" });
     // //
     // //
-    // for(let r = 0; r < BOARD_SIZE; r++) {
-    //   for (let c = 0; c < BOARD_SIZE; c++) {
-    //     this.board.grid[r][c].ownerId = 'p1';
-    //   }
-    // }
+    for(let r = 0; r < BOARD_SIZE; r++) {
+      for (let c = 0; c < BOARD_SIZE; c++) {
+        this.board.grid[r][c].ownerId = 'p1';
+      }
+    }
   }
 
   // ── Card phase actions ──────────────────────────────────────────────────────

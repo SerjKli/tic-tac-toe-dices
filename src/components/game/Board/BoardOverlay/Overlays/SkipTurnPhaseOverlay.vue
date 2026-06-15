@@ -1,27 +1,39 @@
 <template>
   <div class="overlay-panel skip-turn-panel">
-    <div class="skip-icon">
-      <span class="material-icons">skip_next</span>
-    </div>
-    <h3 class="skip-title">{{ t('skipPhase.title') }}</h3>
-    <p v-if="skipCount > 1" class="skip-count">{{ t('skipPhase.skipsLeft', { n: skipCount }) }}</p>
-
-    <template v-if="cleanseCards.length > 0">
-      <p class="cleanse-hint">{{ t('skipPhase.useCleanseHint') }}</p>
-      <div class="cleanse-cards">
-        <CardItem
-          v-for="(entry, i) in cleanseCards"
-          :key="i"
-          :card="CARDS[entry.cardId]"
-          :card-amount="entry.count"
-          @select="game.useCleanseInSkipPhase()"
-        />
+    <template v-if="game.canSkip">
+      <div class="skip-icon">
+        <span class="material-icons">block</span>
       </div>
+      <h3 class="skip-title">{{ t('game.allCellsOwned') }}</h3>
+      <button class="overlay-btn skip-confirm-btn" @click="game.skipTurn()">
+        {{ t('game.skipTurn') }}
+      </button>
     </template>
 
-    <button class="overlay-btn skip-confirm-btn" @click="game.confirmSkipTurn()">
-      {{ t('skipPhase.confirmBtn') }}
-    </button>
+    <template v-else>
+      <div class="skip-icon">
+        <span class="material-icons">skip_next</span>
+      </div>
+      <h3 class="skip-title">{{ t('skipPhase.title') }}</h3>
+      <p v-if="skipCount > 1" class="skip-count">{{ t('skipPhase.skipsLeft', { n: skipCount }) }}</p>
+
+      <template v-if="cleanseCards.length > 0">
+        <p class="cleanse-hint">{{ t('skipPhase.useCleanseHint') }}</p>
+        <div class="cleanse-cards">
+          <CardItem
+            v-for="(entry, i) in cleanseCards"
+            :key="i"
+            :card="CARDS[entry.cardId]"
+            :card-amount="entry.count"
+            @select="game.useCleanseInSkipPhase()"
+          />
+        </div>
+      </template>
+
+      <button class="overlay-btn skip-confirm-btn" @click="game.confirmSkipTurn()">
+        {{ t('skipPhase.confirmBtn') }}
+      </button>
+    </template>
   </div>
 </template>
 
