@@ -55,54 +55,90 @@ button {
 
 .game-view {
   padding: 24px 16px;
-}
 
-.game-layout {
-  max-width: 900px;
-  margin: 0 auto;
-  display: flex;
-  gap: 32px;
-  align-items: stretch;
-  flex-direction: row;
+  .player-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    width: 100%;
 
-  .sidebar, .board-area{
-    flex:1;
+    .player-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border: 3px solid #2c2a4a;
+      background: #fffdf5;
+      box-shadow: var(--px-shadow-sm);
+      transition: border-color 0.1s, background 0.1s, box-shadow 0.1s;
+      position: relative;
+
+      &.active {
+        border-color: var(--player-color);
+        background: color-mix(in srgb, var(--player-color) 15%, #fffdf5);
+        box-shadow: 3px 3px 0 var(--player-color);
+      }
+
+      .player-cards-hand{
+        position: absolute;
+        top: -16px;
+        right: 0;
+
+        .card{
+          width: 14px;
+          height: 21px;
+          display: inline-block;
+          background-color: #d4d4d4;
+          border: 2px solid #ababab;
+          margin-left: 3px;
+
+          &::after{
+            content: "";
+            width: 8px;
+            height: 16px;
+            background-color: #f6f6f6;
+            clip-path: polygon(
+                    50% 0%,
+                    100% 50%,
+                    50% 100%,
+                    0% 50%
+            );
+            display: block;
+            position: absolute;
+            top: calc(50% - 8px);
+            left: calc(50% - 4px);
+          }
+        }
+      }
+    }
+
   }
 
-  .sidebar {
+  .game-layout {
+    max-width: 900px;
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 320px;
-  }
-}
+    gap: 32px;
+    align-items: stretch;
+    flex-direction: row;
 
-.player-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-  width: 100%;
+    .sidebar, .board-area{
+      flex:1;
+    }
 
-  .player-chip {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border: 3px solid #2c2a4a;
-    background: #fffdf5;
-    box-shadow: var(--px-shadow-sm);
-    transition: border-color 0.1s, background 0.1s, box-shadow 0.1s;
-    position: relative;
-
-    &.active {
-      border-color: var(--player-color);
-      background: color-mix(in srgb, var(--player-color) 15%, #fffdf5);
-      box-shadow: 3px 3px 0 var(--player-color);
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 320px;
     }
   }
 
 }
+
+
+
 .board-area {
   flex: 1;
   display: flex;
@@ -1490,37 +1526,7 @@ a {
   }
 }
 
-.player-cards-hand{
-  position: absolute;
-  top: -16px;
-  right: 0;
 
-  .card{
-    width: 14px;
-    height: 21px;
-    display: inline-block;
-    background-color: #d4d4d4;
-    border: 2px solid #ababab;
-    margin-left: 3px;
-
-    &::after{
-      content: "";
-      width: 8px;
-      height: 16px;
-      background-color: #f6f6f6;
-      clip-path: polygon(
-              50% 0%,
-              100% 50%,
-              50% 100%,
-              0% 50%
-      );
-      display: block;
-      position: absolute;
-      top: calc(50% - 8px);
-      left: calc(50% - 4px);
-    }
-  }
-}
 
 .all-player-debuffs{
   position: absolute;
