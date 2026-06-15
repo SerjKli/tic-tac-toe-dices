@@ -42,7 +42,9 @@
       </div>
 
       <!-- start button -->
-      <div class="start-px" @click="$emit('start', { mode })">
+      <div class="action-btn btn-success"
+           style="margin-bottom:32px; padding: 24px;"
+           @click="$emit('start', { mode })">
         ▶ {{ mode === 'online' ? t('setup.createRoom') : t('setup.startGame') }}
       </div>
 

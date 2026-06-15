@@ -1,5 +1,11 @@
 <template>
   <div class="game-view">
+    <div class="px-scenery" aria-hidden="true">
+      <span class="px-cloud px-cloud-1"></span>
+      <span class="px-cloud px-cloud-2"></span>
+      <div class="px-sun"></div>
+    </div>
+
     <PlayerStrip
         v-if="game.state.players?.length"
         :players="game.state.players"
@@ -37,8 +43,8 @@
                 <p v-if="myActionMessage" class="hint">{{ myActionMessage }}</p>
             </template>
 
-            <div v-if="game.isOnline && !game.myTurn && !game.isOver" class="waiting-overlay">
-              <p class="waiting-msg">{{ activePlayerActionMessage }}</p>
+            <div v-if="game.isOnline && !game.myTurn && !game.isOver" >
+              <p class="hint">{{ activePlayerActionMessage }}</p>
             </div>
           </div>
           <ExitButton />

@@ -19,18 +19,26 @@ function handleExit() {
 
 <style scoped>
 .exit-btn {
-  padding: 8px 16px;
-  border: 1px solid #d44;
-  border-radius: 8px;
-  background: transparent;
-  color: #d44;
-  font-size: 0.85rem;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  padding: 8px 14px 6px;
+  border: 3px solid #ef4444;
+  background: #fffdf5;
+  color: #ef4444;
+  box-shadow: 2px 2px 0 #ef4444;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: transform 0.08s, box-shadow 0.08s, background 0.08s, color 0.08s;
 }
 
 .exit-btn:hover {
-  background: #d44;
-  color: #fff;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #ef4444;
+}
+
+.exit-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 #ef4444;
+  background: #ef4444;
+  color: #fffdf5;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="player-skip-turns pop-in">
+  <div class="player-skip-turns pop-in player-debuff-item">
     <span v-for="i in player.skipTurnCount">❌</span>
   </div>
 </template>

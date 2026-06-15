@@ -1,5 +1,5 @@
 <template>
-  <div class="player-extra-turns pop-in">
+  <div class="player-extra-turns pop-in player-debuff-item">
     <span v-for="i in player.extraTurnCount" :index="`p-extra-turn-${player.id}-${i}`">🔁</span>
   </div>
 </template>

@@ -46,7 +46,8 @@ function isWinCell(row, col) {
 }
 
 .win-cell :deep(.game-cell) {
-  background: #fff9c4;
-  border-color: #f1c40f;
+  background: color-mix(in srgb, #ffd23f 25%, #fffdf5);
+  border-color: #ffd23f;
+  box-shadow: inset 0 0 0 2px #ffd23f;
 }
 </style>

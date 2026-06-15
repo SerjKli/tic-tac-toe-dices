@@ -24,13 +24,5 @@ const hasShield = computed(() => (props.cell.shieldCount ?? 0) > 0)
 </script>
 
 <style scoped>
-.shield-badge {
-  position: absolute;
-  line-height: 1;
-  top: 14px;
-  color: #52525230;
-}
-.shield-badge .material-icons{
-  font-size: 48px;
-}
+
 </style>

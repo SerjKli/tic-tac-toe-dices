@@ -1,6 +1,6 @@
 <template>
   <div class="player-buffs">
-    <ExtraTurns :player="player" />
+    <ExtraTurns :player="player" v-if="player.extraTurnCount"/>
   </div>
 </template>
 
@@ -15,10 +15,4 @@ defineProps({
 </script>
 
 <style scoped>
-.player-buffs{
-  position: absolute;
-  bottom: -7px;
-  left: 0;
-  font-size: 0.5rem;
-}
 </style>

@@ -63,7 +63,6 @@ const cleanseCards = computed(() => {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 20px 16px;
 }
 
 .skip-icon {
@@ -73,25 +72,26 @@ const cleanseCards = computed(() => {
 
 .skip-title {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1a1a1a;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #2c2a4a;
   text-align: center;
+  line-height: 1.8;
 }
 
 .skip-count {
   margin: 0;
-  font-size: 0.8rem;
-  color: #e74c3c;
-  font-weight: 600;
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: #ef4444;
 }
 
 .cleanse-hint {
-  margin: 4px 0 0;
-  font-size: 0.75rem;
-  color: #666;
+  margin: 0;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #7d7a96;
   text-align: center;
-  white-space: pre-line;
 }
 
 .cleanse-cards {
@@ -99,17 +99,11 @@ const cleanseCards = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 2px;
 }
 
 .skip-confirm-btn {
-  margin-top: 4px;
-  background: #eee;
-  color: #444;
+  background: #fffdf5;
+  color: #2c2a4a;
   width: 100%;
-}
-
-.skip-confirm-btn:hover {
-  background: #ddd;
 }
 </style>

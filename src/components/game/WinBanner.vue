@@ -1,9 +1,13 @@
 <template>
   <div class="win-overlay">
-    <div class="win-card" :style="{ '--winner-color': winner.color }">
-      <div class="win-mark">{{ winner.mark }}</div>
-      <h2>{{ t('game.wins', { name: winner.name }) }}</h2>
-      <button class="play-again-btn" @click="$emit('play-again')">{{ t('game.playAgain') }}</button>
+    <div class="win-card px-card" :style="{ '--winner-color': winner.color }">
+      <div class="win-header px-header" :style="{ background: winner.color }">
+        <div class="win-mark px-mark-tile">{{ winner.mark }}</div>
+        <h2 class="win-title">{{ t('game.wins', { name: winner.name }) }}</h2>
+      </div>
+      <div class="px-body win-body">
+        <button class="play-again-btn px-btn px-btn--green" @click="$emit('play-again')">▶ {{ t('game.playAgain') }}</button>
+      </div>
     </div>
   </div>
 </template>
@@ -24,7 +28,7 @@ const { t } = useI18n()
 .win-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: rgba(44, 42, 74, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,43 +36,34 @@ const { t } = useI18n()
 }
 
 .win-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 40px 56px;
+  min-width: 280px;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  border-top: 6px solid var(--winner-color);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
+}
+
+.win-header {
+  justify-content: center;
+  gap: 14px;
 }
 
 .win-mark {
-  font-size: 4rem;
-  line-height: 1;
+  font-size: 2rem;
 }
 
-h2 {
+.win-title {
   margin: 0;
-  font-size: 2rem;
-  color: var(--winner-color);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: #fffdf5;
+  text-shadow: 2px 2px 0 #2c2a4a;
+  line-height: 1.6;
+}
+
+.win-body {
+  display: flex;
+  justify-content: center;
 }
 
 .play-again-btn {
-  margin-top: 8px;
-  padding: 12px 32px;
-  font-size: 1rem;
-  font-weight: 700;
-  background: var(--winner-color);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-
-.play-again-btn:hover {
-  opacity: 0.85;
+  font-size: 14px;
 }
 </style>

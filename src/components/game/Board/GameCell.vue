@@ -35,16 +35,15 @@ const ownerColor = computed(() => owner.value?.color ?? null)
 <style scoped>
 .game-cell {
   aspect-ratio: 1;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
+  border: 3px solid #2c2a4a;
+  background: #fffdf5;
   cursor: default;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: clamp(1rem, 7vw, 2rem);
-  transition: background 0.15s, transform 0.1s, border-color 0.15s;
-  color: var(--owner-color, #333);
+  transition: background 0.08s, transform 0.08s, border-color 0.08s, box-shadow 0.08s;
+  color: var(--owner-color, #2c2a4a);
   position: relative;
 }
 
@@ -53,23 +52,38 @@ const ownerColor = computed(() => owner.value?.color ?? null)
 }
 
 .game-cell.action-PLACE.is-candidate {
-  border-color: #27ae60;
-  background: #eafaf1;
+  border-color: #54c46a;
+  background: color-mix(in srgb, #54c46a 12%, #fffdf5);
+  box-shadow: inset 0 0 0 2px #54c46a;
 }
 
 .game-cell.action-CAPTURE.is-candidate {
-  border-color: #e74c3c;
-  background: #fdf3f2;
+  border-color: #ef4444;
+  background: color-mix(in srgb, #ef4444 10%, #fffdf5);
+  box-shadow: inset 0 0 0 2px #ef4444;
 }
 
 .game-cell.action-EXPLODE.is-candidate {
-  border-color: #ff6b00;
-  background: #fff3e0;
-  box-shadow: 0 0 0 2px #ff6b0044;
+  border-color: #f59e0b;
+  background: color-mix(in srgb, #f59e0b 12%, #fffdf5);
+  box-shadow: inset 0 0 0 2px #f59e0b;
 }
 
 .game-cell.is-candidate:hover {
-  transform: scale(1.06);
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 #2c2a4a;
+}
+
+.game-cell.action-PLACE.is-candidate:hover {
+  box-shadow: 2px 2px 0 #54c46a;
+}
+
+.game-cell.action-CAPTURE.is-candidate:hover {
+  box-shadow: 2px 2px 0 #ef4444;
+}
+
+.game-cell.action-EXPLODE.is-candidate:hover {
+  box-shadow: 2px 2px 0 #f59e0b;
 }
 
 .game-cell.has-shield {

@@ -32,13 +32,13 @@ defineProps({
 <style scoped>
 
 .mark {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   line-height: 1;
 }
 
 .name {
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
   color: var(--player-color);
   max-width: 80px;
   overflow: hidden;
@@ -49,22 +49,23 @@ defineProps({
 .chat-emoji {
   font-size: 1.1rem;
   line-height: 1;
-  background-color: #ffffff;
-  border-radius: 50%;
-  padding: 6px;
+  background-color: #fffdf5;
+  border: 2px solid #2c2a4a;
+  box-shadow: var(--px-shadow-sm);
+  padding: 4px;
   position: absolute;
-  top: -12px;
-  left: -12px;
+  top: -14px;
+  left: -14px;
 }
 
 .chat-emoji::after {
   content: "";
   width: 4px;
   height: 4px;
-  background-color: #fff;
+  background-color: #fffdf5;
   position: absolute;
   bottom: 0;
-  border-radius: 4px;
+  right: 0;
 }
 
 </style>

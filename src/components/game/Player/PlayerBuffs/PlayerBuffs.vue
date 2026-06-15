@@ -16,14 +16,4 @@ defineProps({
 </script>
 
 <style scoped>
-.player-debuffs, .player-buffs{
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  font-size: 0.5rem;
-}
-
-.player-buffs{
-  right: 0;
-}
 </style>
