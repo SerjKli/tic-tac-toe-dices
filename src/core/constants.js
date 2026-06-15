@@ -9,19 +9,24 @@ export const MAX_HAND_SIZE = 5
 export const ABANDONED_GRACE_MS = 15000
 
 export const MARKS_SPRITE = './images/sprites/marks.png'
+export const MARKS_SPRITE_MINI = './images/sprites/marks_mini.png'
 
 export const DEFAULT_MARKS = [
-  // star, heart, diamond, coin, rock, tree, flag
-  'm:-4:-4:238:84', 'm:-38:-4:238:84', 'm:-71:-4:238:84', 'm:-103:-4:238:84', 'm:-136:-4:238:84', 'm:-170:-4:238:84', 'm:-204:-4:238:84',
-  // sword, shield, skull, red-potion, chest, blue-potion, fire
-  'm:-4:-42:238:84', 'm:-36:-42:238:84', 'm:-70:-42:238:84', 'm:-102:-42:238:84', 'm:-136:-42:238:84', 'm:-170:-42:238:84', 'm:-204:-42:238:84',
+    //Sprites
+    // star, heart, diamond, coin, rock, tree, flag
+    'mn:-4:-4:238:84', 'mn:-38:-4:238:84', 'mn:-71:-4:238:84', 'mn:-103:-4:238:84', 'mn:-136:-4:238:84', 'mn:-170:-4:238:84', 'mn:-204:-4:238:84',
+    // sword, shield, skull, red-potion, chest, blue-potion, fire
+    'mn:-4:-42:238:84', 'mn:-36:-42:238:84', 'mn:-70:-42:238:84', 'mn:-102:-42:238:84', 'mn:-136:-42:238:84', 'mn:-170:-42:238:84', 'mn:-204:-42:238:84',
+
+    // Emojis
     '🧶', '💩', '👾', '👹', '🌌', '🕺', '🦄', '🌿', '🌙', '🎈', '🪴', '🦋', '🍉', '🎨', '☁️', '🌸',
 ]
 export const DEFAULT_COLORS = [
   '#ef4444', '#3b82f6', '#ec4899', '#f59e0b', '#9d7be0',
   '#22c55e', '#5ec5b8', '#ff8a7a', '#2dd4bf', '#38bdf8',
   '#84cc16', '#fde047', '#e879f9', '#fb923c', '#14b8a6',
-  '#7c3aed', '#2563eb', '#f472b6', '#34d399', '#fb7185', '#60a5fa'
+  '#7c3aed', '#2563eb', '#f472b6', '#34d399', '#fb7185',
+  '#60a5fa'
 ]
 
 export const DEFAULT_CHAT_EMOJIS = ['😀', '😂', '😍', '😢', '😡', '😮', '👍', '🎉', '🤔', '😴' ,'✅','⁉️','💋']
