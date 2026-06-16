@@ -142,12 +142,13 @@ export class GameEngine extends EventTarget {
     this.lastEvaluation = evaluation
     this._emit('dice-rolled', { roll, evaluation, player: this._currentPlayer() })
 
-    if(evaluation.mustSkip){
-      this._transition(GameState.SKIP_TURN_PHASE);
-    }else{
     this._transition(GameState.CHOOSING)
-    }
 
+    // if(evaluation.mustSkip){
+    //   this._transition(GameState.SKIP_TURN_PHASE);
+    // }else{
+    //   this._transition(GameState.CHOOSING)
+    // }
 
   }
 
