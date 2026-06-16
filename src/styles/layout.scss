@@ -12,6 +12,11 @@ body {
 
 .text-center { text-align: center; }
 
+.game-base-settings{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* ═══════════════════════════════════════════
    PIXEL DESIGN SYSTEM — STRUCTURE
@@ -235,6 +240,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   padding: 32px 16px;
 
   .hero {
@@ -692,11 +698,6 @@ body {
   button { padding: 6px 12px; }
 }
 
-.lang-pos {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
 
 /* Mode toggles */
 .section {

@@ -1,6 +1,5 @@
 <template>
   <ViewWrapper>
-    <LanguageSelector class="lang-pos" />
     <GameSetup @start="startGame" />
   </ViewWrapper>
 </template>

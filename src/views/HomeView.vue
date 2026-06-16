@@ -1,6 +1,5 @@
 <template>
   <ViewWrapper class="home">
-    <LanguageSelector class="lang-pos" />
 
     <div class="hero">
       <GameName/>
@@ -18,9 +17,9 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
-import LanguageSelector from '../components/LanguageSelector.vue'
-import GameName from '../components/GameName.vue'
-import ViewWrapper from '../components/ViewWrapper.vue'
+import GameName from '@/components/GameName.vue'
+import ViewWrapper from '@/components/ViewWrapper.vue'
+import BasicSettings from "@/components/BasicSettings.vue";
 
 const { t } = useI18n()
 </script>

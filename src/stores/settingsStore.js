@@ -6,7 +6,7 @@ import { Player } from '../core/models/Player.js'
 export const useSettingsStore = defineStore('settings', () => {
   const playerCount = ref(MIN_PLAYERS)
   const players = ref(buildDefaultPlayers(MIN_PLAYERS))
-  const theme = ref('default')
+  const theme = ref(localStorage.getItem('app-theme') ?? 'pixel')
   const gameMode = ref(GameMode.CLASSIC)
 
   function buildDefaultPlayers(count) {

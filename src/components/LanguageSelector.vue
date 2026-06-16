@@ -1,7 +1,9 @@
 <template>
-  <div class="lang-selector">
-    <button :class="{ active: locale === 'ru' }" @click="switchTo('ru')">RU</button>
-    <button :class="{ active: locale === 'en' }" @click="switchTo('en')">EN</button>
+  <div class="lang-pos">
+    <div class="lang-selector">
+      <button :class="{ active: locale === 'ru' }" @click="switchTo('ru')">RU</button>
+      <button :class="{ active: locale === 'en' }" @click="switchTo('en')">EN</button>
+    </div>
   </div>
 </template>
 

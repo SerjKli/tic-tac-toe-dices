@@ -1,4 +1,6 @@
 <template>
+  <BasicSettings/>
+
   <div class="pixel-logo">
     <span class="die-bounce">🎲</span>
     <h1 class="pixel-title">
@@ -6,6 +8,10 @@
     </h1>
   </div>
 </template>
+
+<script setup>
+import BasicSettings from "@/components/BasicSettings.vue";
+</script>
 
 <style scoped>
 </style>
