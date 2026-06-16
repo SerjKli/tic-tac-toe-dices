@@ -790,8 +790,10 @@ a      { color: inherit; }
   inset: 0;
   z-index: 10;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   margin: -6px;
   background: rgba(44, 42, 74, 0.18);
 }
@@ -862,7 +864,6 @@ a      { color: inherit; }
   float: right;
   margin: 0;
   font-family: var(--px-font-vt);
-  font-size: 16px;
   color: var(--px-muted);
 }
 
@@ -1319,28 +1320,31 @@ a      { color: inherit; }
    ═══════════════════════════════════════════ */
 
 @media (max-width: 600px) {
-  .game-layout {
-    flex-direction: column-reverse;
-    align-items: center;
-  }
 
-  .sidebar {
-    .card-hand {
-      width: 100%;
-      overflow-x: hidden;
+  .game-view{
+    .game-layout {
+      flex-direction: column-reverse;
+      align-items: center;
 
-      .cards-list {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        overflow-x: scroll;
-        gap: 8px;
-        padding: 24px 0;
+      .sidebar {
+        .card-hand {
+          width: 100%;
+          overflow-x: hidden;
 
-        .card-item {
-          width: 140px !important;
-          min-width: 140px !important;
-          flex-shrink: 0 !important;
+          .cards-list {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            gap: 8px;
+            padding: 24px 0;
+
+            .card-item {
+              width: 140px;
+              min-width: 140px;
+              flex-shrink: 0;
+            }
+          }
         }
       }
     }

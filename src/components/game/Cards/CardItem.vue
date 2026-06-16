@@ -1,7 +1,7 @@
 <template>
   <div
-    class="card-item pop-in"
-    :class="[`type-${card.type.toLowerCase()}`, { selected, disabled, pending }]"
+    class="card-item"
+    :class="[`type-${card.type.toLowerCase()}`, { selected, disabled, pending,  'pop-in' : animation} ]"
     :style="{ '--card-color': card.color }"
     @click="!disabled && $emit('select', card.id)"
   >
@@ -47,7 +47,8 @@ defineProps({
   selected: { type: Boolean, default: false },
   pending: { type: Boolean, default: false },
   disabled: { type: Boolean, default: false },
-  cardAmount: { type: Number, default: 1 }
+  cardAmount: { type: Number, default: 1 },
+  animation: { type: Boolean, default: true },
 })
 
 defineEmits(['select'])
