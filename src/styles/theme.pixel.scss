@@ -502,6 +502,19 @@ a      { color: inherit; }
           }
         }
       }
+
+      .chat-emoji {
+        font-size: 1.1rem;
+        line-height: 1;
+        background-color: var(--px-cream);
+        border: var(--px-border-sm);
+        box-shadow: var(--px-shadow-sm);
+
+        &::after {
+          content: "";
+          background-color:var(--px-cream);
+        }
+      }
     }
   }
 }
@@ -515,6 +528,49 @@ a      { color: inherit; }
 
 .board-action-overlay {
   background: rgba(44, 42, 74, 0.18);
+}
+
+/* Game cell */
+.game-cell {
+  border: var(--px-border-sm);
+  background: var(--px-cream);
+  color: var(--owner-color, var(--px-dark));
+  transition: background 0.08s, transform 0.08s, border-color 0.08s, box-shadow 0.08s;
+}
+
+.game-cell.action-PLACE.is-candidate {
+  border-color: var(--px-green);
+  background: color-mix(in srgb, var(--px-green) 12%, var(--px-cream));
+  box-shadow: inset 0 0 0 2px var(--px-green);
+}
+
+.game-cell.action-CAPTURE.is-candidate {
+  border-color: var(--px-red);
+  background: color-mix(in srgb, var(--px-red) 10%, var(--px-cream));
+  box-shadow: inset 0 0 0 2px var(--px-red);
+}
+
+.game-cell.action-EXPLODE.is-candidate {
+  border-color: var(--px-orange);
+  background: color-mix(in srgb, var(--px-orange) 12%, var(--px-cream));
+  box-shadow: inset 0 0 0 2px var(--px-orange);
+}
+
+.game-cell.is-candidate:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--px-dark);
+}
+
+.game-cell.action-PLACE.is-candidate:hover {
+  box-shadow: 2px 2px 0 var(--px-green);
+}
+
+.game-cell.action-CAPTURE.is-candidate:hover {
+  box-shadow: 2px 2px 0 var(--px-red);
+}
+
+.game-cell.action-EXPLODE.is-candidate:hover {
+  box-shadow: 2px 2px 0 var(--px-orange);
 }
 
 /* Status & hints */

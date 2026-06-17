@@ -90,10 +90,11 @@ html[data-theme="classic"] {
    ═══════════════════════════════════════════ */
 
 .px-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: var(--px-cream);
+  border: var(--px-border);
   box-shadow: var(--px-shadow-sm);
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .px-header {
@@ -498,6 +499,19 @@ html[data-theme="classic"] {
           }
         }
       }
+
+      .chat-emoji {
+        font-size: 1.1rem;
+        line-height: 1;
+        background-color: var(--px-cream);
+        border: var(--px-border-sm);
+        box-shadow: var(--px-shadow-sm);
+
+        &::after {
+          content: "";
+          background-color:var(--px-cream);
+        }
+      }
     }
   }
 }
@@ -514,6 +528,50 @@ html[data-theme="classic"] {
   background: rgba(243, 244, 246, 0.75);
   backdrop-filter: blur(2px);
   border-radius: 10px;
+}
+
+/* Game cell */
+.game-cell {
+  border: var(--px-border-sm);
+  background: var(--px-cream);
+  color: var(--owner-color, var(--px-dark));
+  border-radius: 6px;
+  transition: background 0.15s, transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.game-cell.action-PLACE.is-candidate {
+  border-color: var(--px-green);
+  background: color-mix(in srgb, var(--px-green) 8%, var(--px-cream));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--px-green) 30%, transparent);
+}
+
+.game-cell.action-CAPTURE.is-candidate {
+  border-color: var(--px-red);
+  background: color-mix(in srgb, var(--px-red) 8%, var(--px-cream));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--px-red) 30%, transparent);
+}
+
+.game-cell.action-EXPLODE.is-candidate {
+  border-color: var(--px-orange);
+  background: color-mix(in srgb, var(--px-orange) 8%, var(--px-cream));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--px-orange) 30%, transparent);
+}
+
+.game-cell.is-candidate:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--px-shadow);
+}
+
+.game-cell.action-PLACE.is-candidate:hover {
+  box-shadow: var(--px-shadow), 0 0 0 2px color-mix(in srgb, var(--px-green) 30%, transparent);
+}
+
+.game-cell.action-CAPTURE.is-candidate:hover {
+  box-shadow: var(--px-shadow), 0 0 0 2px color-mix(in srgb, var(--px-red) 30%, transparent);
+}
+
+.game-cell.action-EXPLODE.is-candidate:hover {
+  box-shadow: var(--px-shadow), 0 0 0 2px color-mix(in srgb, var(--px-orange) 30%, transparent);
 }
 
 /* Status & hints */
@@ -640,20 +698,20 @@ html[data-theme="classic"] {
   font-family: system-ui, sans-serif;
   font-size: 14px;
   font-weight: 500;
-  background: #ffffff;
+  background: var(--px-cream);
   border: 1px solid #d1d5db;
   border-radius: 6px;
   box-shadow: var(--px-shadow-sm);
   cursor: pointer;
   transition: background 0.15s, box-shadow 0.15s;
 
-  &.btn-success { background: var(--px-green); color: #fff; border-color: #15803d; text-shadow: none; }
-  &.btn-primary { background: var(--px-blue);  color: #fff; border-color: #1d4ed8; text-shadow: none; }
+  &.btn-success { background: var(--px-green); color: var(--px-cream); border-color: #15803d; text-shadow: none; }
+  &.btn-primary { background: var(--px-blue);  color:var(--px-cream); border-color: #1d4ed8; text-shadow: none; }
   &.btn-danger  { border-color: #fca5a5; box-shadow: none; color: var(--px-red); }
   &.btn-xs      { padding: 4px; font-size: 0.65rem; }
 
-  &:hover:not(:disabled)  { background: #f9fafb; box-shadow: var(--px-shadow); }
-  &:active:not(:disabled) { background: #f3f4f6; box-shadow: none; }
+  &:hover:not(:disabled)  { background: var(--px-green); box-shadow: var(--px-shadow); }
+  &:active:not(:disabled) { background: var(--px-cream); box-shadow: none; }
   &:disabled              { opacity: 0.4; cursor: not-allowed; }
 }
 

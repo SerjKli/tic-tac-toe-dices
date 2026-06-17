@@ -31,42 +31,4 @@ defineProps({
 </script>
 
 <style scoped>
-
-.mark {
-  font-size: 1.3rem;
-  line-height: 1;
-}
-
-.name {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  color: var(--player-color);
-  max-width: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.chat-emoji {
-  font-size: 1.1rem;
-  line-height: 1;
-  background-color: #fffdf5;
-  border: 2px solid #2c2a4a;
-  box-shadow: var(--px-shadow-sm);
-  padding: 4px;
-  position: absolute;
-  top: -14px;
-  left: -14px;
-}
-
-.chat-emoji::after {
-  content: "";
-  width: 4px;
-  height: 4px;
-  background-color: #fffdf5;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-
 </style>

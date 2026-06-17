@@ -16,6 +16,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
 }
 
 /* ═══════════════════════════════════════════
@@ -417,6 +418,22 @@ body {
           }
         }
       }
+
+      .chat-emoji {
+        padding: 4px;
+        position: absolute;
+        top: -14px;
+        left: -14px;
+
+        &::after {
+          content: "";
+          width: 4px;
+          height: 4px;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+      }
     }
   }
 
@@ -437,6 +454,22 @@ body {
       width: 320px;
     }
   }
+
+  .win-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44, 42, 74, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+
+    .win-card {
+      min-width: 280px;
+      text-align: center;
+    }
+  }
+
 }
 
 /* Board */
@@ -466,6 +499,28 @@ body {
   justify-content: center;
   gap: 8px;
   margin: -6px;
+}
+
+/* Game cell */
+.game-cell {
+  aspect-ratio: 1;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1rem, 7vw, 2rem);
+  position: relative;
+}
+
+.game-cell.is-candidate {
+  cursor: pointer;
+}
+
+.cell-mark {
+  display: block;
+  line-height: 1;
+  user-select: none;
+  z-index: 9;
 }
 
 /* Status & hints */
@@ -689,6 +744,8 @@ body {
   inset: 0;
   z-index: -1;
 }
+
+
 
 /* Language selector */
 .lang-selector {
