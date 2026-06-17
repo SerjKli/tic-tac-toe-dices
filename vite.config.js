@@ -22,14 +22,15 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         pixel: resolve(__dirname, 'src/styles/theme.pixel.js'),
         classic: resolve(__dirname, 'src/styles/theme.classic.js'),
+        'dark-pixel': resolve(__dirname, 'src/styles/theme.dark-pixel.js'),
       },
       output: {
         assetFileNames: (info) =>
-          ['pixel.css', 'classic.css'].includes(info.name)
+          ['pixel.css', 'classic.css', 'dark-pixel.css'].includes(info.name)
             ? `themes/${info.name}`
             : 'assets/[name]-[hash][extname]',
         entryFileNames: (chunk) =>
-          ['pixel', 'classic'].includes(chunk.name)
+          ['pixel', 'classic', 'dark-pixel'].includes(chunk.name)
             ? `themes/${chunk.name}.js`
             : 'assets/[name]-[hash].js',
       },
