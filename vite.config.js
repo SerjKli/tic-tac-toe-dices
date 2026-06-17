@@ -21,12 +21,17 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         pixel: resolve(__dirname, 'src/styles/theme.pixel.js'),
+        classic: resolve(__dirname, 'src/styles/theme.classic.js'),
       },
       output: {
         assetFileNames: (info) =>
-          info.name === 'pixel.css' ? 'themes/pixel.css' : 'assets/[name]-[hash][extname]',
+          ['pixel.css', 'classic.css'].includes(info.name)
+            ? `themes/${info.name}`
+            : 'assets/[name]-[hash][extname]',
         entryFileNames: (chunk) =>
-          chunk.name === 'pixel' ? 'themes/pixel.js' : 'assets/[name]-[hash].js',
+          ['pixel', 'classic'].includes(chunk.name)
+            ? `themes/${chunk.name}.js`
+            : 'assets/[name]-[hash].js',
       },
     },
   },

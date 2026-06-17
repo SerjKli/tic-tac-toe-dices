@@ -30,39 +30,41 @@ const { settings, selectTheme } = useTheme()
   align-items: center;
   gap: 6px;
   padding: 6px 10px 5px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  color: #2c2a4a;
-  background: #fffdf5;
-  border: 3px solid #2c2a4a;
-  box-shadow: 2px 2px 0 #2c2a4a;
+  font-family: var(--px-font-pixel);
+  font-size: 11px;
+  color: var(--px-dark);
+  background: var(--px-cream);
+  border: var(--px-border-sm);
+  box-shadow: var(--px-shadow-sm);
   cursor: pointer;
-  transition: transform 0.08s, box-shadow 0.08s;
+  transition: var(--px-transition);
   user-select: none;
 }
 
 .theme-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 #2c2a4a;
+  box-shadow: var(--px-shadow);
 }
 
 .theme-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0 0 0 #2c2a4a;
+  box-shadow: var(--px-shadow-zero);
 }
 
 .theme-btn.active {
-  background: #2c2a4a;
-  color: #fffdf5;
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 #2c2a4a;
+  background: var(--px-dark);
+  color: var(--px-cream);
+  box-shadow: var(--px-shadow-zero);
 }
 
 .theme-dot {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border: 2px solid currentColor;
+  border-radius: 50%;
   flex-shrink: 0;
+}
+
+.theme-btn.active .theme-dot {
+  border-color: var(--px-cream);
 }
 </style>

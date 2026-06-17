@@ -2,7 +2,8 @@ import { watch, onMounted } from 'vue'
 import { useSettingsStore } from '@/stores/settingsStore.js'
 
 export const THEMES = [
-  { id: 'pixel', label: 'Pixel', color: '#9d7be0' },
+  { id: 'pixel',   label: 'Pixel',   color: '#9d7be0' },
+  { id: 'classic', label: 'Classic', color: '#2563eb' },
 ]
 
 const devThemeModules = import.meta.env.DEV
