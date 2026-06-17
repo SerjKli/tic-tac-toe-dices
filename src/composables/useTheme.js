@@ -11,6 +11,7 @@ const devThemeModules = import.meta.env.DEV
   : null
 
 async function applyTheme(id) {
+  document.documentElement.setAttribute('data-theme', id)
   if (import.meta.env.DEV) {
     const loader = devThemeModules?.[`/src/styles/theme.${id}.js`]
     if (loader) await loader()

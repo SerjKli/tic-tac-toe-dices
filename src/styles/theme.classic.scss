@@ -2,7 +2,7 @@
    VARIABLES
    ═══════════════════════════════════════════ */
 
-:root {
+html[data-theme="classic"] {
   --px-dark: #1f2937;
   --px-cream: #ffffff;
   --px-green: #16a34a;
@@ -31,6 +31,8 @@
    BASE
    ═══════════════════════════════════════════ */
 
+html[data-theme="classic"] {
+
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: #f3f4f6;
@@ -40,6 +42,8 @@ body {
 
 button { font-family: inherit; }
 a      { color: inherit; }
+
+}
 
 
 /* ═══════════════════════════════════════════
@@ -73,6 +77,8 @@ a      { color: inherit; }
   25%           { transform: rotate(2deg); }
   75%           { transform: rotate(-2deg); }
 }
+
+html[data-theme="classic"] {
 
 .pop-in              { animation: pop-bounce 0.25s ease forwards; transform-origin: center; }
 .cell-mark-bounce-in { animation: cell-mark-bubble 0.25s ease forwards; transform-origin: center; }
@@ -784,6 +790,24 @@ a      { color: inherit; }
   box-shadow: var(--px-shadow-lg);
 }
 
+  .dice-face {
+    border: var(--px-border);
+    background: var(--px-cream);
+    box-shadow: var(--px-shadow-sm);
+  }
+
+  .dice-value {
+    font-family: var(--px-font-pixel);
+    font-size: 1.2rem;
+    line-height: 1;
+    color: var(--px-dark);
+  }
+
+  .dots-0 .dice-value {
+    color: var(--px-muted);
+    opacity: 0.4;
+  }
+
 /* Emoji */
 .emoji-popup {
   background: #ffffff;
@@ -874,6 +898,8 @@ a      { color: inherit; }
 
 .card-used-leave-active {
   animation: card-used-out 350ms ease forwards;
+}
+
 }
 
 @keyframes card-used-in {

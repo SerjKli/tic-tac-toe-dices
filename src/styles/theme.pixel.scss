@@ -2,7 +2,7 @@
    VARIABLES
    ═══════════════════════════════════════════ */
 
-:root {
+:root, html[data-theme="pixel"] {
   --px-dark: #2c2a4a;
   --px-cream: #fffdf5;
   --px-green: #54c46a;
@@ -770,6 +770,24 @@ a      { color: inherit; }
 .chat-fab:hover, .chat-fab.active {
   transform: translate(-2px, -2px);
   box-shadow: var(--px-shadow);
+}
+
+.dice-face {
+  border: var(--px-border);
+  background: var(--px-cream);
+  box-shadow: var(--px-shadow-sm);
+}
+
+.dice-value {
+  font-family: var(--px-font-pixel);
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--px-dark);
+}
+
+.dots-0 .dice-value {
+  color: var(--px-muted);
+  opacity: 0.4;
 }
 
 /* Emoji */

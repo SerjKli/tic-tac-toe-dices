@@ -9,6 +9,8 @@ import { LocalGameService } from './services/LocalGameService.js'
 import { FirebaseGameService } from './services/FirebaseGameService.js'
 import { getRoomSession, getOrCreatePlayerId } from './utils/identity.js'
 
+document.documentElement.setAttribute('data-theme', localStorage.getItem('app-theme') ?? 'pixel')
+
 const session = getRoomSession()
 const urlRoom = new URLSearchParams(location.search).get('room')
 const roomId = session?.roomId ?? urlRoom

@@ -750,6 +750,22 @@ body {
   padding: 4px 14px;
 }
 
+.dice-face {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.dice-value {
+  font-size: 1.2rem;
+  line-height: 1;
+  color: #2c2a4a;
+}
+
+
 
 /* ═══════════════════════════════════════════
    RESPONSIVE
