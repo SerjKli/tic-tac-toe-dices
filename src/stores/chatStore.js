@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { off } from 'firebase/database'
-import { pushPlayerEmoji, subscribeToPlayerEmojis } from '../firebase/roomService.js'
+import { pushPlayerEmoji, subscribeToPlayerEmojis, unsubscribePlayerEmojis } from '@backend'
 
 const STORAGE_KEY = 'tic-toe:chat-emojis'
 
@@ -36,7 +35,7 @@ export const useChatStore = defineStore('chat', () => {
 
   function unsubscribe() {
     if (_emojisRef) {
-      off(_emojisRef)
+      unsubscribePlayerEmojis(_emojisRef)
       _emojisRef = null
     }
   }

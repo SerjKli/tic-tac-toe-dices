@@ -2,13 +2,11 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSettingsStore } from './settingsStore.js'
-import { ref as dbRef, set as dbSet } from 'firebase/database'
-import { db } from '../firebase/firebase.js'
 import { ABANDONED_GRACE_MS } from '../core/constants.js'
-
 
 import {
   createRoom as rtdbCreateRoom,
+  joinRoomSlot,
   findAndClaimSlot,
   setSlotReady,
   setRoomStatus,
@@ -17,7 +15,7 @@ import {
   unsubscribeRoom,
   setHostDisconnect,
   cancelHostDisconnect
-} from '../firebase/roomService.js'
+} from '@backend'
 import {
   getOrCreatePlayerId,
   generateRoomId,
@@ -67,7 +65,7 @@ export const useRoomStore = defineStore('room', () => {
     setHostDisconnect(id)
 
     const hostSlot = { playerId: pid, ...hostPlayerData, ready: false }
-    await dbSet(dbRef(db, `rooms/${id}/slots/0`), hostSlot)
+    await joinRoomSlot(id, 0, hostSlot)
 
     mySlotIndex.value = 0
     saveRoomSession({ roomId: id, slotIndex: 0 })

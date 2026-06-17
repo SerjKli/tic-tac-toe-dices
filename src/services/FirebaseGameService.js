@@ -3,12 +3,12 @@ import { GameEngine } from '../core/GameEngine.js'
 import { GameState, GameMode } from '../core/constants.js'
 import { Board } from '../core/models/Board.js'
 import { Cell } from '../core/models/Cell.js'
-import { db } from '../firebase/firebase.js'
-import { ref, onValue, off } from 'firebase/database'
 import {
   pushGameState,
-  setRoomStatus
-} from '../firebase/roomService.js'
+  setRoomStatus,
+  subscribeToGameState,
+  unsubscribeGameState
+} from '@backend'
 import { clearRoomSession } from '../utils/identity.js'
 
 export class FirebaseGameService {
@@ -133,11 +133,8 @@ export class FirebaseGameService {
 
   _subscribeToGameState() {
     if (this._gsRef) return
-    this._gsRef = ref(db, `rooms/${this._roomId}/gameState`)
-    onValue(this._gsRef, (snap) => {
-      const data = snap.val()
+    this._gsRef = subscribeToGameState(this._roomId, (data) => {
       if (!data) return
-
       if (data.currentPlayerIndex === this._slotIndex) {
         this._restoreEngine(data)
       }
@@ -147,7 +144,7 @@ export class FirebaseGameService {
 
   _unsubscribeGameState() {
     if (this._gsRef) {
-      off(this._gsRef)
+      unsubscribeGameState(this._gsRef)
       this._gsRef = null
     }
   }

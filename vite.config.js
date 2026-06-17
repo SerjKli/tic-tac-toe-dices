@@ -8,7 +8,10 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@backend': process.env.BACKEND === 'websocket'
+        ? fileURLToPath(new URL('./src/backend/websocket.js', import.meta.url))
+        : fileURLToPath(new URL('./src/backend/firebase.js', import.meta.url))
     }
   },
   css: {
